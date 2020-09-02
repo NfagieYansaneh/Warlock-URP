@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfcac0b9a24618b4491552066e83e3e0, type: 3}
+  m_Name: Inventory
+  m_EditorClassIdentifier: 
+  spells:
+  - {fileID: 11400000, guid: 8518966effd8fea4ba0980aeb9733140, type: 2}
+  - {fileID: 11400000, guid: 8518966effd8fea4ba0980aeb9733140, type: 2}
+  - {fileID: 11400000, guid: 8518966effd8fea4ba0980aeb9733140, type: 2}
+  - {fileID: 11400000, guid: 8518966effd8fea4ba0980aeb9733140, type: 2}
+  guns:
+  - {fileID: 11400000, guid: 763d6ff771479554db5fe05c5e87746f, type: 2}
+  - {fileID: 11400000, guid: 763d6ff771479554db5fe05c5e87746f, type: 2}
+  presetSpells:
+  - {fileID: 11400000, guid: 8518966effd8fea4ba0980aeb9733140, type: 2}
+  - {fileID: 11400000, guid: 8518966effd8fea4ba0980aeb9733140, type: 2}
+  - {fileID: 11400000, guid: 8518966effd8fea4ba0980aeb9733140, type: 2}
+  - {fileID: 11400000, guid: 8518966effd8fea4ba0980aeb9733140, type: 2}
+  presetGuns:
+  - {fileID: 11400000, guid: 763d6ff771479554db5fe05c5e87746f, type: 2}
+  - {fileID: 11400000, guid: 763d6ff771479554db5fe05c5e87746f, type: 2}
+  nullSpell: {fileID: 11400000, guid: 8518966effd8fea4ba0980aeb9733140, type: 2}
+  nullGun: {fileID: 11400000, guid: 763d6ff771479554db5fe05c5e87746f, type: 2}
+  curGunIndex: 1

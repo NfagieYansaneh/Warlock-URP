@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4546188a488cff04db68c281b94fbd1b, type: 3}
+  m_Name: Camera Settings
+  m_EditorClassIdentifier: 
+  mouseSensitivityX: 65
+  mouseSensitivityY: 65
+  rollSpeed: 0.15
+  rollAmplitude: 2
+  overlayCameraLag: 2
+  lerpSpeed: 0.16
+  lerpMax: 0.07
+  lerpUpAmplitude: 0.04
+  lerpSideAmplitude: 0.04
+  lerpFwdAmplitude: 0.08
