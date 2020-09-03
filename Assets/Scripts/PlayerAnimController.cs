@@ -5,7 +5,7 @@ using UnityEngine;
 // Handles and syncs animations
 
 // Used to easily interact with the stored Hashes for indexing
-public enum AnimParams { LR_Casting, LR_Cast, L_Cast, R_Cast, L_Emote, R_Emote, CastingIndex, EmoteIndex };
+public enum AnimParams { LR_Casting, LR_Cast, L_Cast, R_Cast, L_Emote, R_Emote, CastingIndex, EmoteIndex, GunAnimIndex, MouseScroll};
 public enum AnimState { isIdle, isAction, isNo_interrupt, isAny };
 public enum AnimLayer { allLayers=-1, leftArm, rightArm };
 
@@ -32,7 +32,9 @@ public class PlayerAnimController : MonoBehaviour
         Animator.StringToHash("L_Emote"),
         Animator.StringToHash("R_Emote"),
         Animator.StringToHash("CastingIndex"),
-        Animator.StringToHash("EmoteIndex")
+        Animator.StringToHash("EmoteIndex"),
+        Animator.StringToHash("GunAnimIndex"),
+        Animator.StringToHash("MouseScroll")
     };
 
     bool CheckStateAtLayer(int layer, int state)
@@ -94,6 +96,10 @@ public class PlayerAnimController : MonoBehaviour
             case (int)AnimParams.EmoteIndex:
                 animator.SetInteger(paramHashes[(int)AnimParams.EmoteIndex], value);
                 break;
+
+            case (int)AnimParams.GunAnimIndex:
+                animator.SetInteger(paramHashes[(int)AnimParams.GunAnimIndex], value);
+                break;
         }
     }
 
@@ -125,6 +131,10 @@ public class PlayerAnimController : MonoBehaviour
 
             case (int)AnimParams.R_Emote:
                 animator.SetTrigger(paramHashes[(int)AnimParams.R_Emote]);
+                break;
+
+            case (int)AnimParams.MouseScroll:
+                animator.SetTrigger(paramHashes[(int)AnimParams.MouseScroll]);
                 break;
         }
     }

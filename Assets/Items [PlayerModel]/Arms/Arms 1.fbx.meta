@@ -1,0 +1,183 @@
+fileFormatVersion: 2
+guid: f1ed3f8bf5fad2241af3fde2244bbf5f
+ModelImporter:
+  serializedVersion: 19300
+  internalIDToNameTable:
+  - first:
+      74: 7270177788327873243
+    second: R_Armature|Fire
+  - first:
+      74: -3597957475202973177
+    second: R_Armature|R_Glock18c_Aim
+  - first:
+      74: -6976848551550845347
+    second: R_Armature|R_Glock18c_EmptyFire
+  - first:
+      74: 2540268657722395481
+    second: R_Armature|R_Glock18c_Equip
+  - first:
+      74: -1970955953425029468
+    second: R_Armature|R_Glock18c_Fire
+  - first:
+      74: -4499347644862247676
+    second: R_Armature|R_Glock18c_Idle
+  - first:
+      74: -3022049606923190693
+    second: R_Armature|R_Glock18c_Reload
+  - first:
+      74: 2714346499561492541
+    second: R_Armature|R_Glock18c_ThreeFire
+  - first:
+      74: 1665437081204377229
+    second: R_Armature|R_Glock18c_TwoFire
+  - first:
+      74: -7644783203253052266
+    second: R_Armature|R_Horse_Double
+  - first:
+      74: 404091406169757282
+    second: R_Armature|R_Idle_Empty
+  - first:
+      74: -7663145121594844613
+    second: R_Armature|R_Monkey_Double
+  - first:
+      74: 476515825212583946
+    second: R_Armature|R_Ox_Double
+  - first:
+      74: 9068656333646689680
+    second: R_Armature|R_RamClose_Double
+  - first:
+      74: 6772875903589888321
+    second: R_Armature|R_RamOpen_Double
+  - first:
+      74: 7213641602049281821
+    second: R_Armature|R_SignClose_Double
+  - first:
+      74: 2616309123251662001
+    second: R_Armature|R_SignOpen_Double
+  - first:
+      74: 3872241510336931170
+    second: R_Armature|R_ThumbsUpTest_Empty
+  - first:
+      74: 4427346523933555873
+    second: L_Armature|Fire
+  - first:
+      74: -3621476217194498321
+    second: L_Armature|L_Glock18c_Reload
+  - first:
+      74: -4748849082033756739
+    second: L_Armature|L_Horse_Double
+  - first:
+      74: 4727791904599318105
+    second: L_Armature|L_Idle_Empty
+  - first:
+      74: 1858144977804680760
+    second: L_Armature|L_Igni
+  - first:
+      74: -3948912276567690868
+    second: L_Armature|L_Monkey_Double
+  - first:
+      74: -6845407318642629812
+    second: L_Armature|L_Ox_Double
+  - first:
+      74: 8568670598452014844
+    second: L_Armature|L_RamClose_Double
+  - first:
+      74: -2562770806773967752
+    second: L_Armature|L_RamOpen_Double
+  - first:
+      74: 4711111753276990984
+    second: L_Armature|L_SignClose_Double
+  - first:
+      74: -1405499832014633590
+    second: L_Armature|L_SignOpen_Double
+  externalObjects: {}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

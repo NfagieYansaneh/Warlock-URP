@@ -11,6 +11,10 @@ public class BaseGun : ScriptableObject
     public Color color;
     public float RPM;
 
+    // animIndex allows me to know which animations this weapon should be using
+    public enum gunAnimations{ glock18c_animations, null_animations};
+    public gunAnimations animIndex;
+
     public GameObject gunModel;
     public Vector3 transformOffset;
     public Vector3 barrelEndOffset;

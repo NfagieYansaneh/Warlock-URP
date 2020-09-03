@@ -32,6 +32,14 @@ public class PlayerGunController : MonoBehaviour
         if (keyboard.Keys.mouseScroll != 0f)
         {
             inventory.curGunIndex = 1 - inventory.curGunIndex;
+            if (inventory.guns[inventory.curGunIndex] != inventory.nullGun)
+            {
+                AnimController.SetParameter((int)AnimParams.GunAnimIndex, (int)inventory.guns[inventory.curGunIndex].animIndex, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+                AnimController.Trigger((int)AnimParams.MouseScroll, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+            } else {
+                AnimController.SetParameter((int)AnimParams.GunAnimIndex, (int)inventory.guns[inventory.curGunIndex].animIndex, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+                // Really inefficient, should fix later
+            }
             UpdateDisplayedGuns(inventory.curGunIndex);
             ///Debug.Log(inventory.curGunIndex);
         }
@@ -61,7 +69,6 @@ public class PlayerGunController : MonoBehaviour
         {
             objectToPool = Instantiate(inventory.guns[index].gunModel, gunPlacemant.position,
                 gunPlacemant.transform.rotation * Quaternion.Euler(inventory.guns[index].rotationOffset), gunPlacemant);
-
             pooledObjects[index] = objectToPool;
             UpdateDisplayedGuns(index);
         }
