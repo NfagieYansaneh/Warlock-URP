@@ -67,6 +67,10 @@ public class PlayerGunController : MonoBehaviour
     {
         if (inventory.guns[index] != inventory.nullGun)
         {
+            //Start playing equip animation
+            AnimController.SetParameter((int)AnimParams.GunAnimIndex, (int)inventory.guns[index].animIndex, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+            AnimController.Trigger((int)AnimParams.MouseScroll, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+
             objectToPool = Instantiate(inventory.guns[index].gunModel, gunPlacemant.position,
                 gunPlacemant.transform.rotation * Quaternion.Euler(inventory.guns[index].rotationOffset), gunPlacemant);
             pooledObjects[index] = objectToPool;

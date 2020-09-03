@@ -19,6 +19,9 @@ ModelImporter:
       74: -1970955953425029468
     second: R_Armature|R_Glock18c_Fire
   - first:
+      74: -4499347644862247676
+    second: R_Armature|R_Glock18c_Idle
+  - first:
       74: -3022049606923190693
     second: R_Armature|R_Glock18c_Reload
   - first:
