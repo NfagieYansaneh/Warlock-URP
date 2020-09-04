@@ -42,8 +42,8 @@ public class KeyboardController : ScriptableObject
             mouseX = Input.GetAxis("Mouse X");
             mouseY = Input.GetAxis("Mouse Y");
 
-            mouse1 = Input.GetMouseButton(0);
-            mouse2 = Input.GetMouseButton(1);
+            mouse1 = Input.GetMouseButtonDown(0);
+            mouse2 = Input.GetMouseButtonDown(1);
             mouse3 = Input.GetMouseButtonDown(2);
 
             mouseScroll = Input.GetAxis("Mouse ScrollWheel");

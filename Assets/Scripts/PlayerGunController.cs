@@ -57,9 +57,17 @@ public class PlayerGunController : MonoBehaviour
         }
 
         // fires gun if we left click
+
         if (keyboard.Keys.mouse1)
         {
-            CastGun(inventory.curGunIndex);
+            if (inventory.guns[inventory.curGunIndex] != inventory.nullGun)
+            {
+                if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Fire, (int)AnimLayer.rightArm, (int)AnimState.isIdle))
+                {
+                    AnimController.Trigger((int)AnimParams.GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+                    inventory.guns[inventory.curGunIndex].Fire();
+                }
+            }
         }
 
         if (keyboard.Keys.keyR)
@@ -69,11 +77,7 @@ public class PlayerGunController : MonoBehaviour
                 Debug.Log("R");
                 if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Reload, (int)AnimLayer.allLayers, (int)AnimState.isIdle))
                 {
-                    
-                    if(AnimController.Trigger((int)AnimParams.GunTriggerAnim, (int)AnimLayer.allLayers, (int)AnimState.isIdle))
-                    {
-                        Debug.Log("Triggered");
-                    }
+                    AnimController.Trigger((int)AnimParams.GunTriggerAnim, (int)AnimLayer.allLayers, (int)AnimState.isIdle);
                     inventory.guns[inventory.curGunIndex].Reload((int)glock18c_GW.gunActionAnimations.glock18c_Reload);
                 }
             }
@@ -82,7 +86,14 @@ public class PlayerGunController : MonoBehaviour
         // ADS if we right click
         if (keyboard.Keys.mouse2)
         {
-            CastADS(inventory.curGunIndex);
+            if (inventory.guns[inventory.curGunIndex] != inventory.nullGun)
+            {
+                if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_ThreeFire, (int)AnimLayer.rightArm, (int)AnimState.isIdle))
+                {
+                    AnimController.Trigger((int)AnimParams.GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+                    inventory.guns[inventory.curGunIndex].ADS();
+                }
+            }
         }
 
         // secondary fires gun if we middle mouse
@@ -102,6 +113,7 @@ public class PlayerGunController : MonoBehaviour
 
             objectToPool = Instantiate(inventory.guns[index].gunModel, gunPlacemant.position,
                 gunPlacemant.transform.rotation * Quaternion.Euler(inventory.guns[index].rotationOffset), gunPlacemant);
+
             pooledObjects[index] = objectToPool;
             inventory.guns[index].Created(objectToPool);
             UpdateDisplayedGuns(index);

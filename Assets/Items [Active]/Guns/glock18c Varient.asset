@@ -9,16 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27037af6f5596114ab1d45b22658600f, type: 3}
-  m_Name: Gun
+  m_Script: {fileID: 11500000, guid: 88a89fc32fdaeaf47b05e7ceb7443ea0, type: 3}
+  m_Name: glock18c Varient
   m_EditorClassIdentifier: 
   description: 
   audioSource: {fileID: 0}
   image: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 0.9528302, g: 0.27416337, b: 0.9083298, a: 1}
   RPM: 0
-  gunModel: {fileID: -927199367670048503, guid: c476c418b1a698341ad5f60b1646daff,
+  animIndex: 0
+  gunModel: {fileID: 8069584503068986817, guid: 0a5df67c8fc98134f9f8ee50b3f04184,
     type: 3}
   transformOffset: {x: 0, y: 0, z: 0}
   barrelEndOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 0, z: 0}
+  animator: {fileID: 0}
