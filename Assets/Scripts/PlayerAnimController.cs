@@ -49,6 +49,7 @@ public class PlayerAnimController : MonoBehaviour
             {
                 if (armAnimObserver.animState[x] != state)
                 {
+                    Debug.Log(armAnimObserver.animState[x] + " != " + state);
                     return false;
                 }
             }
@@ -68,7 +69,7 @@ public class PlayerAnimController : MonoBehaviour
     // animator.SetBool
     public bool SetParameter (int parameter, bool value, int layer, int state)
     {
-        if (!CheckStateAtLayer(layer, state))
+        if (!CheckStateAtLayer(layer, state)) // arms are unavailable to do a new animation
         {
             return false;
         }
@@ -86,7 +87,7 @@ public class PlayerAnimController : MonoBehaviour
     // animator.SetInteger
     public bool SetParameter (int parameter, int value, int layer, int state)
     {
-        if (!CheckStateAtLayer(layer, state))
+        if (!CheckStateAtLayer(layer, state)) // arms are unavailable to do a new animation
         {
             return false;
         }
@@ -116,9 +117,9 @@ public class PlayerAnimController : MonoBehaviour
     // animator.SetTrigger
     public bool Trigger (int parameter, int layer, int state)
     {
-        if (!CheckStateAtLayer(layer, state))
+        if (!CheckStateAtLayer(layer, state)) // arms are unavailable to do a new animation
         {
-            return true;
+            return false;
         }
 
         switch (parameter)
@@ -147,12 +148,12 @@ public class PlayerAnimController : MonoBehaviour
                 animator.SetTrigger(paramHashes[(int)AnimParams.MouseScroll]);
                 break;
 
-            case (int)AnimParams.GunAnimIndex:
-                animator.SetTrigger(paramHashes[(int)AnimParams.GunAnimIndex]);
+            case (int)AnimParams.GunTriggerAnim:
+                animator.SetTrigger(paramHashes[(int)AnimParams.GunTriggerAnim]);
                 break;
         }
 
-        return false;
+        return true;
     }
 
     // Combo Parsing Below

@@ -64,13 +64,16 @@ public class PlayerGunController : MonoBehaviour
 
         if (keyboard.Keys.keyR)
         {
-            Debug.Log("R");
             if(inventory.guns[inventory.curGunIndex] != inventory.nullGun)
             {
+                Debug.Log("R");
                 if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Reload, (int)AnimLayer.allLayers, (int)AnimState.isIdle))
                 {
-                    Debug.Log("Triggered");
-                    AnimController.Trigger((int)AnimParams.GunTriggerAnim, (int)AnimLayer.allLayers, (int)AnimState.isIdle);
+                    
+                    if(AnimController.Trigger((int)AnimParams.GunTriggerAnim, (int)AnimLayer.allLayers, (int)AnimState.isIdle))
+                    {
+                        Debug.Log("Triggered");
+                    }
                     inventory.guns[inventory.curGunIndex].Reload((int)glock18c_GW.gunActionAnimations.glock18c_Reload);
                 }
             }

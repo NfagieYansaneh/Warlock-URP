@@ -13,7 +13,7 @@ public class ArmAnimObserver : ScriptableObject
     };
 
     [HideInInspector]
-    public int[] animState = new int[2];
+    public int[] animState = { 0, 0 };
 
     public void UpdateAnimState(AnimatorStateInfo stateInfo, int layerIndex)
     {

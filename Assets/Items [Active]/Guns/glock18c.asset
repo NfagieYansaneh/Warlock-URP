@@ -23,5 +23,4 @@ MonoBehaviour:
   transformOffset: {x: 0, y: 0, z: 0}
   barrelEndOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 0, z: 0}
-  animator: {fileID: 2699765675605566402, guid: 4b9de2a7dac86b845b4a287b840f850b,
-    type: 3}
+  animator: {fileID: 0}
