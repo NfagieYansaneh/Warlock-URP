@@ -18,8 +18,10 @@ MonoBehaviour:
   color: {r: 0.9150943, g: 0.13381095, b: 0.13381095, a: 1}
   RPM: 0
   animIndex: 0
-  gunModel: {fileID: 4798835252205162577, guid: 28c8fd589455c9a45a45cd93666d7aeb,
+  gunModel: {fileID: 4364907397418924087, guid: 4b9de2a7dac86b845b4a287b840f850b,
     type: 3}
   transformOffset: {x: 0, y: 0, z: 0}
   barrelEndOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 0, z: 0}
+  animator: {fileID: 2699765675605566402, guid: 4b9de2a7dac86b845b4a287b840f850b,
+    type: 3}

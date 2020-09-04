@@ -39,4 +39,9 @@ public class BaseGun : ScriptableObject
     {
 
     }
+
+    public virtual void Created(GameObject objectA)
+    {
+
+    }
 }

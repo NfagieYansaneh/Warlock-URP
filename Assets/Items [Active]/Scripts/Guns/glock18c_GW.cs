@@ -39,4 +39,9 @@ public class glock18c_GW : BaseGun
         animator.SetInteger(paramHashes[(int)AnimParams.GunActionAnimIndex], x);
         animator.SetTrigger(paramHashes[(int)AnimParams.GunTriggerAnim]);
     }
+
+    public override void Created(GameObject objectA)
+    {
+        animator = objectA.GetComponent<Animator>();
+    }
 }
