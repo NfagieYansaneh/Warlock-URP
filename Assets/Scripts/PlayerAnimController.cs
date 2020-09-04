@@ -5,7 +5,7 @@ using UnityEngine;
 // Handles and syncs animations
 
 // Used to easily interact with the stored Hashes for indexing
-public enum AnimParams { LR_Casting, LR_Cast, L_Cast, R_Cast, L_Emote, R_Emote, CastingIndex, EmoteIndex, GunAnimIndex, MouseScroll};
+public enum AnimParams { LR_Casting, LR_Cast, L_Cast, R_Cast, L_Emote, R_Emote, CastingIndex, EmoteIndex, GunAnimIndex, MouseScroll, GunActionAnimIndex, GunTriggerAnim};
 public enum AnimState { isIdle, isAction, isNo_interrupt, isAny };
 public enum AnimLayer { allLayers=-1, leftArm, rightArm };
 
@@ -34,7 +34,9 @@ public class PlayerAnimController : MonoBehaviour
         Animator.StringToHash("CastingIndex"),
         Animator.StringToHash("EmoteIndex"),
         Animator.StringToHash("GunAnimIndex"),
-        Animator.StringToHash("MouseScroll")
+        Animator.StringToHash("MouseScroll"),
+        Animator.StringToHash("GunActionAnimIndex"),
+        Animator.StringToHash("GunTriggerAnim")
     };
 
     bool CheckStateAtLayer(int layer, int state)
@@ -64,11 +66,11 @@ public class PlayerAnimController : MonoBehaviour
     /* change SetParameter to return bools if it has set the parameter */
 
     // animator.SetBool
-    public void SetParameter (int parameter, bool value, int layer, int state)
+    public bool SetParameter (int parameter, bool value, int layer, int state)
     {
         if (!CheckStateAtLayer(layer, state))
         {
-            return;
+            return false;
         }
 
         switch (parameter)
@@ -77,14 +79,16 @@ public class PlayerAnimController : MonoBehaviour
                 animator.SetBool(paramHashes[(int)AnimParams.LR_Casting], value);
                 break;
         }
+
+        return true;
     }
 
     // animator.SetInteger
-    public void SetParameter (int parameter, int value, int layer, int state)
+    public bool SetParameter (int parameter, int value, int layer, int state)
     {
         if (!CheckStateAtLayer(layer, state))
         {
-            return;
+            return false;
         }
 
         switch (parameter)
@@ -100,15 +104,21 @@ public class PlayerAnimController : MonoBehaviour
             case (int)AnimParams.GunAnimIndex:
                 animator.SetInteger(paramHashes[(int)AnimParams.GunAnimIndex], value);
                 break;
+
+            case (int)AnimParams.GunActionAnimIndex:
+                animator.SetInteger(paramHashes[(int)AnimParams.GunActionAnimIndex], value);
+                break;
         }
+
+        return true;
     }
 
     // animator.SetTrigger
-    public void Trigger (int parameter, int layer, int state)
+    public bool Trigger (int parameter, int layer, int state)
     {
         if (!CheckStateAtLayer(layer, state))
         {
-            return;
+            return true;
         }
 
         switch (parameter)
@@ -136,7 +146,13 @@ public class PlayerAnimController : MonoBehaviour
             case (int)AnimParams.MouseScroll:
                 animator.SetTrigger(paramHashes[(int)AnimParams.MouseScroll]);
                 break;
+
+            case (int)AnimParams.GunAnimIndex:
+                animator.SetTrigger(paramHashes[(int)AnimParams.GunAnimIndex]);
+                break;
         }
+
+        return false;
     }
 
     // Combo Parsing Below

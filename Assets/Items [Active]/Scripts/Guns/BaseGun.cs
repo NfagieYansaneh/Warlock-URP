@@ -12,7 +12,7 @@ public class BaseGun : ScriptableObject
     public float RPM;
 
     // animIndex allows me to know which animations this weapon should be using
-    public enum gunAnimations{ glock18c_animations, null_animations};
+    public enum gunAnimations{ null_animations=-1, glock18c_animations };
     public gunAnimations animIndex;
 
     public GameObject gunModel;
@@ -31,6 +31,11 @@ public class BaseGun : ScriptableObject
     }
 
     public virtual void ADS()
+    {
+
+    }
+
+    public virtual void Reload(int x)
     {
 
     }

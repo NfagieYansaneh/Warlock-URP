@@ -13,6 +13,7 @@ public class KeyboardController : ScriptableObject
         public int keyD;
         public int keyW;
         public int keyS;
+        public bool keyR;
 
         public float mouseX;
         public float mouseY;
@@ -36,6 +37,7 @@ public class KeyboardController : ScriptableObject
             keyD = Convert.ToInt32(Input.GetKey(KeyCode.D));
             keyW = Convert.ToInt32(Input.GetKey(KeyCode.W));
             keyS = Convert.ToInt32(Input.GetKey(KeyCode.S));
+            keyR = Input.GetKeyDown(KeyCode.R);
 
             mouseX = Input.GetAxis("Mouse X");
             mouseY = Input.GetAxis("Mouse Y");

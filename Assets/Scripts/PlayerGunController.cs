@@ -31,16 +31,28 @@ public class PlayerGunController : MonoBehaviour
         // switches gun based on scroll wheel
         if (keyboard.Keys.mouseScroll != 0f)
         {
+            int prevIndex = inventory.curGunIndex;
             inventory.curGunIndex = 1 - inventory.curGunIndex;
             if (inventory.guns[inventory.curGunIndex] != inventory.nullGun)
             {
-                AnimController.SetParameter((int)AnimParams.GunAnimIndex, (int)inventory.guns[inventory.curGunIndex].animIndex, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+                if(AnimController.SetParameter((int)AnimParams.GunAnimIndex, (int)inventory.guns[inventory.curGunIndex].animIndex, (int)AnimLayer.rightArm, (int)AnimState.isIdle))
+                {
+                    AnimController.Trigger((int)AnimParams.MouseScroll, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+                    UpdateDisplayedGuns(inventory.curGunIndex);
+                }
                 AnimController.Trigger((int)AnimParams.MouseScroll, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
             } else {
-                AnimController.SetParameter((int)AnimParams.GunAnimIndex, (int)inventory.guns[inventory.curGunIndex].animIndex, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
-                // Really inefficient, should fix later
+                if (inventory.guns[prevIndex] != inventory.nullGun)
+                {
+                    if(AnimController.SetParameter((int)AnimParams.GunAnimIndex, -1, (int)AnimLayer.rightArm, (int)AnimState.isIdle)) { 
+                        AnimController.Trigger((int)AnimParams.MouseScroll, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+                        UpdateDisplayedGuns(inventory.curGunIndex);
+                    }
+                }
+                
             }
-            UpdateDisplayedGuns(inventory.curGunIndex);
+
+            // Optimize later
             ///Debug.Log(inventory.curGunIndex);
         }
 
@@ -48,6 +60,18 @@ public class PlayerGunController : MonoBehaviour
         if (keyboard.Keys.mouse1)
         {
             CastGun(inventory.curGunIndex);
+        }
+
+        if (keyboard.Keys.keyR)
+        {
+            if(inventory.guns[inventory.curGunIndex] != inventory.nullGun)
+            {
+                if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Reload, (int)AnimLayer.allLayers, (int)AnimState.isIdle))
+                {
+                    AnimController.Trigger((int)AnimParams.GunTriggerAnim, (int)AnimLayer.allLayers, (int)AnimState.isIdle);
+                    inventory.guns[inventory.curGunIndex].Reload((int)glock18c_GW.gunActionAnimations.glock18c_Reload);
+                }
+            }
         }
 
         // ADS if we right click
