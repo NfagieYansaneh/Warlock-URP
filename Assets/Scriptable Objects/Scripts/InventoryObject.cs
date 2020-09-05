@@ -15,6 +15,9 @@ public class InventoryObject : ScriptableObject
     public BaseSpell nullSpell;
     public BaseGun nullGun;
 
+    //this is for communicating and updating our UI
+    public UiManager uiManager;
+
     // holds the curGunIndex for knowing which gun is being held
     public int curGunIndex = 0;
     
@@ -36,6 +39,7 @@ public class InventoryObject : ScriptableObject
             if (spells[i] == caseItem)
             {
                 spells[i] = newItem;
+                uiManager.updateSpellDisplay(i);
                 return i;
             }
         }
@@ -44,11 +48,12 @@ public class InventoryObject : ScriptableObject
     }
     public int OverrideAtFirstFind(BaseGun newItem, BaseGun caseItem)
     {
-        for (int i = 0; i < spells.Length; i++)
+        for (int i = 0; i < guns.Length; i++)
         {
             if (guns[i] == caseItem)
             {
                 guns[i] = newItem;
+                uiManager.updateGunDisplay();
                 return i;
             }
         }
@@ -60,10 +65,12 @@ public class InventoryObject : ScriptableObject
     public void OverrideAtIndex(BaseSpell newItem, int index)
     {
         spells[index] = newItem;
+        uiManager.updateSpellDisplay(index);
     }
     public void OverrideAtIndex(BaseGun newItem, int index)
     {
         guns[index] = newItem;
+        uiManager.updateGunDisplay();
     }
 
     public void ForceToPreset()

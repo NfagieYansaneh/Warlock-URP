@@ -14,6 +14,8 @@ public class PlayerGunController : MonoBehaviour
     public KeyboardController keyboard;
     [Tooltip("Obtains camera rotation for properly display guns")]
     public Transform gunPlacemant;
+    [Tooltip("For communicating with, or updating, Ui")]
+    public UiManager uiManager;
 
     // **** Private variables ****
     private GameObject[] pooledObjects = new GameObject[2];
@@ -130,6 +132,8 @@ public class PlayerGunController : MonoBehaviour
                 else pooledObjects[i].SetActive(true);
             }
         }
+
+        uiManager.updateGunDisplay();
     }
 
     public void CastGun(int index)
