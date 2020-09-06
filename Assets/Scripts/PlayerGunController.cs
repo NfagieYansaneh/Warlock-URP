@@ -34,12 +34,13 @@ public class PlayerGunController : MonoBehaviour
         if (keyboard.Keys.mouseScroll != 0f)
         {
             int prevIndex = inventory.curGunIndex;
-            inventory.curGunIndex = 1 - inventory.curGunIndex;
-            if (inventory.guns[inventory.curGunIndex] != inventory.nullGun)
+            int curIndex = 1 - inventory.curGunIndex;
+            if (inventory.guns[curIndex] != inventory.nullGun)
             {
-                if(AnimController.SetParameter((int)AnimParams.GunAnimIndex, (int)inventory.guns[inventory.curGunIndex].animIndex, (int)AnimLayer.rightArm, (int)AnimState.isIdle))
+                if(AnimController.SetParameter((int)AnimParams.GunAnimIndex, (int)inventory.guns[curIndex].animIndex, (int)AnimLayer.rightArm, (int)AnimState.isIdle))
                 {
                     AnimController.Trigger((int)AnimParams.MouseScroll, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+                    inventory.curGunIndex = 1 - inventory.curGunIndex;
                     UpdateDisplayedGuns(inventory.curGunIndex);
                 }
                 AnimController.Trigger((int)AnimParams.MouseScroll, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
@@ -48,6 +49,7 @@ public class PlayerGunController : MonoBehaviour
                 {
                     if(AnimController.SetParameter((int)AnimParams.GunAnimIndex, -1, (int)AnimLayer.rightArm, (int)AnimState.isIdle)) { 
                         AnimController.Trigger((int)AnimParams.MouseScroll, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+                        inventory.curGunIndex = 1 - inventory.curGunIndex;
                         UpdateDisplayedGuns(inventory.curGunIndex);
                     }
                 }
