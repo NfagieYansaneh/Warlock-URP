@@ -58,13 +58,13 @@ public class PlayerGunController : MonoBehaviour
 
             // Optimize later
             ///Debug.Log(inventory.curGunIndex);
-        }
+        } 
 
         // fires gun if we left click
 
         if (keyboard.Keys.mouse1)
         {
-            if (inventory.guns[inventory.curGunIndex] != inventory.nullGun)
+            if (inventory.guns[inventory.curGunIndex] != inventory.nullGun && inventory.guns[inventory.curGunIndex].ammoInMag > 0)
             {
                 if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Fire, (int)AnimLayer.rightArm, (int)AnimState.isIdle))
                 {

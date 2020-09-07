@@ -880,7 +880,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: {fileID: 11400000, guid: bbd12ba9c03d8fa42823cfabd4241afd, type: 2}
   keyboard: {fileID: 11400000, guid: ff4dfa856d3f8ac459ab275754f82438, type: 2}
-  armAnimEventsHandler: {fileID: 6675100732156213008}
+  animEventsHandler: {fileID: 6675100732156213008}
   armComboParser: {fileID: 0}
 --- !u!114 &471387832
 MonoBehaviour:
@@ -5352,6 +5352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 11400000, guid: bbd12ba9c03d8fa42823cfabd4241afd, type: 2}
+  uiManager: {fileID: 1729760116}
   L_wristBone: {fileID: 4361726788794143636}
   lineRenderer: {fileID: 471387827}
   range: 10

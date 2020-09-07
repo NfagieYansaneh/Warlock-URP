@@ -7,7 +7,7 @@ public class ArmComboParser : StateMachineBehaviour
     public ArmAnimObserver animObserver = null;
     private PlayerAnimController AnimController = null;
 
-    static bool latch = false;
+    //static bool latch = false;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

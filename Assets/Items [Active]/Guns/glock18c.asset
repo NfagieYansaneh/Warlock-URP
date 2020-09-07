@@ -17,8 +17,9 @@ MonoBehaviour:
   image: {fileID: 0}
   color: {r: 0.9150943, g: 0.13381095, b: 0.13381095, a: 1}
   RPM: 0
-  ammo: 128
-  ammoInMagazine: 12
+  ammo: 198
+  ammoInMag: 7
+  maxAmmoInMag: 17
   animIndex: 0
   gunModel: {fileID: 4364907397418924087, guid: 4b9de2a7dac86b845b4a287b840f850b,
     type: 3}

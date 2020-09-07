@@ -15,7 +15,7 @@ public class PlayerSpellController : MonoBehaviour
     [Tooltip("Obtains keyboard input")]
     public KeyboardController keyboard;
     [Tooltip("Allows communication to the Arm Animation Events Handler")]
-    public ArmAnimEventsHandler armAnimEventsHandler;
+    public AnimEventsHandler animEventsHandler;
     [Tooltip("Allows communication to the Arm Combo Parser used for chained spell casts")]
     public ArmComboParser armComboParser;
     [Space(10)]
@@ -57,13 +57,13 @@ public class PlayerSpellController : MonoBehaviour
             {
                 AnimController.SetParameter((int)AnimParams.CastingIndex, (int)spell.animationIndex, (int)AnimLayer.leftArm, (int)AnimState.isIdle);
                 AnimController.Trigger((int)AnimParams.L_Cast, (int)AnimLayer.leftArm, (int)AnimState.isIdle); // Trigger
-                armAnimEventsHandler.SetSpell(spell);
+                animEventsHandler.SetSpell(spell);
             } else
             {
                 int[] temp = Array.ConvertAll(spell.animationDoubleIndex, value => (int)value);
                 AnimController.AssignNew(temp, spell.animationDoubleIndex.Length);
                 AnimController.Trigger((int)AnimParams.LR_Cast, (int)AnimLayer.allLayers, (int)AnimState.isIdle);
-                armAnimEventsHandler.SetSpell(spell);
+                animEventsHandler.SetSpell(spell);
             }
         }
     }

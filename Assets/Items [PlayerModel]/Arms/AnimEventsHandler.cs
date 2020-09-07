@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArmAnimEventsHandler : MonoBehaviour
+public class AnimEventsHandler : MonoBehaviour
 {
     [Tooltip("Allows communication to an InventoryObject")]
     public InventoryObject inventory;
+    public UiManager uiManager;
     BaseSpell curSpell;
 
     BaseGun curGun;
@@ -25,6 +26,20 @@ public class ArmAnimEventsHandler : MonoBehaviour
 
         lineRenderer.positionCount = 2;
         lineRenderer.enabled = false;
+    }
+
+    public void FireGun ()
+    {
+        //Debug.LogWarning("Called");
+        inventory.guns[inventory.curGunIndex].ammoInMag -= 1;
+        uiManager.updateGunDisplay();
+    }
+
+    public void ReloadGun ()
+    {
+        inventory.guns[inventory.curGunIndex].ammo += inventory.guns[inventory.curGunIndex].ammoInMag - inventory.guns[inventory.curGunIndex].maxAmmoInMag;
+        inventory.guns[inventory.curGunIndex].ammoInMag = inventory.guns[inventory.curGunIndex].maxAmmoInMag;
+        uiManager.updateGunDisplay();
     }
 
     public void SoloHandEvent ()

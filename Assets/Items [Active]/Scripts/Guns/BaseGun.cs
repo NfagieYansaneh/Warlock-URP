@@ -11,7 +11,8 @@ public class BaseGun : ScriptableObject
     public Color color;
     public float RPM;
     public int ammo;
-    public int ammoInMagazine;
+    public int ammoInMag;
+    public int maxAmmoInMag;
 
     // animIndex allows me to know which animations this weapon should be using
     public enum gunAnimations{ null_animations=-1, glock18c_animations };

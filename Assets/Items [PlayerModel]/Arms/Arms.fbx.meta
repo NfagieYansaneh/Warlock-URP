@@ -258,7 +258,15 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.06185567
+        functionName: FireGun
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: de951d86c94fd044c88eca21e9601901,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -316,7 +324,15 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.742268
+        functionName: ReloadGun
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: de951d86c94fd044c88eca21e9601901,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -345,7 +361,31 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.03780069
+        functionName: FireGun
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: de951d86c94fd044c88eca21e9601901,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.10996564
+        functionName: FireGun
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: de951d86c94fd044c88eca21e9601901,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.28865978
+        functionName: FireGun
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: de951d86c94fd044c88eca21e9601901,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
