@@ -14,6 +14,8 @@ public class PlayerGunController : MonoBehaviour
     public KeyboardController keyboard;
     [Tooltip("Obtains camera rotation for properly display guns")]
     public Transform gunPlacemant;
+    [Tooltip("Obtains camera position for firing guns (their raycasts)")]
+    public Transform cameraTransform;
     [Tooltip("For communicating with, or updating, Ui")]
     public UiManager uiManager;
 
@@ -69,7 +71,7 @@ public class PlayerGunController : MonoBehaviour
                 if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Fire, (int)AnimLayer.rightArm, (int)AnimState.isIdle))
                 {
                     AnimController.Trigger((int)AnimParams.GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
-                    inventory.guns[inventory.curGunIndex].Fire();
+                    inventory.guns[inventory.curGunIndex].FireAnim();
                 }
             }
         }
@@ -119,7 +121,7 @@ public class PlayerGunController : MonoBehaviour
                 gunPlacemant.transform.rotation * Quaternion.Euler(inventory.guns[index].rotationOffset), gunPlacemant);
 
             pooledObjects[index] = objectToPool;
-            inventory.guns[index].Created(objectToPool);
+            inventory.guns[index].Created(objectToPool, cameraTransform);
             UpdateDisplayedGuns(index);
         }
     }
@@ -140,7 +142,7 @@ public class PlayerGunController : MonoBehaviour
 
     public void CastGun(int index)
     {
-        inventory.guns[index].Fire();
+        inventory.guns[index].FireAnim();
     }
     public void CastADS(int index)
     {

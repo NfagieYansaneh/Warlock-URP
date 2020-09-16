@@ -9,7 +9,7 @@ public class AnimEventsHandler : MonoBehaviour
     public UiManager uiManager;
     BaseSpell curSpell;
 
-    BaseGun curGun;
+    //BaseGun curGun;
     public Transform L_wristBone;
 
     public LineRenderer lineRenderer;
@@ -22,7 +22,7 @@ public class AnimEventsHandler : MonoBehaviour
     public void Start()
     {
         curSpell = inventory.nullSpell;
-        curGun = inventory.nullGun;
+        //curGun = inventory.nullGun;
 
         lineRenderer.positionCount = 2;
         lineRenderer.enabled = false;
@@ -32,6 +32,7 @@ public class AnimEventsHandler : MonoBehaviour
     {
         //Debug.LogWarning("Called");
         inventory.guns[inventory.curGunIndex].ammoInMag -= 1;
+        inventory.guns[inventory.curGunIndex].FireRaycast();
         uiManager.updateGunDisplay();
     }
 

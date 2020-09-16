@@ -16,14 +16,16 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   image: {fileID: 0}
   color: {r: 0.9528302, g: 0.27416337, b: 0.9083298, a: 1}
-  RPM: 0
   ammo: 909
   ammoInMag: 12
   maxAmmoInMag: 12
+  range: 5
+  fpCamera: {fileID: 0}
   animIndex: 0
   gunModel: {fileID: 8069584503068986817, guid: 0a5df67c8fc98134f9f8ee50b3f04184,
     type: 3}
   transformOffset: {x: 0, y: 0, z: 0}
   barrelEndOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 0, z: 0}
-  animator: {fileID: 0}
+  animator: {fileID: 8069584503068986816, guid: 0a5df67c8fc98134f9f8ee50b3f04184,
+    type: 3}

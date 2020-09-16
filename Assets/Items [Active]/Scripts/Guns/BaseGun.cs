@@ -9,10 +9,14 @@ public class BaseGun : ScriptableObject
     public AudioSource audioSource;
     public Sprite image;
     public Color color;
-    public float RPM;
+    //public float RPM;
     public int ammo;
     public int ammoInMag;
     public int maxAmmoInMag;
+
+    [Range(0f, 10f)]
+    public float range;
+    public Transform fpCamera;
 
     // animIndex allows me to know which animations this weapon should be using
     public enum gunAnimations{ null_animations=-1, glock18c_animations };
@@ -23,7 +27,12 @@ public class BaseGun : ScriptableObject
     public Vector3 barrelEndOffset;
     public Vector3 rotationOffset;
 
-    public virtual void Fire()
+    public virtual void FireAnim()
+    {
+
+    }
+
+    public virtual void FireRaycast()
     {
 
     }
@@ -43,7 +52,7 @@ public class BaseGun : ScriptableObject
 
     }
 
-    public virtual void Created(GameObject objectA)
+    public virtual void Created(GameObject objectA, Transform transform)
     {
 
     }

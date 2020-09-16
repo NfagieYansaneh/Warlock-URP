@@ -20,11 +20,24 @@ public class glock18c_GW : BaseGun
         Animator.StringToHash("GunTriggerAnim")
     };
 
-    public override void Fire()
+    public override void FireAnim()
     {
         animator.SetInteger(paramHashes[(int)AnimParams.GunActionAnimIndex], (int)gunActionAnimations.glock18c_Fire);
         animator.SetTrigger(paramHashes[(int)AnimParams.GunTriggerAnim]);
         Debug.Log("Fired glock18c : " + this.name);
+    }
+
+    public override void FireRaycast()
+    {
+        Vector3 end = fpCamera.position + (fpCamera.forward * range);
+        Debug.DrawLine(fpCamera.position, end, color, 1f);
+        Ray ray = new Ray(fpCamera.position, end);
+        RaycastHit hit;
+
+        if(Physics.Raycast(ray, out hit, range))
+        {
+            Debug.Log(hit.collider.gameObject.name);
+        }
     }
 
     public override void SecondaryFire()
@@ -44,8 +57,9 @@ public class glock18c_GW : BaseGun
         animator.SetTrigger(paramHashes[(int)AnimParams.GunTriggerAnim]);
     }
 
-    public override void Created(GameObject objectA)
+    public override void Created(GameObject objectA, Transform transform)
     {
         animator = objectA.GetComponent<Animator>();
+        fpCamera = transform;
     }
 }
