@@ -7,6 +7,9 @@ TagManager:
   - Booster
   - SpellPickup
   - GunPickup
+  - HalfCover
+  - FullCover
+  - AiRoomID
   layers:
   - Default
   - TransparentFX

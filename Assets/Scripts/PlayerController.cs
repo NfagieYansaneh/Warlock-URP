@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     /* I could probably make the angle measuring a lil more optimized */
     /* And create a debug menu or something in the game */
 
+    // VERY IMPORTANT TO DO LIST
+    // Use Vector3.Angle instead of whatever functions I was using before
+
 
     // **** Public variables ****
     [Header("Player settings")]
