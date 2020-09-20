@@ -279,7 +279,7 @@ MonoBehaviour:
   halfCoverAvailable: 
   fullCoverTransforms: []
   fullCoverAvailable: 
-  xyColliderCorners: []
+  xzColliderCorners: []
   width: 0
   length: 0
 --- !u!65 &94807992
@@ -904,9 +904,9 @@ MonoBehaviour:
   playerTransform: {fileID: 471387837}
   detectionAngle: 60
   detectionRange: 4
-  requestCoverChance: 0.33
-  requestChaseChance: 0.33
-  requestDistanceChance: 0.34
+  requestCoverChance: 0
+  requestChaseChance: 0
+  requestDistanceChance: 1
   bubbleRadius: 0
   roomIndex: 0
   aiOverseer: {fileID: 2056256294}
@@ -986,15 +986,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 354461461}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.76, y: 1.08, z: 12.28}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 3.76, y: 1.08, z: 14.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 514280049}
   - {fileID: 569215619}
   m_Father: {fileID: 0}
   m_RootOrder: 15
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &408713673
 GameObject:
   m_ObjectHideFlags: 0
@@ -3246,15 +3246,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1099628043}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.08, z: 8.97}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 1.08, z: 10.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 884966132}
   - {fileID: 560723428}
   m_Father: {fileID: 0}
   m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &1099628048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3272,9 +3272,9 @@ MonoBehaviour:
   playerTransform: {fileID: 471387837}
   detectionAngle: 60
   detectionRange: 4
-  requestCoverChance: 0.33
-  requestChaseChance: 0.33
-  requestDistanceChance: 0.34
+  requestCoverChance: 1
+  requestChaseChance: 0
+  requestDistanceChance: 0
   bubbleRadius: 0
   roomIndex: 0
   aiOverseer: {fileID: 2056256294}
@@ -4333,9 +4333,9 @@ MonoBehaviour:
   playerTransform: {fileID: 471387837}
   detectionAngle: 60
   detectionRange: 4
-  requestCoverChance: 0.33
-  requestChaseChance: 0.33
-  requestDistanceChance: 0.34
+  requestCoverChance: 0
+  requestChaseChance: 1
+  requestDistanceChance: 0
   bubbleRadius: 0
   roomIndex: 0
   aiOverseer: {fileID: 2056256294}
@@ -4415,15 +4415,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1669406726}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.87, y: 1.08, z: 11.190001}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: -2.87, y: 1.08, z: 12.9800005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1317768393}
   - {fileID: 207084127}
   m_Father: {fileID: 0}
   m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &1729760114
 GameObject:
   m_ObjectHideFlags: 0

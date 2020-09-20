@@ -50,16 +50,16 @@ public class AiOverseer : MonoBehaviour
 
         float rndX = Random.Range(0f, roomIDs[(int)roomIndex].width - radius);
         Debug.Log(rndX);
-        if (rndX > Mathf.Abs(otherPosition.x - radius)) rndX += (otherPosition.x + radius - roomIDs[(int)roomIndex].xyColliderCorners[0]) - (otherPosition.x - (otherPosition.x - radius));
+        if (rndX > Mathf.Abs(otherPosition.x - radius)) rndX += (otherPosition.x + radius - roomIDs[(int)roomIndex].xzColliderCorners[0]) - (otherPosition.x - (otherPosition.x - radius));
 
-        float rndY = Random.Range(0f, roomIDs[(int)roomIndex].length - radius);
-        Debug.Log(rndY);
-        if (rndY > Mathf.Abs(otherPosition.y - radius)) rndY += (otherPosition.y + radius - roomIDs[(int)roomIndex].xyColliderCorners[1]) - (otherPosition.y - (otherPosition.y - radius));
+        float rndZ = Random.Range(0f, roomIDs[(int)roomIndex].length - radius);
+        Debug.Log(rndZ);
+        if (rndZ > Mathf.Abs(otherPosition.y - radius)) rndZ += (otherPosition.z + radius - roomIDs[(int)roomIndex].xzColliderCorners[1]) - (otherPosition.z - (otherPosition.z - radius));
 
         Vector3 dest = new Vector3(
-                roomIDs[(int)roomIndex].xyColliderCorners[0] + rndX,
-                roomIDs[(int)roomIndex].xyColliderCorners[1] + rndY,
-                0f
+                roomIDs[(int)roomIndex].xzColliderCorners[0] + rndX,
+                0f,
+                roomIDs[(int)roomIndex].xzColliderCorners[1] + rndZ
             );
 
         Debug.Log(dest);

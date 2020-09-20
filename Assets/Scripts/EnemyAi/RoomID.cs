@@ -16,11 +16,11 @@ public class RoomID : MonoBehaviour
 
     BoxCollider boxCollider;
     [HideInInspector]
-    public float[] xyColliderCorners;
+    public float[] xzColliderCorners;
     [HideInInspector]
     public float width; // x
     [HideInInspector]
-    public float length; // y
+    public float length; // z
 
     // Maybe Optimize Later?
 
@@ -35,17 +35,17 @@ public class RoomID : MonoBehaviour
     private void Start()
     {
         //collider.bounds.contains(playerTransform.position)
-        xyColliderCorners = new float[2];
+        xzColliderCorners = new float[2];
 
         boxCollider = GetComponent<BoxCollider>();
         float a = (boxCollider.size.x / 2);
-        float b = (boxCollider.size.y / 2);
+        float b = (boxCollider.size.z / 2);
 
         width = boxCollider.size.x;
-        length = boxCollider.size.y;
+        length = boxCollider.size.z;
 
-        xyColliderCorners[0] = boxCollider.center.x - a; // x
+        xzColliderCorners[0] = boxCollider.center.x - a; // x
 
-        xyColliderCorners[1] = boxCollider.center.y - b; // y
+        xzColliderCorners[1] = boxCollider.center.z - b; // z
     }
 }
