@@ -279,6 +279,9 @@ MonoBehaviour:
   halfCoverAvailable: 
   fullCoverTransforms: []
   fullCoverAvailable: 
+  xyColliderCorners: []
+  width: 0
+  length: 0
 --- !u!65 &94807992
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -897,12 +900,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 354461463}
+  navMeshObstacleBubble: {fileID: 0}
   playerTransform: {fileID: 471387837}
   detectionAngle: 60
   detectionRange: 4
-  requestCoverChance: 0.6
-  requestChaseChance: 0.1
-  requestDistanceChance: 0.3
+  requestCoverChance: 0.33
+  requestChaseChance: 0.33
+  requestDistanceChance: 0.34
+  bubbleRadius: 0
   roomIndex: 0
   aiOverseer: {fileID: 2056256294}
 --- !u!195 &354461463
@@ -2061,53 +2066,6 @@ Transform:
   m_Father: {fileID: 471387837}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &592715020
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 592715021}
-  - component: {fileID: 592715022}
-  m_Layer: 10
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &592715021
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592715020}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1099628047}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!208 &592715022
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592715020}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 0
-  m_Extents: {x: 0.5, y: 1, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!1001 &714616402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3294,7 +3252,6 @@ Transform:
   m_Children:
   - {fileID: 884966132}
   - {fileID: 560723428}
-  - {fileID: 592715021}
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3311,12 +3268,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 1099628044}
+  navMeshObstacleBubble: {fileID: 0}
   playerTransform: {fileID: 471387837}
   detectionAngle: 60
   detectionRange: 4
-  requestCoverChance: 0.6
-  requestChaseChance: 0.1
-  requestDistanceChance: 0.3
+  requestCoverChance: 0.33
+  requestChaseChance: 0.33
+  requestDistanceChance: 0.34
+  bubbleRadius: 0
   roomIndex: 0
   aiOverseer: {fileID: 2056256294}
 --- !u!1 &1117824807
@@ -4370,12 +4329,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 1669406728}
+  navMeshObstacleBubble: {fileID: 0}
   playerTransform: {fileID: 471387837}
   detectionAngle: 60
   detectionRange: 4
-  requestCoverChance: 0.6
-  requestChaseChance: 0.1
-  requestDistanceChance: 0.3
+  requestCoverChance: 0.33
+  requestChaseChance: 0.33
+  requestDistanceChance: 0.34
+  bubbleRadius: 0
   roomIndex: 0
   aiOverseer: {fileID: 2056256294}
 --- !u!195 &1669406728

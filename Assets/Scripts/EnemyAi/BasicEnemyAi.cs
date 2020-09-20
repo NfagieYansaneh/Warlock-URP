@@ -31,13 +31,11 @@ public class BasicEnemyAi : MonoBehaviour
     public AiOverseer aiOverseer;
 
     private bool detectedPlayer = false;
-    private NavMeshObstacle navMeshObstacle;
 
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         StartCoroutine("detectPlayer");
-        navMeshObstacle = navMeshObstacleBubble.GetComponent<NavMeshObstacle>();
 
         //navMeshAgent.SetDestination( new Vector3(0, 0, 0));
     }
@@ -72,22 +70,19 @@ public class BasicEnemyAi : MonoBehaviour
                     }
                 }
 
-                if (Random.value >= requestDistanceChance)
+                if (Random.value <= requestDistanceChance)
                 {
-                    navMeshObstacleBubble.SetActive(true);
-                    navMeshObstacle.radius = bubbleRadius;
-
-                    while (true)
-                    {
-                        detectedPlayer = true;
-                        //if(Vector3.Distance)
-                        yield return x;
+                    detectedPlayer = true;
+                    WaitForSeconds z = new WaitForSeconds(0.55f);
+                    while (true) { 
+                        navMeshAgent.SetDestination(aiOverseer.RequestDistance(roomIndex, playerTransform.position, 3f));
+                        yield return z;
                     }
                     //navMeshAgent.SetDestination(playerTransform.position);
                 }
 
                 detectedPlayer = true;
-                Debug.LogError("PLAYER DETECTED!!!");
+                //Debug.LogError("PLAYER DETECTED!!!");
             }
 
             yield return x;

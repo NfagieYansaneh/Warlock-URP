@@ -43,4 +43,26 @@ public class AiOverseer : MonoBehaviour
 
         return Vector3.zero;
     }
+
+    public Vector3 RequestDistance(Rooms roomIndex, Vector3 otherPosition, float radius)
+    {
+        Debug.Log("Requested Distance");
+
+        float rndX = Random.Range(0f, roomIDs[(int)roomIndex].width - radius);
+        Debug.Log(rndX);
+        if (rndX > Mathf.Abs(otherPosition.x - radius)) rndX += (otherPosition.x + radius - roomIDs[(int)roomIndex].xyColliderCorners[0]) - (otherPosition.x - (otherPosition.x - radius));
+
+        float rndY = Random.Range(0f, roomIDs[(int)roomIndex].length - radius);
+        Debug.Log(rndY);
+        if (rndY > Mathf.Abs(otherPosition.y - radius)) rndY += (otherPosition.y + radius - roomIDs[(int)roomIndex].xyColliderCorners[1]) - (otherPosition.y - (otherPosition.y - radius));
+
+        Vector3 dest = new Vector3(
+                roomIDs[(int)roomIndex].xyColliderCorners[0] + rndX,
+                roomIDs[(int)roomIndex].xyColliderCorners[1] + rndY,
+                0f
+            );
+
+        Debug.Log(dest);
+        return dest;
+    }
 }

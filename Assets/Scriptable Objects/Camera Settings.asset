@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4546188a488cff04db68c281b94fbd1b, type: 3}
   m_Name: Camera Settings
   m_EditorClassIdentifier: 
-  mouseSensitivityX: 65
-  mouseSensitivityY: 65
+  mouseSensitivityX: 75
+  mouseSensitivityY: 75
   rollSpeed: 0.15
   rollAmplitude: 2
   overlayCameraLag: 2
