@@ -9,6 +9,9 @@ public class BasicEnemyAi : MonoBehaviour
 
     public NavMeshAgent navMeshAgent;
     public GameObject navMeshObstacleBubble;
+    public Transform gunTransform;
+    public Transform containerTransform;
+
     public Transform playerTransform;
     [Range(0, 180)]
     public float detectionAngle;
@@ -30,11 +33,18 @@ public class BasicEnemyAi : MonoBehaviour
     public Rooms roomIndex;
     public AiOverseer aiOverseer;
 
+    public GameObject bulletPrefab;
+    [HideInInspector]
+    public GameObject[] pooledBullets = new GameObject[20];
+    public TrailRenderer[] pooledTrailRenderers = new TrailRenderer[20];
+
+
     private bool detectedPlayer = false;
 
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        InitBulletPool();
         StartCoroutine("detectPlayer");
 
         //navMeshAgent.SetDestination( new Vector3(0, 0, 0));
@@ -75,7 +85,9 @@ public class BasicEnemyAi : MonoBehaviour
                     detectedPlayer = true;
                     WaitForSeconds z = new WaitForSeconds(0.55f);
                     while (true) { 
-                        navMeshAgent.SetDestination(aiOverseer.RequestDistance(roomIndex, playerTransform.position, 3f));
+                        navMeshAgent.SetDestination(aiOverseer.RequestDistance(roomIndex, playerTransform.position, 2 * 3f));
+                        FireBulletPool();
+
                         yield return z;
                     }
                     //navMeshAgent.SetDestination(playerTransform.position);
@@ -91,7 +103,17 @@ public class BasicEnemyAi : MonoBehaviour
 
     void Update()
     {
-        if (detectedPlayer) transform.LookAt(playerTransform);
+        if (detectedPlayer)
+        {
+            transform.LookAt(playerTransform);
+            for (int index = 0; index < pooledBullets.Length; index++)
+            {
+                if (pooledBullets[index].activeSelf)
+                {
+                    pooledBullets[index].transform.position += pooledBullets[index].transform.forward * 0.2f;
+                }
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -100,6 +122,31 @@ public class BasicEnemyAi : MonoBehaviour
         {
             roomIndex = other.gameObject.GetComponent<RoomID>().room;
             Debug.Log(roomIndex);
+        }
+    }
+
+    void InitBulletPool()
+    {
+        for (int index=0; index<pooledBullets.Length; index++)
+        {
+            pooledBullets[index] = Instantiate(bulletPrefab, containerTransform);
+            pooledTrailRenderers[index] = pooledBullets[index].GetComponent<TrailRenderer>();
+            pooledTrailRenderers[index].emitting = false;
+            pooledBullets[index].SetActive(false);
+        }
+    }
+
+    void FireBulletPool()
+    {
+        for (int index=0; index<pooledBullets.Length; index++)
+        {
+            if (!pooledBullets[index].activeSelf) { 
+                pooledBullets[index].transform.position = gunTransform.position;
+                pooledBullets[index].transform.rotation = gunTransform.rotation;
+                pooledTrailRenderers[index].emitting = true;
+                pooledBullets[index].SetActive(true);
+                break;
+            }
         }
     }
 }
