@@ -34,15 +34,23 @@ public class BasicEnemyAi : MonoBehaviour
     public AiOverseer aiOverseer;
 
     public GameObject bulletPrefab;
+    public LayerMask bulletLayerMask;
     [HideInInspector]
-    public GameObject[] pooledBullets = new GameObject[20];
-    public TrailRenderer[] pooledTrailRenderers = new TrailRenderer[20];
+    public GameObject[] pooledBullets;
+    [HideInInspector]
+    public TrailRenderer[] pooledTrailRenderers;
+    [HideInInspector]
+    public int pooledBulletsIndex;
 
 
     private bool detectedPlayer = false;
 
     void Start()
     {
+        pooledBulletsIndex = 0;
+        pooledBullets = new GameObject[7];
+        pooledTrailRenderers = new TrailRenderer[7];
+
         navMeshAgent = GetComponent<NavMeshAgent>();
         InitBulletPool();
         StartCoroutine("detectPlayer");
@@ -110,7 +118,16 @@ public class BasicEnemyAi : MonoBehaviour
             {
                 if (pooledBullets[index].activeSelf)
                 {
-                    pooledBullets[index].transform.position += pooledBullets[index].transform.forward * 0.2f;
+                    Collider[] colliders = Physics.OverlapSphere(pooledBullets[index].transform.position, 0.25f, bulletLayerMask);
+                    
+                    foreach(Collider c in colliders)
+                    {
+                        pooledTrailRenderers[index].emitting = false;
+                        pooledBullets[index].SetActive(false);
+                        continue;
+                    }
+
+                    pooledBullets[index].transform.position += pooledBullets[index].transform.forward * 0.5f;
                 }
             }
         }
@@ -138,15 +155,11 @@ public class BasicEnemyAi : MonoBehaviour
 
     void FireBulletPool()
     {
-        for (int index=0; index<pooledBullets.Length; index++)
-        {
-            if (!pooledBullets[index].activeSelf) { 
-                pooledBullets[index].transform.position = gunTransform.position;
-                pooledBullets[index].transform.rotation = gunTransform.rotation;
-                pooledTrailRenderers[index].emitting = true;
-                pooledBullets[index].SetActive(true);
-                break;
-            }
-        }
+        pooledBullets[pooledBulletsIndex].transform.position = gunTransform.position;
+        pooledBullets[pooledBulletsIndex].transform.LookAt(playerTransform);
+        pooledBullets[pooledBulletsIndex].SetActive(true);
+        pooledTrailRenderers[pooledBulletsIndex].emitting = true;
+        if (pooledBulletsIndex == pooledBullets.Length - 1) pooledBulletsIndex = 0;
+        else pooledBulletsIndex++;
     }
 }

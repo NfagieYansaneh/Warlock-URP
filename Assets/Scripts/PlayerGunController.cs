@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 [RequireComponent(typeof(PlayerAnimController), typeof(InventoryObject))]
 public class PlayerGunController : MonoBehaviour
@@ -32,6 +33,7 @@ public class PlayerGunController : MonoBehaviour
     // Handles mouse keys
     private void Update()
     {
+
         // switches gun based on scroll wheel
         if (keyboard.Keys.mouseScroll != 0f)
         {
@@ -60,7 +62,30 @@ public class PlayerGunController : MonoBehaviour
 
             // Optimize later
             ///Debug.Log(inventory.curGunIndex);
-        } 
+        }
+
+
+        // Quick test on bullet travel
+        for (int index = 0; index < inventory.guns[inventory.curGunIndex].pooledBullets.Length; index++)
+        {
+           // if(!inventory.guns[inventory.curGunIndex].pooledBullets[index].activeSelf)
+           // inventory.guns[inventory.curGunIndex].FireRaycast();
+
+            if (inventory.guns[inventory.curGunIndex].pooledBullets[index].activeSelf)
+            {
+                Collider[] colliders = Physics.OverlapSphere(inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.position, 0.2f, inventory.guns[inventory.curGunIndex].bulletLayerMask);
+
+                foreach (Collider c in colliders)
+                {
+                    Debug.LogError("IMPACT {" + index + "}");
+                    inventory.guns[inventory.curGunIndex].pooledTrailRenderers[index].emitting = false;
+                    inventory.guns[inventory.curGunIndex].pooledBullets[index].SetActive(false);
+                    continue;
+                }
+
+                inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.position += inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.forward * 0.65f;
+            }
+        }
 
         // fires gun if we left click
 
@@ -118,7 +143,7 @@ public class PlayerGunController : MonoBehaviour
             AnimController.Trigger((int)AnimParams.MouseScroll, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
 
             objectToPool = Instantiate(inventory.guns[index].gunModel, gunPlacemant.position,
-                gunPlacemant.transform.rotation * Quaternion.Euler(inventory.guns[index].rotationOffset), gunPlacemant);
+                gunPlacemant.transform.rotation, gunPlacemant);
 
             pooledObjects[index] = objectToPool;
             inventory.guns[index].Created(objectToPool, cameraTransform);
@@ -132,7 +157,16 @@ public class PlayerGunController : MonoBehaviour
         {
             if (inventory.guns[i] != inventory.nullGun)
             {
-                if (i != index) pooledObjects[i].SetActive(false);
+                if (i != index)
+                {
+                    pooledObjects[i].SetActive(false);
+                    for(int x=0; x<inventory.guns[i].pooledBullets.Length; x++)
+                    {
+                        inventory.guns[i].pooledBullets[x].SetActive(false);
+                        inventory.guns[i].pooledTrailRenderers[x].emitting = false;
+                    }
+                    
+                }
                 else pooledObjects[i].SetActive(true);
             }
         }

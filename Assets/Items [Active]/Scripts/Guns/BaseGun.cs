@@ -22,10 +22,21 @@ public class BaseGun : ScriptableObject
     public enum gunAnimations{ null_animations=-1, glock18c_animations };
     public gunAnimations animIndex;
 
+    public GameObject realGunModel; // Rename this like wtf
+
     public GameObject gunModel;
-    public Vector3 transformOffset;
-    public Vector3 barrelEndOffset;
-    public Vector3 rotationOffset;
+    public Vector3 barrelTransformOffset;
+    [HideInInspector]
+    public Vector3 gunTransform;
+
+    public GameObject bulletPrefab;
+    public LayerMask bulletLayerMask;
+    [HideInInspector]
+    public GameObject[] pooledBullets;
+    [HideInInspector]
+    public TrailRenderer[] pooledTrailRenderers;
+    [HideInInspector]
+    public int pooledBulletsIndex;
 
     public virtual void FireAnim()
     {

@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 94807990}
   - component: {fileID: 94807992}
   - component: {fileID: 94807991}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LobbyRoomID
   m_TagString: AiRoomID
   m_Icon: {fileID: 0}
@@ -914,6 +914,9 @@ MonoBehaviour:
   aiOverseer: {fileID: 2056256294}
   bulletPrefab: {fileID: 8010026597677097610, guid: 70b6cd5ea8ccafd4b9008201ef3eaa7b,
     type: 3}
+  bulletLayerMask:
+    serializedVersion: 2
+    m_Bits: 1537
   pooledBullets:
   - {fileID: 0}
   - {fileID: 0}
@@ -3359,6 +3362,9 @@ MonoBehaviour:
   aiOverseer: {fileID: 2056256294}
   bulletPrefab: {fileID: 8010026597677097610, guid: 70b6cd5ea8ccafd4b9008201ef3eaa7b,
     type: 3}
+  bulletLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   pooledBullets:
   - {fileID: 0}
   - {fileID: 0}
@@ -4529,6 +4535,9 @@ MonoBehaviour:
   aiOverseer: {fileID: 2056256294}
   bulletPrefab: {fileID: 8010026597677097610, guid: 70b6cd5ea8ccafd4b9008201ef3eaa7b,
     type: 3}
+  bulletLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   pooledBullets:
   - {fileID: 0}
   - {fileID: 0}

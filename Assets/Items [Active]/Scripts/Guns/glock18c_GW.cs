@@ -29,8 +29,7 @@ public class glock18c_GW : BaseGun
 
     public override void FireRaycast()
     {
-        Vector3 end = fpCamera.position + (fpCamera.forward * range);
-        Debug.DrawLine(fpCamera.position, end, color, 1f);
+        Vector3 end = fpCamera.position + (fpCamera.forward * 100f);
         Ray ray = new Ray(fpCamera.position, end);
         RaycastHit hit;
 
@@ -38,6 +37,13 @@ public class glock18c_GW : BaseGun
         {
             Debug.Log(hit.collider.gameObject.name);
         }
+
+        pooledBullets[pooledBulletsIndex].transform.position = realGunModel.transform.position + barrelTransformOffset;
+        pooledBullets[pooledBulletsIndex].transform.LookAt(end);
+        pooledBullets[pooledBulletsIndex].SetActive(true);
+        pooledTrailRenderers[pooledBulletsIndex].emitting = true;
+        if (pooledBulletsIndex == pooledBullets.Length - 1) pooledBulletsIndex = 0;
+        else pooledBulletsIndex++;
     }
 
     public override void SecondaryFire()
@@ -60,6 +66,19 @@ public class glock18c_GW : BaseGun
     public override void Created(GameObject objectA, Transform transform)
     {
         animator = objectA.GetComponent<Animator>();
+        realGunModel = objectA;
         fpCamera = transform;
+
+        pooledBullets = new GameObject[10];
+        pooledTrailRenderers = new TrailRenderer[10];
+        pooledBulletsIndex = 0;
+
+        for (int index = 0; index < pooledBullets.Length; index++)
+        {
+            pooledBullets[index] = Instantiate(bulletPrefab, Vector3.zero, Quaternion.identity);
+            pooledTrailRenderers[index] = pooledBullets[index].GetComponent<TrailRenderer>();
+            pooledTrailRenderers[index].emitting = false;
+            pooledBullets[index].SetActive(false);
+        }
     }
 }
