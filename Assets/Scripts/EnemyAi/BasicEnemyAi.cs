@@ -118,7 +118,7 @@ public class BasicEnemyAi : MonoBehaviour
             {
                 if (pooledBullets[index].activeSelf)
                 {
-                    Collider[] colliders = Physics.OverlapSphere(pooledBullets[index].transform.position, 0.25f, bulletLayerMask);
+                    Collider[] colliders = Physics.OverlapSphere(pooledBullets[index].transform.position, 0.35f, bulletLayerMask);
                     
                     foreach(Collider c in colliders)
                     {
@@ -127,7 +127,7 @@ public class BasicEnemyAi : MonoBehaviour
                         continue;
                     }
 
-                    pooledBullets[index].transform.position += pooledBullets[index].transform.forward * 0.5f;
+                    pooledBullets[index].transform.position += pooledBullets[index].transform.forward * 0.65f;
                 }
             }
         }

@@ -17,14 +17,16 @@ MonoBehaviour:
   image: {fileID: 0}
   color: {r: 0.9528302, g: 0.27416337, b: 0.9083298, a: 1}
   ammo: 909
-  ammoInMag: 0
+  ammoInMag: 87
   maxAmmoInMag: 12
   range: 5
   fpCamera: {fileID: 0}
   animIndex: 0
+  realGunModel: {fileID: 0}
   gunModel: {fileID: 8069584503068986817, guid: 0a5df67c8fc98134f9f8ee50b3f04184,
     type: 3}
-  barrelTransformOffset: {x: 0, y: 0, z: 0}
+  barrelTransformOffset: {x: -0.27, y: 0.07, z: 0.04}
+  gunTransform: {x: 0, y: 0, z: 0}
   bulletPrefab: {fileID: 1346394175327699000, guid: 0e04d175904c9604ca7718309e20eedb,
     type: 3}
   bulletLayerMask:
@@ -52,6 +54,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  pooledBulletsIndex: 2
+  pooledBulletsIndex: 3
   animator: {fileID: 8069584503068986816, guid: 0a5df67c8fc98134f9f8ee50b3f04184,
     type: 3}

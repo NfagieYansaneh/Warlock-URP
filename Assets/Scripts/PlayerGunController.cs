@@ -28,7 +28,17 @@ public class PlayerGunController : MonoBehaviour
     private void Start()
     {
         AnimController = GetComponent<PlayerAnimController>();
+        //StartCoroutine("DebugShooting");
     }
+
+    /*WaitForSeconds debugTime = new WaitForSeconds(0.05f);
+    IEnumerator DebugShooting()
+    {
+        while (true) { 
+            inventory.guns[inventory.curGunIndex].FireRaycast();
+            yield return debugTime;
+        }
+    }*/
 
     // Handles mouse keys
     private void Update()
@@ -68,12 +78,10 @@ public class PlayerGunController : MonoBehaviour
         // Quick test on bullet travel
         for (int index = 0; index < inventory.guns[inventory.curGunIndex].pooledBullets.Length; index++)
         {
-           //if(!inventory.guns[inventory.curGunIndex].pooledBullets[index].activeSelf)
-           //inventory.guns[inventory.curGunIndex].FireRaycast();
 
             if (inventory.guns[inventory.curGunIndex].pooledBullets[index].activeSelf)
             {
-                Collider[] colliders = Physics.OverlapSphere(inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.position, 0.2f, inventory.guns[inventory.curGunIndex].bulletLayerMask);
+                Collider[] colliders = Physics.OverlapSphere(inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.position, 0.4f, inventory.guns[inventory.curGunIndex].bulletLayerMask);
 
                 foreach (Collider c in colliders)
                 {
