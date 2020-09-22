@@ -13,6 +13,8 @@ public class BaseGun : ScriptableObject
     public int ammo;
     public int ammoInMag;
     public int maxAmmoInMag;
+    [Range(0f, 10f)]
+    public int Damage; // Develop randomness in damage (nah, implement critical shots tbh, but more satisfying)?
 
     [Range(0f, 10f)]
     public float range;
@@ -35,6 +37,8 @@ public class BaseGun : ScriptableObject
     public GameObject[] pooledBullets;
     [HideInInspector]
     public TrailRenderer[] pooledTrailRenderers;
+    [HideInInspector]
+    public Vector3[] pooledTrailEndPositions;
     [HideInInspector]
     public int pooledBulletsIndex;
 

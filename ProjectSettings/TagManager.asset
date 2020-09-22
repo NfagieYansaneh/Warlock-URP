@@ -10,6 +10,7 @@ TagManager:
   - HalfCover
   - FullCover
   - AiRoomID
+  - Enemy
   layers:
   - Default
   - TransparentFX

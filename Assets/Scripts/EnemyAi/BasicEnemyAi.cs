@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(BasicEnemyStatsHandler), typeof(NavMeshAgent))]
 public class BasicEnemyAi : MonoBehaviour
 {
-    // Use scriptable objects to make this simplier
+    // Use scriptable objects to make this simplier!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     public NavMeshAgent navMeshAgent;
     public GameObject navMeshObstacleBubble;

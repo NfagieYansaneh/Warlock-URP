@@ -16,10 +16,11 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   image: {fileID: 0}
   color: {r: 0.9150943, g: 0.13381095, b: 0.13381095, a: 1}
-  ammo: 2147
-  ammoInMag: 12
+  ammo: 1741
+  ammoInMag: 3
   maxAmmoInMag: 17
-  range: 5
+  Damage: 1
+  range: 10
   fpCamera: {fileID: 0}
   animIndex: 0
   realGunModel: {fileID: 0}
@@ -31,7 +32,7 @@ MonoBehaviour:
     type: 3}
   bulletLayerMask:
     serializedVersion: 2
-    m_Bits: 1537
+    m_Bits: 1536
   pooledBullets:
   - {fileID: 0}
   - {fileID: 0}
@@ -54,6 +55,17 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  pooledBulletsIndex: 6
+  pooledTrailEndPositions:
+  - {x: -31.57544, y: -7.343335, z: -82.688255}
+  - {x: -5.000001, y: 0.1213851, z: 7.4694004}
+  - {x: -5.000001, y: 0.63376, z: 11.963899}
+  - {x: -5.0000005, y: 0.77969885, z: 12.697756}
+  - {x: 8.363005, y: 3.8904445, z: -89.235}
+  - {x: 9.4645405, y: 3.1037195, z: -89.18619}
+  - {x: 9.4645405, y: 3.1037195, z: -89.18619}
+  - {x: -13.0926695, y: -2.7755892, z: -87.941246}
+  - {x: 3.4856515, y: -0.23186934, z: -89.36893}
+  - {x: 3.6792502, y: -0.03828168, z: -89.37193}
+  pooledBulletsIndex: 4
   animator: {fileID: 4364907397418924086, guid: 4b9de2a7dac86b845b4a287b840f850b,
     type: 3}

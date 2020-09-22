@@ -19,19 +19,20 @@ MonoBehaviour:
   ammo: 909
   ammoInMag: 87
   maxAmmoInMag: 12
-  range: 5
+  Damage: 1
+  range: 10
   fpCamera: {fileID: 0}
   animIndex: 0
   realGunModel: {fileID: 0}
   gunModel: {fileID: 8069584503068986817, guid: 0a5df67c8fc98134f9f8ee50b3f04184,
     type: 3}
-  barrelTransformOffset: {x: -0.27, y: 0.07, z: 0.04}
+  barrelTransformOffset: {x: 0.56, y: 0.38, z: 0.12}
   gunTransform: {x: 0, y: 0, z: 0}
   bulletPrefab: {fileID: 1346394175327699000, guid: 0e04d175904c9604ca7718309e20eedb,
     type: 3}
   bulletLayerMask:
     serializedVersion: 2
-    m_Bits: 1537
+    m_Bits: 1536
   pooledBullets:
   - {fileID: 0}
   - {fileID: 0}
@@ -54,6 +55,17 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  pooledBulletsIndex: 3
+  pooledTrailEndPositions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  pooledBulletsIndex: 0
   animator: {fileID: 8069584503068986816, guid: 0a5df67c8fc98134f9f8ee50b3f04184,
     type: 3}

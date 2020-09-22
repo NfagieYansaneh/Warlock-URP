@@ -81,7 +81,7 @@ public class PlayerGunController : MonoBehaviour
 
             if (inventory.guns[inventory.curGunIndex].pooledBullets[index].activeSelf)
             {
-                Collider[] colliders = Physics.OverlapSphere(inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.position, 0.4f, inventory.guns[inventory.curGunIndex].bulletLayerMask);
+                /*Collider[] colliders = Physics.OverlapSphere(inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.position, 0.1f, inventory.guns[inventory.curGunIndex].bulletLayerMask);
 
                 foreach (Collider c in colliders)
                 {
@@ -89,9 +89,17 @@ public class PlayerGunController : MonoBehaviour
                     inventory.guns[inventory.curGunIndex].pooledTrailRenderers[index].emitting = false;
                     inventory.guns[inventory.curGunIndex].pooledBullets[index].SetActive(false);
                     continue;
+                }*/
+
+                if(Vector3.Distance(cameraTransform.position, inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.position) >=
+                    Vector3.Distance(cameraTransform.position, inventory.guns[inventory.curGunIndex].pooledTrailEndPositions[index]))
+                {
+                    inventory.guns[inventory.curGunIndex].pooledTrailRenderers[index].emitting = false;
+                    inventory.guns[inventory.curGunIndex].pooledBullets[index].SetActive(false);
+                    continue;
                 }
 
-                inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.position += inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.forward * 0.65f;
+                inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.position += inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.forward * 0.8f;
             }
         }
 

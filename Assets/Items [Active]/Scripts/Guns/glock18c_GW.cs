@@ -29,14 +29,26 @@ public class glock18c_GW : BaseGun
 
     public override void FireRaycast()
     {
-        Vector3 end = fpCamera.position + (fpCamera.forward * 100f);
+        Vector3 end = fpCamera.position + (fpCamera.forward * 50f);
         Ray ray = new Ray(fpCamera.position, end);
         RaycastHit hit;
 
-        if(Physics.Raycast(ray, out hit, range))
+        if (Physics.Raycast(ray, out hit, range, bulletLayerMask)) // Optimize with a layer mask & make distance short as needed
         {
-            Debug.Log(hit.collider.gameObject.name);
+            if(hit.collider.tag == "Enemy")
+            {
+                hit.collider.gameObject.GetComponent<BasicEnemyStatsHandler>().health -= Damage;
+                if(hit.collider.gameObject.GetComponent<BasicEnemyStatsHandler>().health < 0)
+                {
+                    hit.collider.gameObject.SetActive(false);
+                }
+            }
+
+            pooledTrailEndPositions[pooledBulletsIndex] = hit.point;
         }
+        else pooledTrailEndPositions[pooledBulletsIndex] = end;
+
+
 
         pooledBullets[pooledBulletsIndex].transform.position = realGunModel.transform.position +
             (realGunModel.transform.forward * barrelTransformOffset.z) + (realGunModel.transform.up * barrelTransformOffset.y) + (realGunModel.transform.right * barrelTransformOffset.x);
@@ -73,6 +85,8 @@ public class glock18c_GW : BaseGun
 
         pooledBullets = new GameObject[10];
         pooledTrailRenderers = new TrailRenderer[10];
+        pooledTrailEndPositions = new Vector3[10];
+
         pooledBulletsIndex = 0;
 
         for (int index = 0; index < pooledBullets.Length; index++)
