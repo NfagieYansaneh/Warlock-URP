@@ -38,7 +38,9 @@ public class glock18c_GW : BaseGun
             Debug.Log(hit.collider.gameObject.name);
         }
 
-        pooledBullets[pooledBulletsIndex].transform.position = realGunModel.transform.position + barrelTransformOffset;
+        pooledBullets[pooledBulletsIndex].transform.position = realGunModel.transform.position +
+            (realGunModel.transform.forward * barrelTransformOffset.z) + (realGunModel.transform.up * barrelTransformOffset.y) + (realGunModel.transform.right * barrelTransformOffset.x);
+
         pooledBullets[pooledBulletsIndex].transform.LookAt(end);
         pooledBullets[pooledBulletsIndex].SetActive(true);
         pooledTrailRenderers[pooledBulletsIndex].emitting = true;

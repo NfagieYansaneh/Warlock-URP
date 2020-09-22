@@ -68,8 +68,8 @@ public class PlayerGunController : MonoBehaviour
         // Quick test on bullet travel
         for (int index = 0; index < inventory.guns[inventory.curGunIndex].pooledBullets.Length; index++)
         {
-           // if(!inventory.guns[inventory.curGunIndex].pooledBullets[index].activeSelf)
-           // inventory.guns[inventory.curGunIndex].FireRaycast();
+           //if(!inventory.guns[inventory.curGunIndex].pooledBullets[index].activeSelf)
+           //inventory.guns[inventory.curGunIndex].FireRaycast();
 
             if (inventory.guns[inventory.curGunIndex].pooledBullets[index].activeSelf)
             {
@@ -77,7 +77,7 @@ public class PlayerGunController : MonoBehaviour
 
                 foreach (Collider c in colliders)
                 {
-                    Debug.LogError("IMPACT {" + index + "}");
+                    //Debug.LogError("IMPACT {" + index + "}");
                     inventory.guns[inventory.curGunIndex].pooledTrailRenderers[index].emitting = false;
                     inventory.guns[inventory.curGunIndex].pooledBullets[index].SetActive(false);
                     continue;

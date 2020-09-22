@@ -16,8 +16,8 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   image: {fileID: 0}
   color: {r: 0.9150943, g: 0.13381095, b: 0.13381095, a: 1}
-  ammo: 618
-  ammoInMag: 7
+  ammo: 117
+  ammoInMag: -129
   maxAmmoInMag: 17
   range: 5
   fpCamera: {fileID: 0}
@@ -25,7 +25,7 @@ MonoBehaviour:
   realGunModel: {fileID: 0}
   gunModel: {fileID: 4364907397418924087, guid: 4b9de2a7dac86b845b4a287b840f850b,
     type: 3}
-  barrelTransformOffset: {x: -0.6, y: 0.19, z: 0.28}
+  barrelTransformOffset: {x: 0.01, y: 0.35, z: -0.09}
   gunTransform: {x: 1.2920506, y: 2.4505496, z: 3.0411046}
   bulletPrefab: {fileID: 1346394175327699000, guid: 0e04d175904c9604ca7718309e20eedb,
     type: 3}
@@ -54,6 +54,5 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  pooledBulletsIndex: 7
-  animator: {fileID: 4364907397418924086, guid: 4b9de2a7dac86b845b4a287b840f850b,
-    type: 3}
+  pooledBulletsIndex: 9
+  animator: {fileID: 0}
