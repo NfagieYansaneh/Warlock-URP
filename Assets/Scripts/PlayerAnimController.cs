@@ -11,6 +11,7 @@ public enum AnimLayer { allLayers=-1, leftArm, rightArm };
 
 public class PlayerAnimController : MonoBehaviour
 {
+    
     // *** Public variables ****
     [Header("External Interactions")]
     [Tooltip("Allows communication to animation graph to trigger animations")]

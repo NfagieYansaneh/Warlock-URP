@@ -37,11 +37,12 @@ public class glock18c_GW : BaseGun
         {
             if(hit.collider.tag == "Enemy")
             {
-                hit.collider.gameObject.GetComponent<BasicEnemyStatsHandler>().health -= Damage;
+                hit.collider.gameObject.GetComponent<GenericEnemyHandler>().testCall();
+                /*hit.collider.gameObject.GetComponent<BasicEnemyStatsHandler>().health -= Damage;
                 if(hit.collider.gameObject.GetComponent<BasicEnemyStatsHandler>().health < 0)
                 {
                     hit.collider.gameObject.SetActive(false);
-                }
+                }*/
             }
 
             pooledTrailEndPositions[pooledBulletsIndex] = hit.point;

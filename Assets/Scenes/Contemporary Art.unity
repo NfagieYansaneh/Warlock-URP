@@ -570,7 +570,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7, y: 7}
+  m_SizeDelta: {x: 5, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &230697079
 MonoBehaviour:
@@ -954,9 +954,9 @@ GameObject:
   - component: {fileID: 354461465}
   - component: {fileID: 354461464}
   - component: {fileID: 354461463}
+  - component: {fileID: 354461468}
   - component: {fileID: 354461462}
   - component: {fileID: 354461467}
-  - component: {fileID: 354461468}
   m_Layer: 10
   m_Name: Capsule (2)
   m_TagString: Enemy
@@ -973,70 +973,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 354461461}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fea51ee4f97a0d240b33ce845536d5bc, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a92f481a994a5746af24b079b9ed7c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 354461463}
-  navMeshObstacleBubble: {fileID: 0}
-  gunTransform: {fileID: 569215619}
-  containerTransform: {fileID: 709478732}
-  playerTransform: {fileID: 471387837}
-  detectionAngle: 60
-  detectionRange: 4
-  requestCoverChance: 0
-  requestChaseChance: 0
-  requestDistanceChance: 1
-  bubbleRadius: 0
-  roomIndex: 0
-  aiOverseer: {fileID: 2056256294}
-  bulletPrefab: {fileID: 8010026597677097610, guid: 70b6cd5ea8ccafd4b9008201ef3eaa7b,
-    type: 3}
-  bulletLayerMask:
-    serializedVersion: 2
-    m_Bits: 1537
-  pooledBullets:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  pooledTrailRenderers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  pooledBulletsIndex: 0
+  health: 0
 --- !u!195 &354461463
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1131,10 +1071,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 354461461}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0906945aa3c4b7143801944299d80682, type: 3}
+  m_Script: {fileID: 11500000, guid: a7fdf64ade562d841aaa5360e188f558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 2
+  detectionAngle: 60
+  detectionRange: 4
+  requestCoverChance: 0
+  requestChaseChance: 0
+  requestDistanceChance: 1
+  radius: 3
+  navMeshAgent: {fileID: 0}
+  playerTransform: {fileID: 471387837}
+  roomIndex: 0
+  detectPlayerPeriodFloat: 0.15
+  pooledBullets: []
+  pooledTrailRenderers: []
+  poolSize: 10
+  pooledBulletsIndex: 0
+  gunTransform: {fileID: 569215619}
+  containerTransform: {fileID: 709478732}
+  genericEnemyHandler: {fileID: 0}
+  aiOverseer: {fileID: 2056256294}
+  bulletPrefab: {fileID: 8010026597677097610, guid: 70b6cd5ea8ccafd4b9008201ef3eaa7b,
+    type: 3}
+  bulletLayerMask:
+    serializedVersion: 2
+    m_Bits: 513
+  detectedPlayer: 0
 --- !u!136 &354461468
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3347,9 +3310,9 @@ GameObject:
   - component: {fileID: 1099628046}
   - component: {fileID: 1099628045}
   - component: {fileID: 1099628044}
-  - component: {fileID: 1099628048}
-  - component: {fileID: 1099628049}
   - component: {fileID: 1099628050}
+  - component: {fileID: 1099628049}
+  - component: {fileID: 1099628048}
   m_Layer: 10
   m_Name: Capsule
   m_TagString: Enemy
@@ -3451,70 +3414,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 1099628043}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fea51ee4f97a0d240b33ce845536d5bc, type: 3}
+  m_Script: {fileID: 11500000, guid: a7fdf64ade562d841aaa5360e188f558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 1099628044}
-  navMeshObstacleBubble: {fileID: 0}
-  gunTransform: {fileID: 560723428}
-  containerTransform: {fileID: 1436334133}
-  playerTransform: {fileID: 471387837}
   detectionAngle: 60
   detectionRange: 4
   requestCoverChance: 1
   requestChaseChance: 0
   requestDistanceChance: 0
-  bubbleRadius: 0
+  radius: 3
+  navMeshAgent: {fileID: 0}
+  playerTransform: {fileID: 471387837}
   roomIndex: 0
+  detectPlayerPeriodFloat: 0.15
+  pooledBullets: []
+  pooledTrailRenderers: []
+  poolSize: 10
+  pooledBulletsIndex: 0
+  gunTransform: {fileID: 560723428}
+  containerTransform: {fileID: 1436334133}
+  genericEnemyHandler: {fileID: 0}
   aiOverseer: {fileID: 2056256294}
   bulletPrefab: {fileID: 8010026597677097610, guid: 70b6cd5ea8ccafd4b9008201ef3eaa7b,
     type: 3}
   bulletLayerMask:
     serializedVersion: 2
-    m_Bits: 0
-  pooledBullets:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  pooledTrailRenderers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  pooledBulletsIndex: 0
+    m_Bits: 513
+  detectedPlayer: 0
 --- !u!114 &1099628049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3524,10 +3450,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1099628043}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0906945aa3c4b7143801944299d80682, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a92f481a994a5746af24b079b9ed7c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 2
+  health: 0
 --- !u!136 &1099628050
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4635,9 +4561,9 @@ GameObject:
   - component: {fileID: 1669406730}
   - component: {fileID: 1669406729}
   - component: {fileID: 1669406728}
-  - component: {fileID: 1669406727}
-  - component: {fileID: 1669406732}
   - component: {fileID: 1669406733}
+  - component: {fileID: 1669406732}
+  - component: {fileID: 1669406727}
   m_Layer: 10
   m_Name: Capsule (1)
   m_TagString: Enemy
@@ -4654,70 +4580,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 1669406726}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fea51ee4f97a0d240b33ce845536d5bc, type: 3}
+  m_Script: {fileID: 11500000, guid: a7fdf64ade562d841aaa5360e188f558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 1669406728}
-  navMeshObstacleBubble: {fileID: 0}
-  gunTransform: {fileID: 207084127}
-  containerTransform: {fileID: 1500045949}
-  playerTransform: {fileID: 471387837}
   detectionAngle: 60
   detectionRange: 4
   requestCoverChance: 0
   requestChaseChance: 1
   requestDistanceChance: 0
-  bubbleRadius: 0
+  radius: 3
+  navMeshAgent: {fileID: 0}
+  playerTransform: {fileID: 471387837}
   roomIndex: 0
+  detectPlayerPeriodFloat: 0.15
+  pooledBullets: []
+  pooledTrailRenderers: []
+  poolSize: 10
+  pooledBulletsIndex: 0
+  gunTransform: {fileID: 207084127}
+  containerTransform: {fileID: 1500045949}
+  genericEnemyHandler: {fileID: 0}
   aiOverseer: {fileID: 2056256294}
   bulletPrefab: {fileID: 8010026597677097610, guid: 70b6cd5ea8ccafd4b9008201ef3eaa7b,
     type: 3}
   bulletLayerMask:
     serializedVersion: 2
-    m_Bits: 0
-  pooledBullets:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  pooledTrailRenderers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  pooledBulletsIndex: 0
+    m_Bits: 513
+  detectedPlayer: 0
 --- !u!195 &1669406728
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4812,10 +4701,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1669406726}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0906945aa3c4b7143801944299d80682, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a92f481a994a5746af24b079b9ed7c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 2
+  health: 0
 --- !u!136 &1669406733
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5594,7 +5483,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 5, y: 5}
+  m_SizeDelta: {x: 3, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2097806599
 MonoBehaviour:
