@@ -44,6 +44,8 @@ public class AiOverseer : MonoBehaviour
         return Vector3.zero;
     }
 
+    //Random.insideUnitSphere
+
     public Vector3 RequestDistance(Rooms roomIndex, Vector3 otherPosition, float radius)
     {
         Debug.Log("Requested Distance");

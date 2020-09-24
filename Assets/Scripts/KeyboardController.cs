@@ -15,6 +15,9 @@ public class KeyboardController : ScriptableObject
         public int keyS;
         public bool keyR;
 
+        public bool keyF;
+        public bool keyDownF;
+
         public float mouseX;
         public float mouseY;
         
@@ -37,6 +40,9 @@ public class KeyboardController : ScriptableObject
             keyD = Convert.ToInt32(Input.GetKey(KeyCode.D));
             keyW = Convert.ToInt32(Input.GetKey(KeyCode.W));
             keyS = Convert.ToInt32(Input.GetKey(KeyCode.S));
+
+            keyF = Input.GetKey(KeyCode.F);
+
             keyR = Input.GetKeyDown(KeyCode.R);
 
             mouseX = Input.GetAxis("Mouse X");
@@ -52,6 +58,8 @@ public class KeyboardController : ScriptableObject
             spellKeys[1] = Input.GetKeyDown(KeyCode.Alpha2);
             spellKeys[2] = Input.GetKeyDown(KeyCode.Alpha3);
             spellKeys[3] = Input.GetKeyDown(KeyCode.Alpha4);
+
+            keyDownF = Input.GetKeyDown(KeyCode.F);
 
             keyDownCtrl = Input.GetKeyDown(KeyCode.C);
             keyUpCtrl = Input.GetKeyUp(KeyCode.C);

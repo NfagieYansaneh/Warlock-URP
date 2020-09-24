@@ -13,11 +13,13 @@ public class AnimEventsHandler : MonoBehaviour
     public Transform L_wristBone;
 
     public LineRenderer lineRenderer;
+    [Tooltip("Obtains camera camera controller for screen shakes")]
+    public CameraController cameraController;
 
     [Header("Debug : Visualizing spell casts")]
     [Range(10f, 1000f)]
     public float range;
-    public Camera camera;
+    public Camera mainCamera;
 
     public void Start()
     {
@@ -66,10 +68,10 @@ public class AnimEventsHandler : MonoBehaviour
     //Debugging
     public void DefineDebugLine(BaseSpell spell)
     {
-        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
         lineRenderer.SetPosition(0, L_wristBone.position + (L_wristBone.right * 0.25f) + (L_wristBone.up * 0.5f));
-        lineRenderer.SetPosition(1, camera.transform.position + (ray.direction * range));
+        lineRenderer.SetPosition(1, mainCamera.transform.position + (ray.direction * range));
         lineRenderer.material.color = spell.color;
         lineRenderer.startWidth = 0.45f;
         lineRenderer.endWidth = 0.2f;

@@ -22,7 +22,7 @@ public class ArmAnimObserver : ScriptableObject
             if(stateInfo.tagHash == tagHashes[x])
             {
                 animState[layerIndex] = x;
-                Debug.Log("animState[" + layerIndex + "] is " + x);
+                //Debug.Log("animState[" + layerIndex + "] is " + x);
             }
         }
     }

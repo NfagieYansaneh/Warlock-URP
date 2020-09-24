@@ -26,14 +26,14 @@ public class CameraController : MonoBehaviour
     private float mouseY = 0f;
 
     // **** Private interactions ****
-    private Camera camera = null;
+    private Camera mainCamera = null;
 
     // Initializes just a few components...
     void Start()
     {
-        camera = GetComponent<Camera>();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        mainCamera = GetComponent<Camera>();
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
     }
 
     void LateUpdate()

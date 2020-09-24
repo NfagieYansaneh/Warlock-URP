@@ -16,9 +16,7 @@ public class BaseGun : ScriptableObject
     [Range(0f, 10f)]
     public int Damage; // Develop randomness in damage (nah, implement critical shots tbh, but more satisfying)?
 
-    [Range(0f, 10f)]
-    public float range;
-    public Transform fpCamera;
+    public Transform mainCameraTransform;
 
     // animIndex allows me to know which animations this weapon should be using
     public enum gunAnimations{ null_animations=-1, glock18c_animations };
@@ -67,7 +65,7 @@ public class BaseGun : ScriptableObject
 
     }
 
-    public virtual void Created(GameObject objectA, Transform transform)
+    public virtual void Created(GameObject objectA, Transform cameraTransform)
     {
 
     }

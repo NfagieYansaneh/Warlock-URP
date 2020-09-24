@@ -29,32 +29,36 @@ public class glock18c_GW : BaseGun
 
     public override void FireRaycast()
     {
-        Vector3 end = fpCamera.position + (fpCamera.forward * 50f);
-        Ray ray = new Ray(fpCamera.position, end);
+        Vector3 end = mainCameraTransform.position + (mainCameraTransform.forward * 10f);
+        Ray ray = new Ray(mainCameraTransform.position, mainCameraTransform.forward);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, range, bulletLayerMask)) // Optimize with a layer mask & make distance short as needed
+        if (Physics.Raycast(ray, out hit, 200f, bulletLayerMask)) // Optimize with a layer mask & make distance short as needed
         {
-            if(hit.collider.tag == "Enemy")
+            if (hit.collider.tag == "Enemy")
             {
-                hit.collider.gameObject.GetComponent<GenericEnemyHandler>().testCall();
-                /*hit.collider.gameObject.GetComponent<BasicEnemyStatsHandler>().health -= Damage;
-                if(hit.collider.gameObject.GetComponent<BasicEnemyStatsHandler>().health < 0)
-                {
-                    hit.collider.gameObject.SetActive(false);
-                }*/
+                hit.collider.gameObject.GetComponent<GenericEnemyHandler>().Hit(Damage);
             }
 
             pooledTrailEndPositions[pooledBulletsIndex] = hit.point;
         }
-        else pooledTrailEndPositions[pooledBulletsIndex] = end;
+        else
+        {
+            pooledTrailEndPositions[pooledBulletsIndex] = end;
+        }
 
 
 
         pooledBullets[pooledBulletsIndex].transform.position = realGunModel.transform.position +
             (realGunModel.transform.forward * barrelTransformOffset.z) + (realGunModel.transform.up * barrelTransformOffset.y) + (realGunModel.transform.right * barrelTransformOffset.x);
 
-        pooledBullets[pooledBulletsIndex].transform.LookAt(end);
+        if (Physics.Raycast(ray, 5f)) // For when objects are close
+            pooledBullets[pooledBulletsIndex].transform.LookAt(end);
+        else
+        {
+            pooledBullets[pooledBulletsIndex].transform.LookAt(hit.point);
+        }
+
         pooledBullets[pooledBulletsIndex].SetActive(true);
         pooledTrailRenderers[pooledBulletsIndex].emitting = true;
         if (pooledBulletsIndex == pooledBullets.Length - 1) pooledBulletsIndex = 0;
@@ -78,11 +82,11 @@ public class glock18c_GW : BaseGun
         animator.SetTrigger(paramHashes[(int)AnimParams.GunTriggerAnim]);
     }
 
-    public override void Created(GameObject objectA, Transform transform)
+    public override void Created(GameObject objectA, Transform cameraTransform)
     {
         animator = objectA.GetComponent<Animator>();
         realGunModel = objectA;
-        fpCamera = transform;
+        mainCameraTransform = cameraTransform;
 
         pooledBullets = new GameObject[10];
         pooledTrailRenderers = new TrailRenderer[10];

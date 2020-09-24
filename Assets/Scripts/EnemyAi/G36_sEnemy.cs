@@ -54,7 +54,11 @@ public class G36_sEnemy : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         genericEnemyHandler = GetComponent<GenericEnemyHandler>();
-        genericEnemyHandler.testCall = worked;
+
+        genericEnemyHandler.Die = DeathResponse;
+        genericEnemyHandler.Hit = HitResponse;
+
+        detectPlayerPeriod = new WaitForSeconds(detectPlayerPeriodFloat);
 
         InitBulletPool();
         StartCoroutine("DetectPlayer");
@@ -75,9 +79,18 @@ public class G36_sEnemy : MonoBehaviour
         }
     }
 
-    public void worked()
+    public void HitResponse(int damage)
     {
-        Debug.Log("test Call has been called");
+        genericEnemyHandler.health -= damage;
+        if(genericEnemyHandler.health < 0)
+        {
+            DeathResponse();
+        }
+    }
+
+    public void DeathResponse()
+    {
+        gameObject.SetActive(false);
     }
 
     WaitForSeconds x = new WaitForSeconds(0.65f);

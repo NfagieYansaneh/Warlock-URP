@@ -71,26 +71,14 @@ public class PlayerGunController : MonoBehaviour
             }
 
             // Optimize later
-            ///Debug.Log(inventory.curGunIndex);
         }
 
-
-        // Quick test on bullet travel
+        // This is for bullet travel for player's guns
         for (int index = 0; index < inventory.guns[inventory.curGunIndex].pooledBullets.Length; index++)
         {
 
             if (inventory.guns[inventory.curGunIndex].pooledBullets[index].activeSelf)
             {
-                /*Collider[] colliders = Physics.OverlapSphere(inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.position, 0.1f, inventory.guns[inventory.curGunIndex].bulletLayerMask);
-
-                foreach (Collider c in colliders)
-                {
-                    //Debug.LogError("IMPACT {" + index + "}");
-                    inventory.guns[inventory.curGunIndex].pooledTrailRenderers[index].emitting = false;
-                    inventory.guns[inventory.curGunIndex].pooledBullets[index].SetActive(false);
-                    continue;
-                }*/
-
                 if(Vector3.Distance(cameraTransform.position, inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.position) >=
                     Vector3.Distance(cameraTransform.position, inventory.guns[inventory.curGunIndex].pooledTrailEndPositions[index]))
                 {
@@ -99,12 +87,11 @@ public class PlayerGunController : MonoBehaviour
                     continue;
                 }
 
-                inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.position += inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.forward * 0.8f;
+                inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.position += inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.forward * 1.5f;
             }
         }
 
         // fires gun if we left click
-
         if (keyboard.Keys.mouse1)
         {
             if (inventory.guns[inventory.curGunIndex] != inventory.nullGun && inventory.guns[inventory.curGunIndex].ammoInMag > 0)
@@ -150,6 +137,7 @@ public class PlayerGunController : MonoBehaviour
         }
     }
     
+    // for adding guns
     public void UpdateGuns(int index)
     {
         if (inventory.guns[index] != inventory.nullGun)
@@ -165,8 +153,9 @@ public class PlayerGunController : MonoBehaviour
             inventory.guns[index].Created(objectToPool, cameraTransform);
             UpdateDisplayedGuns(index);
         }
-    }
+    } 
 
+    // for switching guns
     public void UpdateDisplayedGuns(int index)
     {
         for(int i=0; i<pooledObjects.Length; i++)
@@ -194,10 +183,12 @@ public class PlayerGunController : MonoBehaviour
     {
         inventory.guns[index].FireAnim();
     }
+
     public void CastADS(int index)
     {
         inventory.guns[index].ADS();
     }
+
     public void CastAlternate(int index)
     {
         var gun = inventory.guns[index];

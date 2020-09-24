@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
     public Transform lowestPoint;
     [Tooltip("Ground layer that is used to determine whether we have fallen unto an object that can be deemed as 'ground', thus, resulting in our object becoming grounded")]
     public LayerMask groundLayer;
+    [Tooltip("Interact layer is used when determining wether we are trying to interact with an interactable object")]
+    public LayerMask interactLayer;
     [Space(10)]
 
     [Header("External Interactions")]
@@ -34,6 +36,8 @@ public class PlayerController : MonoBehaviour
     public InventoryObject inventory;
     [Tooltip("Obtains keyboard input")]
     public KeyboardController keyboard;
+    [Tooltip("Allows communication with main camera")]
+    public Camera mainCamera;
 
     // **** Private variables ****
     [HideInInspector]
@@ -128,6 +132,25 @@ public class PlayerController : MonoBehaviour
         {
             isCroutched = false;
             transform.localScale = new Vector3(1f, 1f, 1f);
+        }
+
+        // Handles interactions with doors and kiosks
+        if (keyboard.Keys.keyDownF)
+        {
+            Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 5f, interactLayer)) {
+                switch (hit.collider.gameObject.tag)
+                {
+                    case "Kiosk":
+                        Debug.Log("Interacted with a kiosk");
+                        hit.collider.gameObject.GetComponent<KioskWorldspace>().ActivateKiosk();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
         }
     }
 
