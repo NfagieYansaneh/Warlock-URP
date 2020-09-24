@@ -66,6 +66,12 @@ public class PlayerController : MonoBehaviour
     private float boosterTimestamp  = 0f;
     private float dodgeTimestamp    = 0f;
 
+    // for interacting with kiosks
+    private float kioskTimestamp    = 0f;
+    private bool tryingToInteract   = false; // this is for trying to activate an interactable
+    private bool interacting = false; // this is for when interacting with an activated interactable
+    private RaycastHit cachedInteractableHit;
+
     // A list of all contact points due to colliding collision boxes w/ our character. Every FixedUpdate(), 'contactPoints' is cleared
     private List<ContactPoint> contactPoints = new List<ContactPoint>();
     // Maximum slope/step angle that our character can walk up on
@@ -88,7 +94,7 @@ public class PlayerController : MonoBehaviour
         stepMaxAngle    = Mathf.Tan((settings.stepMaxAngle * Mathf.PI) / 180);
     }
 
-    // Get keys, checks keys, then respectively imposings changes unto 'kinematicVelocity' & 'ghostVelocity'
+    // Get keys, checks keys, then respectively imposings changes unto 'kinematicVelocity' & 'ghostVelocity', and interacting with interactable enviroment
     void Update()
     {
         keyboard.Keys.GetKeys();
@@ -143,8 +149,8 @@ public class PlayerController : MonoBehaviour
                 switch (hit.collider.gameObject.tag)
                 {
                     case "Kiosk":
-                        Debug.Log("Interacted with a kiosk");
-                        hit.collider.gameObject.GetComponent<KioskWorldspace>().ActivateKiosk();
+                        kioskTimestamp = Time.time;
+                        tryingToInteract = true;
                         break;
 
                     default:
@@ -152,6 +158,51 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+
+        // For activating interactables
+        if (keyboard.Keys.keyF && tryingToInteract)
+        {
+            if((Time.time - kioskTimestamp) >= settings.kioskActivateDelay)
+            {
+                Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, 5f, interactLayer))
+                {
+                    switch (hit.collider.gameObject.tag)
+                    {
+                        case "Kiosk":
+                            Debug.Log("Interacted with a kiosk");
+                            hit.collider.gameObject.GetComponent<KioskWorldspace>().ActivateKiosk();
+                            tryingToInteract = false;
+                            interacting = true;
+                            cachedInteractableHit = hit;
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
+        } else { tryingToInteract = false; }
+
+        if (keyboard.Keys.mouse1 && interacting)
+        {
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 5f, interactLayer))
+            {
+                if(hit.collider != cachedInteractableHit.collider)
+                {
+                    interacting = false;
+                    cachedInteractableHit.collider.gameObject.GetComponent<KioskWorldspace>().DeactivateKiosk();
+                }
+            } else
+            {
+                interacting = false;
+                cachedInteractableHit.collider.gameObject.GetComponent<KioskWorldspace>().DeactivateKiosk();
+            }
+        }
+
     }
 
     void FixedUpdate()

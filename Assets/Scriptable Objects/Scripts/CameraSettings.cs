@@ -11,6 +11,7 @@ public class CameraSettings : ScriptableObject
     public float rollSpeed;
     public float rollAmplitude;
     public float overlayCameraLag;
+    public float defaultFOV;
     [Space(10)]
 
     [Header("Overlay Camera Settings")]
@@ -19,4 +20,8 @@ public class CameraSettings : ScriptableObject
     public float lerpUpAmplitude;
     public float lerpSideAmplitude;
     public float lerpFwdAmplitude;
+
+    [Header("Kiosk Camera Settings")]
+    public float kioskSensitivity;
+    public float desiredKioskFOV;
 }

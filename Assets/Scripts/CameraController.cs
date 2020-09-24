@@ -14,6 +14,9 @@ public class CameraController : MonoBehaviour
     public KeyboardController keyboard;
     public Transform overlayArms;
 
+    public bool allowCameraMovement;
+    public bool kioskCameraMovement;
+
     // **** Private variables ****
     private float xRotation = 0f;
 
@@ -31,28 +34,41 @@ public class CameraController : MonoBehaviour
     // Initializes just a few components...
     void Start()
     {
+        allowCameraMovement = true;
         mainCamera = GetComponent<Camera>();
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void LateUpdate()
     {
-        mouseX = keyboard.Keys.mouseX * settings.mouseSensitivityX * Time.deltaTime;
-        mouseY = keyboard.Keys.mouseY * settings.mouseSensitivityY * Time.deltaTime;
+        if (allowCameraMovement)
+        {
+            if (kioskCameraMovement) {
+                mouseX = settings.kioskSensitivity * keyboard.Keys.mouseX * settings.mouseSensitivityX * Time.deltaTime;
+                mouseY = settings.kioskSensitivity * keyboard.Keys.mouseY * settings.mouseSensitivityY * Time.deltaTime;
+            } else {
+                mouseX = keyboard.Keys.mouseX * settings.mouseSensitivityX * Time.deltaTime;
+                mouseY = keyboard.Keys.mouseY * settings.mouseSensitivityY * Time.deltaTime;
+            }
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Clamps the x-rotation of our character so we can only look straight up & down
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Clamps the x-rotation of our character so we can only look straight up & down
 
-        // our 'destRoll' is based on the keys we press. Pressing 'A' leans us to the left and pressing 'B' leans us to the right
-        destRoll = settings.rollAmplitude * (keyboard.Keys.keyA - keyboard.Keys.keyD); 
-        curRoll = Mathf.Lerp(curRoll, destRoll, settings.rollSpeed);
+            // our 'destRoll' is based on the keys we press. Pressing 'A' leans us to the left and pressing 'B' leans us to the right
+            destRoll = settings.rollAmplitude * (keyboard.Keys.keyA - keyboard.Keys.keyD);
+            curRoll = Mathf.Lerp(curRoll, destRoll, settings.rollSpeed);
 
-        // Rotates our camera for leaning and looking up & down
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, curRoll);
-        // Rotates our player so we can turn left or right
-        parentPlayer.Rotate(0f, mouseX, 0f);
+            // Rotates our camera for leaning and looking up & down
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, curRoll);
+            // Rotates our player so we can turn left or right
+            parentPlayer.Rotate(0f, mouseX, 0f);
 
-        Debug.DrawRay(transform.position, transform.forward, Color.red, Time.deltaTime); // Debugging
+            if (kioskCameraMovement) {
+                mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, settings.desiredKioskFOV, 0.1f);
+            } else mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, settings.defaultFOV, 0.1f);
+        }
+
+            Debug.DrawRay(transform.position, transform.forward, Color.red, Time.deltaTime); // Debugging
     }
 }

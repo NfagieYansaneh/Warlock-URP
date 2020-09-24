@@ -17,8 +17,11 @@ MonoBehaviour:
   rollSpeed: 0.15
   rollAmplitude: 2
   overlayCameraLag: 2
+  defaultFOV: 60
   lerpSpeed: 0.16
   lerpMax: 0.07
   lerpUpAmplitude: 0.04
   lerpSideAmplitude: 0.04
   lerpFwdAmplitude: 0.08
+  kioskSensitivity: 0.05
+  desiredKioskFOV: 50

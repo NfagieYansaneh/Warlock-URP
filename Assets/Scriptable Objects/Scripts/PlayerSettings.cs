@@ -12,7 +12,7 @@ public class PlayerSettings : ScriptableObject
     public float stepMaxAngle;
     public float slopeMaxAngle;
     public float maxJmps;
-    public float x;
+    public float x; // still trying to come up with a more specific, intuitive name for this variable
     [Range(0f, 1f)]
     public float ghostCollidingFriction;
     [Range(0f, 10f)]
@@ -20,4 +20,6 @@ public class PlayerSettings : ScriptableObject
     [Range(0f, 0.5f)]
     public float boosterInputDelay;
     public float dodgeBoostDelay;
+    [Range(0f, 1f)]
+    public float kioskActivateDelay;
 }
