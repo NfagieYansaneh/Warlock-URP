@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,6 +8,7 @@ public class AiOverseer : MonoBehaviour
 {
     public GameObject[] pooledAiObjects;
     public RoomID[] roomIDs;
+    public Transform playerTransform;
     
     // Start is called before the first frame update
     void Start()
@@ -18,6 +20,33 @@ public class AiOverseer : MonoBehaviour
     void Update()
     {
         //NavMeshBuilder.BuildNavMeshData();
+    }
+    //Random.insideUnitSphere
+
+    public int AppendFormerRogueAiToRoom(Rooms roomIndex, GenericEnemyHandler genericEnemyHandler)
+    {
+        for(int i=0; i< roomIDs[(int)roomIndex].genericEnemyHandlers.Length; i++) { 
+            if(roomIDs[(int)roomIndex].genericEnemyHandlers[i] == null) { 
+                roomIDs[(int)roomIndex].genericEnemyHandlers[i] = genericEnemyHandler;
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    /* Debug Ai Overseer Powers */
+    public void SpawnRandomlyInRoom(Rooms roomIndex)
+    {
+        float rndX = Random.Range(0f, roomIDs[(int)roomIndex].width);
+        float rndZ = Random.Range(0f, roomIDs[(int)roomIndex].length);
+
+        Vector3 position = new Vector3(rndX, 0f, rndZ);
+        GameObject obj = Instantiate(pooledAiObjects[0], position, Quaternion.identity);
+
+        GenericEnemyHandler handler = obj.GetComponentInChildren<GenericEnemyHandler>();
+        handler.aiOverseer = GetComponent<AiOverseer>();
+        handler.playerTransform = playerTransform;
     }
 
     public Vector3 RequestCover(Rooms roomIndex)
@@ -43,8 +72,6 @@ public class AiOverseer : MonoBehaviour
 
         return Vector3.zero;
     }
-
-    //Random.insideUnitSphere
 
     public Vector3 RequestDistance(Rooms roomIndex, Vector3 otherPosition, float radius)
     {

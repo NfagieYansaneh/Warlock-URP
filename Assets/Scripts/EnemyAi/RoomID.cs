@@ -11,8 +11,10 @@ public class RoomID : MonoBehaviour
     [HideInInspector]
     public bool[] halfCoverAvailable;
     public Transform[] fullCoverTransforms;
-    [HideInInspector]
     public bool[] fullCoverAvailable;
+
+    [HideInInspector]
+    public GenericEnemyHandler[] genericEnemyHandlers = new GenericEnemyHandler[10];
 
     BoxCollider boxCollider;
     [HideInInspector]

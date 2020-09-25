@@ -11,6 +11,7 @@ public class KioskWorldspace : MonoBehaviour
     public int screenPointer;
     public CameraController cameraController;
 
+    public AiOverseer aiOverseer;
     private void Start()
     {
         screenPointer = 0;
@@ -42,6 +43,8 @@ public class KioskWorldspace : MonoBehaviour
 
     public void ButtonPressed()
     {
+        Rooms r = Rooms.Lobby;
+        aiOverseer.SpawnRandomlyInRoom(r);
         Debug.Log("Button Pressed!");
     }
 }

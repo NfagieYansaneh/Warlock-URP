@@ -27,8 +27,6 @@ public class G36_sEnemy : MonoBehaviour
 
     [HideInInspector]
     public NavMeshAgent navMeshAgent;
-    public Transform playerTransform;
-    public Rooms roomIndex;
 
     public float detectPlayerPeriodFloat;
     private WaitForSeconds detectPlayerPeriod;
@@ -43,20 +41,24 @@ public class G36_sEnemy : MonoBehaviour
 
     [HideInInspector]
     public GenericEnemyHandler genericEnemyHandler;
-    public AiOverseer aiOverseer;
 
     public GameObject bulletPrefab;
     public LayerMask bulletLayerMask;
 
     public bool detectedPlayer;
 
+    public void Awake()
+    {
+        genericEnemyHandler = GetComponent<GenericEnemyHandler>();
+    }
+
     public void Start()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
         genericEnemyHandler = GetComponent<GenericEnemyHandler>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
 
         genericEnemyHandler.Die = DeathResponse;
-        genericEnemyHandler.Hit = HitResponse;
+        genericEnemyHandler.Hit = HitResponse; 
 
         detectPlayerPeriod = new WaitForSeconds(detectPlayerPeriodFloat);
 
@@ -75,7 +77,7 @@ public class G36_sEnemy : MonoBehaviour
                 a = false;
             }
             CheckAndMoveBullets();
-            transform.LookAt(playerTransform);
+            transform.LookAt(genericEnemyHandler.playerTransform);
         }
     }
 
@@ -111,7 +113,7 @@ public class G36_sEnemy : MonoBehaviour
         {
             // I think i can optimize this into just using Random.value once....
 
-            targetDir = playerTransform.position - transform.position;
+            targetDir = genericEnemyHandler.playerTransform.position - transform.position;
 
             if (Vector3.Angle(targetDir, transform.forward) <= detectionAngle && targetDir.magnitude <= detectionRange)
             {
@@ -153,18 +155,18 @@ public class G36_sEnemy : MonoBehaviour
 
     public void RequestCover()
     {
-        navMeshAgent.SetDestination(aiOverseer.RequestCover(roomIndex));
+        navMeshAgent.SetDestination(genericEnemyHandler.aiOverseer.RequestCover(genericEnemyHandler.roomIndex));
     }
 
     public void RequestChase()
     {
-        navMeshAgent.SetDestination(playerTransform.position);
+        navMeshAgent.SetDestination(genericEnemyHandler.playerTransform.position);
     }
 
     public void RequestDistance()
     {
         FireBulletPool();
-        navMeshAgent.SetDestination(aiOverseer.RequestDistance(roomIndex, playerTransform.position, 2 * radius));
+        navMeshAgent.SetDestination(genericEnemyHandler.aiOverseer.RequestDistance(genericEnemyHandler.roomIndex, genericEnemyHandler.playerTransform.position, 2 * radius));
     }
 
     public void InitBulletPool()
@@ -185,7 +187,7 @@ public class G36_sEnemy : MonoBehaviour
     {
         pooledBullets[pooledBulletsIndex].SetActive(true);
         pooledBullets[pooledBulletsIndex].transform.position = gunTransform.position;
-        pooledBullets[pooledBulletsIndex].transform.LookAt(playerTransform);
+        pooledBullets[pooledBulletsIndex].transform.LookAt(genericEnemyHandler.playerTransform);
         pooledTrailRenderers[pooledBulletsIndex].emitting = true;
         if (pooledBulletsIndex == pooledBullets.Length - 1) pooledBulletsIndex = 0;
         else pooledBulletsIndex++;
@@ -215,8 +217,8 @@ public class G36_sEnemy : MonoBehaviour
     {
         if (other.gameObject.tag == "AiRoomID")
         {
-            roomIndex = other.gameObject.GetComponent<RoomID>().room;
-            Debug.Log(roomIndex);
+            genericEnemyHandler.roomIndex = other.gameObject.GetComponent<RoomID>().room;
+            Debug.Log(genericEnemyHandler.roomIndex);
         }
     }
 }

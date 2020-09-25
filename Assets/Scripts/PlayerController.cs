@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider), typeof(PlayerSpellController))]
 [RequireComponent(typeof(PlayerGunController), typeof(InventoryObject))]
@@ -71,6 +72,7 @@ public class PlayerController : MonoBehaviour
     private bool tryingToInteract   = false; // this is for trying to activate an interactable
     private bool interacting = false; // this is for when interacting with an activated interactable
     private RaycastHit cachedInteractableHit;
+    public Image circularProgressImage; // this is to visual indicate that we are interacting with something
 
     // A list of all contact points due to colliding collision boxes w/ our character. Every FixedUpdate(), 'contactPoints' is cleared
     private List<ContactPoint> contactPoints = new List<ContactPoint>();
@@ -86,6 +88,8 @@ public class PlayerController : MonoBehaviour
     // Initializes just a few components...
     void Awake()
     {
+        circularProgressImage.fillAmount = 0f;
+
         rb              = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
         gunController   = GetComponent<PlayerGunController>();
@@ -162,11 +166,13 @@ public class PlayerController : MonoBehaviour
         // For activating interactables
         if (keyboard.Keys.keyF && tryingToInteract)
         {
-            if((Time.time - kioskTimestamp) >= settings.kioskActivateDelay)
+            circularProgressImage.fillAmount = Mathf.Clamp01(((Time.time - kioskTimestamp) / settings.kioskActivateDelay));
+
+            Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 5f, interactLayer))
             {
-                Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, 5f, interactLayer))
+                if ((Time.time - kioskTimestamp) >= settings.kioskActivateDelay)
                 {
                     switch (hit.collider.gameObject.tag)
                     {
@@ -176,14 +182,15 @@ public class PlayerController : MonoBehaviour
                             tryingToInteract = false;
                             interacting = true;
                             cachedInteractableHit = hit;
+                            circularProgressImage.fillAmount = 0f;
                             break;
 
                         default:
                             break;
                     }
                 }
-            }
-        } else { tryingToInteract = false; }
+            } else { tryingToInteract = false; circularProgressImage.fillAmount = 0f; }
+        } else { tryingToInteract = false; circularProgressImage.fillAmount = 0f; }
 
         if (keyboard.Keys.mouse1 && interacting)
         {

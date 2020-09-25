@@ -6,6 +6,17 @@ using UnityEngine;
 public class GenericEnemyHandler : MonoBehaviour
 {
     public float health;
+    public Rooms roomIndex;
+    [HideInInspector]
+    public int aiNumber;
+    public AiOverseer aiOverseer;
+    public Transform playerTransform;
+    
+    private void Start()
+    {
+        // "this" doesnt work
+        aiNumber = aiOverseer.AppendFormerRogueAiToRoom(roomIndex, this);
+    }
 
     public delegate void deathDelegateFunction ();
     public deathDelegateFunction Die;
