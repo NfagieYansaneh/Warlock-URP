@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum Rooms { Lobby };
+public enum Rooms { Lobby, Opening };
 public class RoomID : MonoBehaviour
 {
     public Rooms room;
@@ -15,14 +15,15 @@ public class RoomID : MonoBehaviour
 
     [HideInInspector]
     public GenericEnemyHandler[] genericEnemyHandlers = new GenericEnemyHandler[10];
+    public bool full = false;
 
-    BoxCollider boxCollider;
-    [HideInInspector]
-    public float[] xzColliderCorners;
-    [HideInInspector]
-    public float width; // x
-    [HideInInspector]
-    public float length; // z
+    public Vector3 topLeft;
+    public Vector3 bottomRight;
+    public BoxCollider boxCollider;
+    public float width;
+    public float length;
+
+    public Transform[] tests = new Transform[2];
 
     // Maybe Optimize Later?
 
@@ -36,18 +37,14 @@ public class RoomID : MonoBehaviour
 
     private void Start()
     {
-        //collider.bounds.contains(playerTransform.position)
-        xzColliderCorners = new float[2];
-
         boxCollider = GetComponent<BoxCollider>();
-        float a = (boxCollider.size.x / 2);
-        float b = (boxCollider.size.z / 2);
-
+        topLeft = new Vector3(transform.position.x + (boxCollider.bounds.size.x / 2), 0f, transform.position.z - (boxCollider.bounds.size.z/2));
+        bottomRight = new Vector3(transform.position.x - (boxCollider.bounds.size.x / 2), 0f, transform.position.z + (boxCollider.bounds.size.z / 2));
         width = boxCollider.size.x;
         length = boxCollider.size.z;
 
-        xzColliderCorners[0] = boxCollider.center.x - a; // x
-
-        xzColliderCorners[1] = boxCollider.center.z - b; // z
+        //tests[0].position = topLeft;
+        //tests[1].position = new Vector3(topLeft.x - width, topLeft.y, topLeft.z);
+        //collider.bounds.contains(playerTransform.position)
     }
 }

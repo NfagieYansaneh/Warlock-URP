@@ -47,4 +47,9 @@ public class KioskWorldspace : MonoBehaviour
         aiOverseer.SpawnRandomlyInRoom(r);
         Debug.Log("Button Pressed!");
     }
+
+    public void OverseerKillAllInLobby()
+    {
+        aiOverseer.KillAllInLobby();
+    }
 }

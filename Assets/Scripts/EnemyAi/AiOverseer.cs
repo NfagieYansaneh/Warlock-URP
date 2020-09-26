@@ -9,6 +9,7 @@ public class AiOverseer : MonoBehaviour
     public GameObject[] pooledAiObjects;
     public RoomID[] roomIDs;
     public Transform playerTransform;
+    public GameObject test;
     
     // Start is called before the first frame update
     void Start()
@@ -38,15 +39,36 @@ public class AiOverseer : MonoBehaviour
     /* Debug Ai Overseer Powers */
     public void SpawnRandomlyInRoom(Rooms roomIndex)
     {
-        float rndX = Random.Range(0f, roomIDs[(int)roomIndex].width);
-        float rndZ = Random.Range(0f, roomIDs[(int)roomIndex].length);
+        if (!roomIDs[(int)roomIndex].full) { 
+            float rndX = Random.Range(0f, roomIDs[(int)roomIndex].width);
+            float rndZ = Random.Range(0f, roomIDs[(int)roomIndex].length);
 
-        Vector3 position = new Vector3(rndX, 0f, rndZ);
-        GameObject obj = Instantiate(pooledAiObjects[0], position, Quaternion.identity);
+            Vector3 position = new Vector3(rndX + roomIDs[(int)roomIndex].transform.position.x, 0f, rndZ + roomIDs[(int)roomIndex].transform.position.z);
+            GameObject obj = Instantiate(pooledAiObjects[0], position, Quaternion.identity);
 
-        GenericEnemyHandler handler = obj.GetComponentInChildren<GenericEnemyHandler>();
-        handler.aiOverseer = GetComponent<AiOverseer>();
-        handler.playerTransform = playerTransform;
+            GenericEnemyHandler handler = obj.GetComponentInChildren<GenericEnemyHandler>();
+            handler.roomIndex = roomIndex;
+            handler.aiOverseer = GetComponent<AiOverseer>();
+            handler.playerTransform = playerTransform;
+
+            if(roomIDs[(int)roomIndex].genericEnemyHandlers[roomIDs[(int)roomIndex].genericEnemyHandlers.Length - 1] != null)
+            {
+                roomIDs[(int)roomIndex].full = true;
+            }
+        }
+
+    }
+    public void KillAllInLobby()
+    {
+        for (int i = 0; i < roomIDs[(int)Rooms.Lobby].genericEnemyHandlers.Length; i++)
+        {
+            if(roomIDs[(int)Rooms.Lobby].genericEnemyHandlers[i] != null) { 
+                Debug.Log("Killied Enemy {"+ roomIDs[(int)Rooms.Lobby].genericEnemyHandlers[i].aiNumber +"} in Lobby");
+                roomIDs[(int)Rooms.Lobby].genericEnemyHandlers[i].Die();
+                roomIDs[(int)Rooms.Lobby].genericEnemyHandlers[i] = null;
+                roomIDs[(int)Rooms.Lobby].full = false;
+            }
+        }
     }
 
     public Vector3 RequestCover(Rooms roomIndex)
@@ -76,21 +98,27 @@ public class AiOverseer : MonoBehaviour
     public Vector3 RequestDistance(Rooms roomIndex, Vector3 otherPosition, float radius)
     {
         Debug.Log("Requested Distance");
+        //2*radius
+        float rndX = Random.Range(0f, roomIDs[(int)roomIndex].width);
+        float rndZ = Random.Range(0f, roomIDs[(int)roomIndex].length);
 
-        float rndX = Random.Range(0f, roomIDs[(int)roomIndex].width - radius);
-        Debug.Log(rndX);
-        if (rndX > Mathf.Abs(otherPosition.x - radius)) rndX += (otherPosition.x + radius - roomIDs[(int)roomIndex].xzColliderCorners[0]) - (otherPosition.x - (otherPosition.x - radius));
+        float posX = rndX + roomIDs[(int)roomIndex].topLeft.x - roomIDs[(int)roomIndex].width;
+        float posZ = rndZ + roomIDs[(int)roomIndex].topLeft.z;
 
-        float rndZ = Random.Range(0f, roomIDs[(int)roomIndex].length - radius);
-        Debug.Log(rndZ);
-        if (rndZ > Mathf.Abs(otherPosition.y - radius)) rndZ += (otherPosition.z + radius - roomIDs[(int)roomIndex].xzColliderCorners[1]) - (otherPosition.z - (otherPosition.z - radius));
+        float a = playerTransform.position.z - roomIDs[(int)roomIndex].topLeft.z - radius;
+        float b = playerTransform.position.x + roomIDs[(int)roomIndex].topLeft.x - radius;
 
-        Vector3 dest = new Vector3(
-                roomIDs[(int)roomIndex].xzColliderCorners[0] + rndX,
-                0f,
-                roomIDs[(int)roomIndex].xzColliderCorners[1] + rndZ
-            );
+        if(rndZ > Mathf.Abs(a) && rndZ < Mathf.Abs(a+2*radius)
+            && rndX > Mathf.Abs(b) && rndX < Mathf.Abs(b+2*radius))
+        {
+            posZ += -a + (playerTransform.position.z + radius - posZ);
+            posX += -b + (playerTransform.position.x + radius - posX);
+        }
 
+        Vector3 dest = new Vector3(posX, 0f, posZ);
+
+        //Vector3 testVector = new Vector3(playerTransform.position.x - roomIDs[(int)roomIndex].topLeft.x - radius, 0f, playerTransform.position.z - roomIDs[(int)roomIndex].topLeft.z - radius);
+        Instantiate(test, dest, Quaternion.identity);
         Debug.Log(dest);
         return dest;
     }

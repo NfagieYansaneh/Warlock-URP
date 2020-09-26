@@ -166,7 +166,7 @@ public class G36_sEnemy : MonoBehaviour
     public void RequestDistance()
     {
         FireBulletPool();
-        navMeshAgent.SetDestination(genericEnemyHandler.aiOverseer.RequestDistance(genericEnemyHandler.roomIndex, genericEnemyHandler.playerTransform.position, 2 * radius));
+        navMeshAgent.SetDestination(genericEnemyHandler.aiOverseer.RequestDistance(genericEnemyHandler.roomIndex, genericEnemyHandler.playerTransform.position, radius));
     }
 
     public void InitBulletPool()
