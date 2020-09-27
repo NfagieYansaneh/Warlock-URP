@@ -9,7 +9,6 @@ public class AiOverseer : MonoBehaviour
     public GameObject[] pooledAiObjects;
     public RoomID[] roomIDs;
     public Transform playerTransform;
-    public GameObject test;
     
     // Start is called before the first frame update
     void Start()
@@ -24,26 +23,51 @@ public class AiOverseer : MonoBehaviour
     }
     //Random.insideUnitSphere
 
-    public int AppendFormerRogueAiToRoom(Rooms roomIndex, GenericEnemyHandler genericEnemyHandler)
+    public void AppendAiToRoom(Rooms roomIndex, GenericEnemyHandler genericEnemyHandler)
     {
-        for(int i=0; i< roomIDs[(int)roomIndex].genericEnemyHandlers.Length; i++) { 
-            if(roomIDs[(int)roomIndex].genericEnemyHandlers[i] == null) { 
+        Debug.Log(roomIndex);
+        for(int i=0; i< roomIDs[(int)roomIndex].genericEnemyHandlers.Length; i++) {
+            if(roomIDs[(int)roomIndex].genericEnemyHandlers[i] == null) { // using null to check just doesn't work at all like wtf
                 roomIDs[(int)roomIndex].genericEnemyHandlers[i] = genericEnemyHandler;
-                return i;
+                genericEnemyHandler.aiNumber = i;
+                genericEnemyHandler.roomIndex = roomIndex;
+                Debug.LogError(roomIndex + " : " + genericEnemyHandler.aiNumber + " : " + roomIDs[(int)roomIndex].genericEnemyHandlers[i]);
+                break;
             }
         }
+    }
 
-        return -1;
+    public void ClearAiFromRoom(Rooms roomIndex, GenericEnemyHandler genericEnemyHandler)
+    {
+        roomIDs[(int)roomIndex].genericEnemyHandlers[genericEnemyHandler.aiNumber] = null;
     }
 
     /* Debug Ai Overseer Powers */
+    public void KillAllInRoom(Rooms roomIndex)
+    {
+        for (int i = 0; i < roomIDs[(int)roomIndex].genericEnemyHandlers.Length; i++)
+        {
+            if (roomIDs[(int)roomIndex].genericEnemyHandlers[i] != null)
+            {
+                Debug.Log("Killied Enemy {" + roomIDs[(int)roomIndex].genericEnemyHandlers[i].aiNumber + "} in Lobby");
+                roomIDs[(int)roomIndex].genericEnemyHandlers[i].Die();
+                roomIDs[(int)roomIndex].genericEnemyHandlers[i] = null;
+                roomIDs[(int)roomIndex].full = false;
+            }
+        }
+    }
+
+    /* Prototype Functions */
     public void SpawnRandomlyInRoom(Rooms roomIndex)
     {
-        if (!roomIDs[(int)roomIndex].full) { 
+        if (!roomIDs[(int)roomIndex].full) {
             float rndX = Random.Range(0f, roomIDs[(int)roomIndex].width);
             float rndZ = Random.Range(0f, roomIDs[(int)roomIndex].length);
 
-            Vector3 position = new Vector3(rndX + roomIDs[(int)roomIndex].transform.position.x, 0f, rndZ + roomIDs[(int)roomIndex].transform.position.z);
+            float posX = rndX + roomIDs[(int)roomIndex].topLeft.x - roomIDs[(int)roomIndex].width;
+            float posZ = rndZ + roomIDs[(int)roomIndex].topLeft.z;
+
+            Vector3 position = new Vector3(posX, 0f, posZ);
             GameObject obj = Instantiate(pooledAiObjects[0], position, Quaternion.identity);
 
             GenericEnemyHandler handler = obj.GetComponentInChildren<GenericEnemyHandler>();
@@ -58,18 +82,31 @@ public class AiOverseer : MonoBehaviour
         }
 
     }
-    public void KillAllInLobby()
+
+    public int MoveAllAiToRoom(Rooms fromRoom, Rooms toRoom) // returns the number of ai moved to the other room
     {
-        for (int i = 0; i < roomIDs[(int)Rooms.Lobby].genericEnemyHandlers.Length; i++)
+        if (roomIDs[(int)toRoom].full) return -1;
+        int numberMoved = 0;
+
+        for (int i = 0; i < roomIDs[(int)fromRoom].genericEnemyHandlers.Length; i++)
         {
-            if(roomIDs[(int)Rooms.Lobby].genericEnemyHandlers[i] != null) { 
-                Debug.Log("Killied Enemy {"+ roomIDs[(int)Rooms.Lobby].genericEnemyHandlers[i].aiNumber +"} in Lobby");
-                roomIDs[(int)Rooms.Lobby].genericEnemyHandlers[i].Die();
-                roomIDs[(int)Rooms.Lobby].genericEnemyHandlers[i] = null;
-                roomIDs[(int)Rooms.Lobby].full = false;
+            if(roomIDs[(int)fromRoom].genericEnemyHandlers[i] != null)
+            {
+                Vector3 position = RequestDistance(toRoom, Vector3.zero, 0f);
+                roomIDs[(int)fromRoom].genericEnemyHandlers[i].Move(position);
+
+                AppendAiToRoom(toRoom, roomIDs[(int)fromRoom].genericEnemyHandlers[i]);
+                ClearAiFromRoom(fromRoom, roomIDs[(int)fromRoom].genericEnemyHandlers[i]);
+                numberMoved++;
+
+                if (roomIDs[(int)toRoom].full) break;
             }
         }
+
+        return numberMoved;
     }
+
+    /* Definitive Functions */
 
     public Vector3 RequestCover(Rooms roomIndex)
     {
@@ -105,21 +142,19 @@ public class AiOverseer : MonoBehaviour
         float posX = rndX + roomIDs[(int)roomIndex].topLeft.x - roomIDs[(int)roomIndex].width;
         float posZ = rndZ + roomIDs[(int)roomIndex].topLeft.z;
 
-        float a = playerTransform.position.z - roomIDs[(int)roomIndex].topLeft.z - radius;
-        float b = playerTransform.position.x + roomIDs[(int)roomIndex].topLeft.x - radius;
+        if (otherPosition != Vector3.zero && radius != 0f) { 
+            float a = playerTransform.position.z - roomIDs[(int)roomIndex].topLeft.z - radius;
+            float b = playerTransform.position.x + roomIDs[(int)roomIndex].topLeft.x - radius;
 
-        if(rndZ > Mathf.Abs(a) && rndZ < Mathf.Abs(a+2*radius)
-            && rndX > Mathf.Abs(b) && rndX < Mathf.Abs(b+2*radius))
-        {
-            posZ += -a + (playerTransform.position.z + radius - posZ);
-            posX += -b + (playerTransform.position.x + radius - posX);
+            if(rndZ > Mathf.Abs(a) && rndZ < Mathf.Abs(a+2*radius)
+                && rndX > Mathf.Abs(b) && rndX < Mathf.Abs(b+2*radius))
+            {
+                posZ += -a + (playerTransform.position.z + radius - posZ);
+                posX += -b + (playerTransform.position.x + radius - posX);
+            }
         }
 
         Vector3 dest = new Vector3(posX, 0f, posZ);
-
-        //Vector3 testVector = new Vector3(playerTransform.position.x - roomIDs[(int)roomIndex].topLeft.x - radius, 0f, playerTransform.position.z - roomIDs[(int)roomIndex].topLeft.z - radius);
-        Instantiate(test, dest, Quaternion.identity);
-        Debug.Log(dest);
         return dest;
     }
 }

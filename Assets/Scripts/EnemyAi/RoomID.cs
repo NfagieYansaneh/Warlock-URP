@@ -13,17 +13,14 @@ public class RoomID : MonoBehaviour
     public Transform[] fullCoverTransforms;
     public bool[] fullCoverAvailable;
 
-    [HideInInspector]
     public GenericEnemyHandler[] genericEnemyHandlers = new GenericEnemyHandler[10];
     public bool full = false;
 
     public Vector3 topLeft;
-    public Vector3 bottomRight;
+    public Vector3 bottomRight; // not really used in anything as of now
     public BoxCollider boxCollider;
     public float width;
     public float length;
-
-    public Transform[] tests = new Transform[2];
 
     // Maybe Optimize Later?
 
@@ -38,13 +35,12 @@ public class RoomID : MonoBehaviour
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider>();
+        //genericEnemyHandlers = new GenericEnemyHandler[10];
+
         topLeft = new Vector3(transform.position.x + (boxCollider.bounds.size.x / 2), 0f, transform.position.z - (boxCollider.bounds.size.z/2));
         bottomRight = new Vector3(transform.position.x - (boxCollider.bounds.size.x / 2), 0f, transform.position.z + (boxCollider.bounds.size.z / 2));
+
         width = boxCollider.size.x;
         length = boxCollider.size.z;
-
-        //tests[0].position = topLeft;
-        //tests[1].position = new Vector3(topLeft.x - width, topLeft.y, topLeft.z);
-        //collider.bounds.contains(playerTransform.position)
     }
 }

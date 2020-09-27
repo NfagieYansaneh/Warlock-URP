@@ -58,7 +58,8 @@ public class G36_sEnemy : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         genericEnemyHandler.Die = DeathResponse;
-        genericEnemyHandler.Hit = HitResponse; 
+        genericEnemyHandler.Hit = HitResponse;
+        genericEnemyHandler.Move = MoveResponse;
 
         detectPlayerPeriod = new WaitForSeconds(detectPlayerPeriodFloat);
 
@@ -81,6 +82,7 @@ public class G36_sEnemy : MonoBehaviour
         }
     }
 
+    /* Generic Enemy Handler responses */
     public void HitResponse(int damage)
     {
         genericEnemyHandler.health -= damage;
@@ -92,7 +94,13 @@ public class G36_sEnemy : MonoBehaviour
 
     public void DeathResponse()
     {
-        gameObject.SetActive(false);
+        genericEnemyHandler.aiOverseer.ClearAiFromRoom(genericEnemyHandler.roomIndex, genericEnemyHandler);
+        containerTransform.gameObject.SetActive(false);
+    }
+
+    public void MoveResponse(Vector3 position)
+    {
+        navMeshAgent.SetDestination(position);
     }
 
     WaitForSeconds x = new WaitForSeconds(0.65f);

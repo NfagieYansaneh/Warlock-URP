@@ -43,13 +43,17 @@ public class KioskWorldspace : MonoBehaviour
 
     public void ButtonPressed()
     {
-        Rooms r = Rooms.Lobby;
-        aiOverseer.SpawnRandomlyInRoom(r);
+        aiOverseer.SpawnRandomlyInRoom(Rooms.Lobby);
         Debug.Log("Button Pressed!");
     }
 
-    public void OverseerKillAllInLobby()
+    public void OverseerKillAllInRoom(int roomIndex)
     {
-        aiOverseer.KillAllInLobby();
+        aiOverseer.KillAllInRoom((Rooms)roomIndex);
+    }
+
+    public void OverseerMoveAllToOpening()
+    {
+        aiOverseer.MoveAllAiToRoom(Rooms.Lobby, Rooms.Opening);
     }
 }

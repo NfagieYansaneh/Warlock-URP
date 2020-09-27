@@ -15,7 +15,7 @@ public class GenericEnemyHandler : MonoBehaviour
     private void Start()
     {
         // "this" doesnt work
-        aiNumber = aiOverseer.AppendFormerRogueAiToRoom(roomIndex, GetComponent<GenericEnemyHandler>());
+        aiOverseer.AppendAiToRoom(roomIndex, GetComponent<GenericEnemyHandler>());
     }
 
     public delegate void deathDelegateFunction ();
@@ -24,6 +24,6 @@ public class GenericEnemyHandler : MonoBehaviour
     public delegate void hitDelegateFunction(int damage);
     public hitDelegateFunction Hit;
 
-    public delegate void moveDelegateFunction();
+    public delegate void moveDelegateFunction(Vector3 position);
     public moveDelegateFunction Move;
 }
