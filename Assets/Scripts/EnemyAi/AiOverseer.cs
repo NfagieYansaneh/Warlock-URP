@@ -21,20 +21,23 @@ public class AiOverseer : MonoBehaviour
     {
         //NavMeshBuilder.BuildNavMeshData();
     }
-    //Random.insideUnitSphere
 
     public void AppendAiToRoom(Rooms roomIndex, GenericEnemyHandler genericEnemyHandler)
     {
+        // Place a check to see if the room is already full
+
         for(int i=0; i< roomIDs[(int)roomIndex].genericEnemyHandlers.Length; i++) {
-            if(roomIDs[(int)roomIndex].genericEnemyHandlers[i] == null) { // using null to check just doesn't work at all like wtf
+
+            if (roomIDs[(int)roomIndex].genericEnemyHandlers[i] == null) {
                 roomIDs[(int)roomIndex].genericEnemyHandlers[i] = genericEnemyHandler;
-                Debug.LogWarning(i + " " + roomIDs[(int)roomIndex].genericEnemyHandlers[i] + " @" + roomIndex);
                 genericEnemyHandler.aiNumber = i;
                 genericEnemyHandler.roomIndex = roomIndex;
-                if (roomIDs[(int)roomIndex].genericEnemyHandlers[i] != null) Debug.LogWarning("This should be working...");
-                break;
+                roomIDs[(int)roomIndex].full = CheckRoomIfFull(roomIndex);
+                return;
             }
         }
+
+        //roomIDs[(int)roomIndex].full = CheckRoomIfFull(roomIndex);
     }
 
     public void ClearAiFromRoom(Rooms roomIndex, int index)
@@ -74,11 +77,6 @@ public class AiOverseer : MonoBehaviour
             handler.roomIndex = roomIndex;
             handler.aiOverseer = GetComponent<AiOverseer>();
             handler.playerTransform = playerTransform;
-
-            if(roomIDs[(int)roomIndex].genericEnemyHandlers[roomIDs[(int)roomIndex].genericEnemyHandlers.Length - 1] != null)
-            {
-                roomIDs[(int)roomIndex].full = true;
-            }
         }
 
     }
@@ -95,6 +93,12 @@ public class AiOverseer : MonoBehaviour
             Debug.Log(i);
             if(roomIDs[(int)fromRoom].genericEnemyHandlers[i] != null)
             {
+                if (roomIDs[(int)toRoom].full)
+                {
+                    roomIDs[(int)fromRoom].full = CheckRoomIfFull(fromRoom);
+                    return numberMoved;
+                }
+
                 Debug.LogError(i + " is not null and... " + roomIDs[(int)fromRoom].genericEnemyHandlers[i]);
                 Vector3 position = RequestDistance(toRoom, Vector3.zero, 0f);
                 roomIDs[(int)fromRoom].genericEnemyHandlers[i].Move(position);
@@ -102,15 +106,25 @@ public class AiOverseer : MonoBehaviour
                 AppendAiToRoom(toRoom, roomIDs[(int)fromRoom].genericEnemyHandlers[i]);
                 ClearAiFromRoom(fromRoom, i);
                 numberMoved++;
-
-                if (roomIDs[(int)toRoom].full) break;
-            } else Debug.Log(i + " is null but... " + roomIDs[(int)fromRoom].genericEnemyHandlers[i]);
+            }
         }
 
+        roomIDs[(int)fromRoom].full = CheckRoomIfFull(fromRoom);
         return numberMoved;
     }
 
     /* Definitive Functions */
+
+    public bool CheckRoomIfFull(Rooms roomIndex)
+    {
+        for(int i=0; i<roomIDs[(int)roomIndex].genericEnemyHandlers.Length; i++)
+        {
+            if (roomIDs[(int)roomIndex].genericEnemyHandlers[i] == null)
+                return false;
+        }
+
+        return true;
+    }
 
     public Vector3 RequestCover(Rooms roomIndex)
     {
