@@ -25,21 +25,21 @@ public class AiOverseer : MonoBehaviour
 
     public void AppendAiToRoom(Rooms roomIndex, GenericEnemyHandler genericEnemyHandler)
     {
-        Debug.Log(roomIndex);
         for(int i=0; i< roomIDs[(int)roomIndex].genericEnemyHandlers.Length; i++) {
             if(roomIDs[(int)roomIndex].genericEnemyHandlers[i] == null) { // using null to check just doesn't work at all like wtf
                 roomIDs[(int)roomIndex].genericEnemyHandlers[i] = genericEnemyHandler;
+                Debug.LogWarning(i + " " + roomIDs[(int)roomIndex].genericEnemyHandlers[i] + " @" + roomIndex);
                 genericEnemyHandler.aiNumber = i;
                 genericEnemyHandler.roomIndex = roomIndex;
-                Debug.LogError(roomIndex + " : " + genericEnemyHandler.aiNumber + " : " + roomIDs[(int)roomIndex].genericEnemyHandlers[i]);
+                if (roomIDs[(int)roomIndex].genericEnemyHandlers[i] != null) Debug.LogWarning("This should be working...");
                 break;
             }
         }
     }
 
-    public void ClearAiFromRoom(Rooms roomIndex, GenericEnemyHandler genericEnemyHandler)
+    public void ClearAiFromRoom(Rooms roomIndex, int index)
     {
-        roomIDs[(int)roomIndex].genericEnemyHandlers[genericEnemyHandler.aiNumber] = null;
+        roomIDs[(int)roomIndex].genericEnemyHandlers[index] = null;
     }
 
     /* Debug Ai Overseer Powers */
@@ -87,20 +87,24 @@ public class AiOverseer : MonoBehaviour
     {
         if (roomIDs[(int)toRoom].full) return -1;
         int numberMoved = 0;
+        
+        //if(roomIDs[(int)fromRoom].genericEnemyHandlers == null) 
 
         for (int i = 0; i < roomIDs[(int)fromRoom].genericEnemyHandlers.Length; i++)
         {
+            Debug.Log(i);
             if(roomIDs[(int)fromRoom].genericEnemyHandlers[i] != null)
             {
+                Debug.LogError(i + " is not null and... " + roomIDs[(int)fromRoom].genericEnemyHandlers[i]);
                 Vector3 position = RequestDistance(toRoom, Vector3.zero, 0f);
                 roomIDs[(int)fromRoom].genericEnemyHandlers[i].Move(position);
 
                 AppendAiToRoom(toRoom, roomIDs[(int)fromRoom].genericEnemyHandlers[i]);
-                ClearAiFromRoom(fromRoom, roomIDs[(int)fromRoom].genericEnemyHandlers[i]);
+                ClearAiFromRoom(fromRoom, i);
                 numberMoved++;
 
                 if (roomIDs[(int)toRoom].full) break;
-            }
+            } else Debug.Log(i + " is null but... " + roomIDs[(int)fromRoom].genericEnemyHandlers[i]);
         }
 
         return numberMoved;

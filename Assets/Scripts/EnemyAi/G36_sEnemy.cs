@@ -94,7 +94,7 @@ public class G36_sEnemy : MonoBehaviour
 
     public void DeathResponse()
     {
-        genericEnemyHandler.aiOverseer.ClearAiFromRoom(genericEnemyHandler.roomIndex, genericEnemyHandler);
+        genericEnemyHandler.aiOverseer.ClearAiFromRoom(genericEnemyHandler.roomIndex, genericEnemyHandler.aiNumber);
         containerTransform.gameObject.SetActive(false);
     }
 
