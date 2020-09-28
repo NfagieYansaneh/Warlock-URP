@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class GenericEnemyHandler : MonoBehaviour
 {
@@ -11,10 +12,12 @@ public class GenericEnemyHandler : MonoBehaviour
     public int aiNumber;
     public AiOverseer aiOverseer;
     public Transform playerTransform;
+    public NavMeshAgent navMeshAgent;
     
     private void Start()
     {
         // "this" doesnt work
+        navMeshAgent = GetComponent<NavMeshAgent>();
         aiOverseer.AppendAiToRoom(roomIndex, GetComponent<GenericEnemyHandler>());
     }
 

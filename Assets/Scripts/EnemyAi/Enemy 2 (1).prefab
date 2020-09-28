@@ -247,6 +247,7 @@ MonoBehaviour:
   roomIndex: 0
   aiNumber: 0
   aiOverseer: {fileID: 0}
+  playerTransform: {fileID: 0}
 --- !u!114 &5413819306659315118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,7 +267,6 @@ MonoBehaviour:
   requestDistanceChance: 1
   radius: 3
   navMeshAgent: {fileID: 0}
-  playerTransform: {fileID: 0}
   detectPlayerPeriodFloat: 0.15
   pooledBullets: []
   pooledTrailRenderers: []
@@ -275,7 +275,6 @@ MonoBehaviour:
   gunTransform: {fileID: 5413819306917059826}
   containerTransform: {fileID: 5413819306656613388}
   genericEnemyHandler: {fileID: 0}
-  aiOverseer: {fileID: 0}
   bulletPrefab: {fileID: 8010026597677097610, guid: 70b6cd5ea8ccafd4b9008201ef3eaa7b,
     type: 3}
   bulletLayerMask:

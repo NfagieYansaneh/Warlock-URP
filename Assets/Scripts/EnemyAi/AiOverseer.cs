@@ -90,7 +90,6 @@ public class AiOverseer : MonoBehaviour
 
         for (int i = 0; i < roomIDs[(int)fromRoom].genericEnemyHandlers.Length; i++)
         {
-            Debug.Log(i);
             if(roomIDs[(int)fromRoom].genericEnemyHandlers[i] != null)
             {
                 if (roomIDs[(int)toRoom].full)
@@ -99,7 +98,6 @@ public class AiOverseer : MonoBehaviour
                     return numberMoved;
                 }
 
-                Debug.LogError(i + " is not null and... " + roomIDs[(int)fromRoom].genericEnemyHandlers[i]);
                 Vector3 position = RequestDistance(toRoom, Vector3.zero, 0f);
                 roomIDs[(int)fromRoom].genericEnemyHandlers[i].Move(position);
 

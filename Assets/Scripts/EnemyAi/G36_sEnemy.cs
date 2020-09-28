@@ -25,9 +25,6 @@ public class G36_sEnemy : MonoBehaviour
     public float requestDistanceChance;
     public float radius;
 
-    [HideInInspector]
-    public NavMeshAgent navMeshAgent;
-
     public float detectPlayerPeriodFloat;
     private WaitForSeconds detectPlayerPeriod;
 
@@ -55,7 +52,6 @@ public class G36_sEnemy : MonoBehaviour
     public void Start()
     {
         genericEnemyHandler = GetComponent<GenericEnemyHandler>();
-        navMeshAgent = GetComponent<NavMeshAgent>();
 
         genericEnemyHandler.Die = DeathResponse;
         genericEnemyHandler.Hit = HitResponse;
@@ -100,7 +96,7 @@ public class G36_sEnemy : MonoBehaviour
 
     public void MoveResponse(Vector3 position)
     {
-        navMeshAgent.SetDestination(position);
+        genericEnemyHandler.navMeshAgent.SetDestination(position);
     }
 
     WaitForSeconds x = new WaitForSeconds(0.65f);
@@ -163,18 +159,18 @@ public class G36_sEnemy : MonoBehaviour
 
     public void RequestCover()
     {
-        navMeshAgent.SetDestination(genericEnemyHandler.aiOverseer.RequestCover(genericEnemyHandler.roomIndex));
+        genericEnemyHandler.navMeshAgent.SetDestination(genericEnemyHandler.aiOverseer.RequestCover(genericEnemyHandler.roomIndex));
     }
 
     public void RequestChase()
     {
-        navMeshAgent.SetDestination(genericEnemyHandler.playerTransform.position);
+        genericEnemyHandler.navMeshAgent.SetDestination(genericEnemyHandler.playerTransform.position);
     }
 
     public void RequestDistance()
     {
         FireBulletPool();
-        navMeshAgent.SetDestination(genericEnemyHandler.aiOverseer.RequestDistance(genericEnemyHandler.roomIndex, genericEnemyHandler.playerTransform.position, radius));
+        genericEnemyHandler.navMeshAgent.SetDestination(genericEnemyHandler.aiOverseer.RequestDistance(genericEnemyHandler.roomIndex, genericEnemyHandler.playerTransform.position, radius));
     }
 
     public void InitBulletPool()

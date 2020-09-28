@@ -7,13 +7,15 @@ public enum Rooms { Lobby, Opening };
 public class RoomID : MonoBehaviour
 {
     public Rooms room;
-    public Transform[] halfCoverTransforms;
-    [HideInInspector]
-    public bool[] halfCoverAvailable;
-    public Transform[] fullCoverTransforms;
-    public bool[] fullCoverAvailable;
+
+    public Transform[]  halfCoverTransforms;
+    public bool[]       halfCoverAvailable;
+
+    public Transform[]  fullCoverTransforms;
+    public bool[]       fullCoverAvailable;
 
     public GenericEnemyHandler[] genericEnemyHandlers = new GenericEnemyHandler[10];
+    public RoomID[] adjacentRooms;
     public bool full = false;
 
     public Vector3 topLeft;
