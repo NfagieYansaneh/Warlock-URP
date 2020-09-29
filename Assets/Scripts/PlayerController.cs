@@ -145,7 +145,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Handles interactions with doors and kiosks
-        if (keyboard.Keys.keyDownF)
+        if (keyboard.Keys.keyDownF && !interacting)
         {
             Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
             RaycastHit hit;

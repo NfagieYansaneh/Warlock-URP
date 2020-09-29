@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum Rooms { Lobby, Opening };
+public enum Rooms { Lobby, Opening, Alleyway };
+public enum NavMeshAreaMask { LobbyMask=3, OpeningMask, AlleywayMask }
+
 public class RoomID : MonoBehaviour
 {
     public Rooms room;
+    public NavMeshAreaMask navMeshAreaMask;
 
     public Transform[]  halfCoverTransforms;
     public bool[]       halfCoverAvailable;
@@ -37,6 +40,7 @@ public class RoomID : MonoBehaviour
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider>();
+        navMeshAreaMask = (NavMeshAreaMask)((int)room + 3);
         //genericEnemyHandlers = new GenericEnemyHandler[10];
 
         topLeft = new Vector3(transform.position.x + (boxCollider.bounds.size.x / 2), 0f, transform.position.z - (boxCollider.bounds.size.z/2));

@@ -111,6 +111,42 @@ public class AiOverseer : MonoBehaviour
         return numberMoved;
     }
 
+    public int FlankRoomThroughRoom(Rooms flankedRoom, Rooms throughRoom, Rooms fromRoom)
+    {
+        if (roomIDs[(int)throughRoom].full) return -1;
+        int numberMoved = 0;
+
+        //if(roomIDs[(int)fromRoom].genericEnemyHandlers == null) 
+
+        for (int i = 0; i < roomIDs[(int)fromRoom].genericEnemyHandlers.Length; i++)
+        {
+            if (roomIDs[(int)fromRoom].genericEnemyHandlers[i] != null)
+            {
+                if (roomIDs[(int)throughRoom].full)
+                {
+                    roomIDs[(int)fromRoom].full = CheckRoomIfFull(fromRoom);
+                    return numberMoved;
+                }
+                int areaMask = ~(1 << (int)roomIDs[(int)flankedRoom].navMeshAreaMask);
+                roomIDs[(int)fromRoom].genericEnemyHandlers[i].navMeshAgent.areaMask &= areaMask;
+
+                Vector3 position = RequestDistance(throughRoom, Vector3.zero, 0f);
+                roomIDs[(int)fromRoom].genericEnemyHandlers[i].Move(position);
+
+                roomIDs[(int)fromRoom].genericEnemyHandlers[i].queuedRoom = throughRoom;
+                roomIDs[(int)fromRoom].genericEnemyHandlers[i].toRoomQueued = flankedRoom;
+                roomIDs[(int)fromRoom].genericEnemyHandlers[i].command = AiOverseerQueuedCommands.Distance;
+                roomIDs[(int)fromRoom].genericEnemyHandlers[i].overseerQueuedCommand = true;
+
+                AppendAiToRoom(throughRoom, roomIDs[(int)fromRoom].genericEnemyHandlers[i]);
+                ClearAiFromRoom(fromRoom, i);
+                numberMoved++;
+            }
+        }
+
+        roomIDs[(int)fromRoom].full = CheckRoomIfFull(fromRoom);
+        return numberMoved;
+    }
     /* Definitive Functions */
 
     public bool CheckRoomIfFull(Rooms roomIndex)

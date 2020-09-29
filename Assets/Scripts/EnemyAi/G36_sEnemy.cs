@@ -56,6 +56,7 @@ public class G36_sEnemy : MonoBehaviour
         genericEnemyHandler.Die = DeathResponse;
         genericEnemyHandler.Hit = HitResponse;
         genericEnemyHandler.Move = MoveResponse;
+        genericEnemyHandler.Chase = RequestChase;
 
         detectPlayerPeriod = new WaitForSeconds(detectPlayerPeriodFloat);
 
@@ -162,7 +163,7 @@ public class G36_sEnemy : MonoBehaviour
         genericEnemyHandler.navMeshAgent.SetDestination(genericEnemyHandler.aiOverseer.RequestCover(genericEnemyHandler.roomIndex));
     }
 
-    public void RequestChase()
+    public void RequestChase() // improper naming since we aren't talking to the aiOverseer
     {
         genericEnemyHandler.navMeshAgent.SetDestination(genericEnemyHandler.playerTransform.position);
     }

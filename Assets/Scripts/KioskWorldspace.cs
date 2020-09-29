@@ -56,4 +56,9 @@ public class KioskWorldspace : MonoBehaviour
     {
         aiOverseer.MoveAllAiToRoom(Rooms.Lobby, Rooms.Opening);
     }
+
+    public void FlankRoomThroughRoomFromRoom()
+    {
+        aiOverseer.FlankRoomThroughRoom(Rooms.Opening, Rooms.Alleyway, Rooms.Lobby);
+    }
 }
