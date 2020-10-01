@@ -39,7 +39,7 @@ public class InventoryObject : ScriptableObject
             if (spells[i] == caseItem)
             {
                 spells[i] = newItem;
-                uiManager.updateSpellDisplay(i);
+                uiManager.UpdateSpellDisplay(i);
                 return i;
             }
         }
@@ -53,7 +53,7 @@ public class InventoryObject : ScriptableObject
             if (guns[i] == caseItem)
             {
                 guns[i] = newItem;
-                uiManager.updateGunDisplay();
+                uiManager.UpdateGunDisplay();
                 return i;
             }
         }
@@ -65,12 +65,12 @@ public class InventoryObject : ScriptableObject
     public void OverrideAtIndex(BaseSpell newItem, int index)
     {
         spells[index] = newItem;
-        uiManager.updateSpellDisplay(index);
+        uiManager.UpdateSpellDisplay(index);
     }
     public void OverrideAtIndex(BaseGun newItem, int index)
     {
         guns[index] = newItem;
-        uiManager.updateGunDisplay();
+        uiManager.UpdateGunDisplay();
     }
 
     public void ForceToPreset()

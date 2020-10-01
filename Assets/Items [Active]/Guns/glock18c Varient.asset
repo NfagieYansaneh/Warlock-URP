@@ -16,12 +16,11 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   image: {fileID: 0}
   color: {r: 0.9528302, g: 0.27416337, b: 0.9083298, a: 1}
-  ammo: 909
-  ammoInMag: 87
+  ammo: 897
+  ammoInMag: 200
   maxAmmoInMag: 12
-  Damage: 1
-  range: 10
-  fpCamera: {fileID: 0}
+  Damage: 2
+  mainCameraTransform: {fileID: 0}
   animIndex: 0
   realGunModel: {fileID: 0}
   gunModel: {fileID: 8069584503068986817, guid: 0a5df67c8fc98134f9f8ee50b3f04184,
@@ -56,16 +55,15 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   pooledTrailEndPositions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  pooledBulletsIndex: 0
-  animator: {fileID: 8069584503068986816, guid: 0a5df67c8fc98134f9f8ee50b3f04184,
-    type: 3}
+  - {x: -4.476965, y: 1.8107384, z: 8.4578495}
+  - {x: -4.445298, y: 1.7941579, z: 8.461242}
+  - {x: -4.3945174, y: 1.6434432, z: 8.429514}
+  - {x: 0.7366953, y: -6.6754e-17, z: 11.812666}
+  - {x: 2.1863108, y: 1.4019954, z: 3.8744347}
+  - {x: 2.591638, y: 1.4168499, z: 3.8723075}
+  - {x: 3.2438607, y: -3.422305e-17, z: 8.736341}
+  - {x: -3.5431526, y: 1.2933582, z: 12.767128}
+  - {x: -3.1371758, y: 1.3086659, z: 12.55362}
+  - {x: -2.9118881, y: 1.2337251, z: 12.605332}
+  pooledBulletsIndex: 3
+  animator: {fileID: 0}

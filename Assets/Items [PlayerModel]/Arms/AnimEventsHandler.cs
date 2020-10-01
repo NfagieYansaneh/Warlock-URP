@@ -35,14 +35,14 @@ public class AnimEventsHandler : MonoBehaviour
         //Debug.LogWarning("Called");
         inventory.guns[inventory.curGunIndex].ammoInMag -= 1;
         inventory.guns[inventory.curGunIndex].FireRaycast();
-        uiManager.updateGunDisplay();
+        uiManager.UpdateGunDisplay();
     }
 
     public void ReloadGun ()
     {
         inventory.guns[inventory.curGunIndex].ammo += inventory.guns[inventory.curGunIndex].ammoInMag - inventory.guns[inventory.curGunIndex].maxAmmoInMag;
         inventory.guns[inventory.curGunIndex].ammoInMag = inventory.guns[inventory.curGunIndex].maxAmmoInMag;
-        uiManager.updateGunDisplay();
+        uiManager.UpdateGunDisplay();
     }
 
     public void SoloHandEvent ()

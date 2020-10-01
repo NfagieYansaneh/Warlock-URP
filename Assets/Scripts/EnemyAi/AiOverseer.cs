@@ -9,6 +9,7 @@ public class AiOverseer : MonoBehaviour
     public GameObject[] pooledAiObjects;
     public RoomID[] roomIDs;
     public Transform playerTransform;
+    public PlayerHealthScoreController playerHealthController; // for dealing damage when appropiate
     
     // Start is called before the first frame update
     void Start()
@@ -160,15 +161,21 @@ public class AiOverseer : MonoBehaviour
         return true;
     }
 
-    public Vector3 RequestCover(Rooms roomIndex)
+    public Transform RequestCover(Rooms roomIndex)
     {
 
         for (int x=0; x<roomIDs[(int)roomIndex].fullCoverTransforms.Length; x++)
         {
             if (roomIDs[(int)roomIndex].fullCoverAvailable[x])
             {
-                roomIDs[(int)roomIndex].fullCoverAvailable[x] = false;
-                return roomIDs[(int)roomIndex].fullCoverTransforms[x].position;
+                Vector3 targetDir = playerTransform.position - roomIDs[(int)roomIndex].fullCoverTransforms[x].position;
+                
+                if(Vector3.Angle(targetDir, roomIDs[(int)roomIndex].fullCoverTransforms[x].forward) >= 70f &&
+                   Vector3.Distance(roomIDs[(int)roomIndex].fullCoverTransforms[x].position, playerTransform.position) >= 1f) // we shoulden't hard code values
+                { 
+                    roomIDs[(int)roomIndex].fullCoverAvailable[x] = false;
+                    return roomIDs[(int)roomIndex].fullCoverTransforms[x];
+                }
             }
         }
 
@@ -176,12 +183,18 @@ public class AiOverseer : MonoBehaviour
         {
             if (roomIDs[(int)roomIndex].halfCoverAvailable[x])
             {
-                roomIDs[(int)roomIndex].halfCoverAvailable[x] = false;
-                return roomIDs[(int)roomIndex].halfCoverTransforms[x].position;
+                Vector3 targetDir = playerTransform.position - roomIDs[(int)roomIndex].halfCoverTransforms[x].position;
+
+                if (Vector3.Angle(targetDir, roomIDs[(int)roomIndex].halfCoverTransforms[x].forward) >= 70f &&
+                    Vector3.Distance(roomIDs[(int)roomIndex].halfCoverTransforms[x].position, playerTransform.position) >= 1f) // we shoulden't hard code values
+                {
+                    roomIDs[(int)roomIndex].halfCoverAvailable[x] = false;
+                    return roomIDs[(int)roomIndex].halfCoverTransforms[x];
+                }
             }
         }
 
-        return Vector3.zero;
+        return null;
     }
 
     public Vector3 RequestDistance(Rooms roomIndex, Vector3 otherPosition, float radius)

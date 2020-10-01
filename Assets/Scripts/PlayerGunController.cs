@@ -176,7 +176,7 @@ public class PlayerGunController : MonoBehaviour
             }
         }
 
-        uiManager.updateGunDisplay();
+        uiManager.UpdateGunDisplay();
     }
 
     public void CastGun(int index)

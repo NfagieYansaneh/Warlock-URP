@@ -10,6 +10,13 @@ public class UiManager : MonoBehaviour
 
     public Image[] invSpellImages = new Image[4];
     public Image[] invGunsImages = new Image[2];
+
+    public Image trueHealthImage;
+    public Image greyHealthImage;
+
+    public Image scoreBarImage;
+    public Text scoreTierText;
+
     public Text[] invGunsTexts = new Text[3];
 
     void Start()
@@ -27,7 +34,7 @@ public class UiManager : MonoBehaviour
         }
     }
 
-    public void updateGunDisplay()
+    public void UpdateGunDisplay()
     {
         BaseGun[] guns = Inventory.guns;
 
@@ -39,9 +46,39 @@ public class UiManager : MonoBehaviour
         invGunsTexts[2].text = Convert.ToString(guns[1 - Inventory.curGunIndex].ammo);
     }
 
-    public void updateSpellDisplay(int x)
+    public void UpdateSpellDisplay(int x)
     {
         invSpellImages[x].color = Inventory.spells[x].color;
+    }
+
+    public void UpdateHealthDisplay(float trueHealth, float greyHealth)
+    {
+        trueHealthImage.rectTransform.localScale = new Vector3(trueHealth / 100f, 1f, 1f);
+        greyHealthImage.rectTransform.localScale = new Vector3(greyHealth / 100f, 1f, 1f);
+    }
+
+    public void UpdateScoreDisplay(float scoreAtTier, int scoreTier)
+    {
+        switch(scoreTier)
+        {
+            case 0:
+                scoreTierText.text = "x0";
+                break;
+
+            case 1:
+                scoreTierText.text = "x1";
+                break;
+
+            case 2:
+                scoreTierText.text = "x2";
+                break;
+
+            case 3:
+                scoreTierText.text = "x3";
+                break;
+        }
+
+        scoreBarImage.rectTransform.localScale = new Vector3(scoreAtTier / 100f, 1f, 1f);
     }
 
     /* IEnumerator updateDisplay()

@@ -25,14 +25,19 @@ public class G36_sEnemy : MonoBehaviour
     public float requestDistanceChance;
     public float radius;
 
+    public bool inCover;
+    public Transform coverPosition;
+
     public float detectPlayerPeriodFloat;
     private WaitForSeconds detectPlayerPeriod;
 
     public GameObject[] pooledBullets;
+    public GenericBulletData[] pooledBulletsData;
     public TrailRenderer[] pooledTrailRenderers;
 
     public int poolSize;
     public int pooledBulletsIndex = 0;
+    public int bulletDamage; // use this instead of hard coding in values
     public Transform gunTransform;
     public Transform containerTransform;
 
@@ -74,6 +79,7 @@ public class G36_sEnemy : MonoBehaviour
                 StartCoroutine("Firing");
                 a = false;
             }
+
             CheckAndMoveBullets();
             transform.LookAt(genericEnemyHandler.playerTransform);
         }
@@ -91,6 +97,8 @@ public class G36_sEnemy : MonoBehaviour
 
     public void DeathResponse()
     {
+        genericEnemyHandler.aiOverseer.playerHealthController.IncreaseGreyHealth(12f); // dont hardcode this, change this later
+        genericEnemyHandler.aiOverseer.playerHealthController.IncreaseScore(24f);
         genericEnemyHandler.aiOverseer.ClearAiFromRoom(genericEnemyHandler.roomIndex, genericEnemyHandler.aiNumber);
         containerTransform.gameObject.SetActive(false);
     }
@@ -126,6 +134,8 @@ public class G36_sEnemy : MonoBehaviour
                 if (Random.value <= requestCoverChance)
                 {
                     RequestCover();
+                    inCover = true;
+                    StartCoroutine("Cover_CheckIfExposed");
                     yield break;
                 }
 
@@ -158,9 +168,30 @@ public class G36_sEnemy : MonoBehaviour
         }
     }
 
+    public IEnumerator Cover_CheckIfExposed()
+    {
+        while (true)
+        {
+            Vector3 targetDir = genericEnemyHandler.playerTransform.position - coverPosition.position;
+            Debug.DrawRay(coverPosition.position, coverPosition.forward, Color.red, 1f);
+            if (Vector3.Angle(targetDir, coverPosition.forward) <= 70f)
+            {
+                Vector3 scatterPosition = coverPosition.position;
+                scatterPosition += coverPosition.forward * 1f; // distance perpendicular to cover position
+                scatterPosition += -targetDir.normalized * 1f; // distance away from player
+                //scatterPosition.y = 0f;
+                genericEnemyHandler.navMeshAgent.SetDestination(scatterPosition);
+                yield break;
+            }
+
+            yield return x;
+        }
+    }
+
     public void RequestCover()
     {
-        genericEnemyHandler.navMeshAgent.SetDestination(genericEnemyHandler.aiOverseer.RequestCover(genericEnemyHandler.roomIndex));
+        coverPosition = genericEnemyHandler.aiOverseer.RequestCover(genericEnemyHandler.roomIndex);
+        genericEnemyHandler.navMeshAgent.SetDestination(coverPosition.position);
     }
 
     public void RequestChase() // improper naming since we aren't talking to the aiOverseer
@@ -177,11 +208,14 @@ public class G36_sEnemy : MonoBehaviour
     public void InitBulletPool()
     {
         pooledBullets = new GameObject[poolSize];
+        pooledBulletsData = new GenericBulletData[poolSize];
         pooledTrailRenderers = new TrailRenderer[poolSize];
 
         for (int index = 0; index < pooledBullets.Length; index++)
         {
             pooledBullets[index] = Instantiate(bulletPrefab, containerTransform);
+            pooledBulletsData[index] = pooledBullets[index].gameObject.GetComponent<GenericBulletData>();
+            pooledBulletsData[index].damage = 8;
             pooledTrailRenderers[index] = pooledBullets[index].GetComponent<TrailRenderer>();
             pooledTrailRenderers[index].emitting = false;
             pooledBullets[index].SetActive(false);
@@ -208,6 +242,8 @@ public class G36_sEnemy : MonoBehaviour
 
                 foreach (Collider c in colliders)
                 {
+                    if (c.CompareTag("Player")) genericEnemyHandler.aiOverseer.playerHealthController.TakeDamage(pooledBulletsData[index].damage);
+
                     pooledTrailRenderers[index].emitting = false;
                     pooledBullets[index].SetActive(false);
                     continue;
@@ -218,7 +254,7 @@ public class G36_sEnemy : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) // re work this
     {
         if (other.gameObject.tag == "AiRoomID")
         {
