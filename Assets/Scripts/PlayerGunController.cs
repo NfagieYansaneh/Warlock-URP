@@ -96,9 +96,9 @@ public class PlayerGunController : MonoBehaviour
         {
             if (inventory.guns[inventory.curGunIndex] != inventory.nullGun && inventory.guns[inventory.curGunIndex].ammoInMag > 0)
             {
-                if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Fire, (int)AnimLayer.rightArm, (int)AnimState.isIdle))
+                if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Fire, (int)AnimLayer.rightArm, (int)AnimState.isIdle, (int)AnimState.isGunFiring))
                 {
-                    AnimController.Trigger((int)AnimParams.GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+                    AnimController.Trigger((int)AnimParams.GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isIdle, (int)AnimState.isGunFiring);
                     inventory.guns[inventory.curGunIndex].FireAnim();
                 }
             }
@@ -106,7 +106,7 @@ public class PlayerGunController : MonoBehaviour
 
         if (keyboard.Keys.keyR)
         {
-            if(inventory.guns[inventory.curGunIndex] != inventory.nullGun)
+            if(inventory.guns[inventory.curGunIndex] != inventory.nullGun && inventory.guns[inventory.curGunIndex].maxAmmoInMag != inventory.guns[inventory.curGunIndex].ammoInMag)
             {
                 Debug.Log("R");
                 if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Reload, (int)AnimLayer.allLayers, (int)AnimState.isIdle))

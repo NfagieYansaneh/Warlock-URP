@@ -19,7 +19,7 @@ public class ArmComboParser : StateMachineBehaviour
 
         animObserver.UpdateAnimState(stateInfo, layerIndex);
         AnimController.SetParameter((int)AnimParams.CastingIndex, AnimController.animations[AnimController.pointer], (int)AnimLayer.allLayers, (int)AnimState.isAny);
-        Debug.Log(AnimController.pointer);
+        //Debug.Log(AnimController.pointer);
         AnimController.pointer++;
     }
 }

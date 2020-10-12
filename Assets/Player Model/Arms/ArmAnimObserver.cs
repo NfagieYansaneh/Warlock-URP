@@ -5,11 +5,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Arm Animation Observer", menuName = "Systems/Arm Animation Observer")]
 public class ArmAnimObserver : ScriptableObject
 {
+
+    public delegate void updateDebugTextIfEnabledDelegateFunction();
+    public updateDebugTextIfEnabledDelegateFunction updateDebugTextIfEnabled;
+
     private readonly static int[] tagHashes =
     {
         Animator.StringToHash("Idle"),
         Animator.StringToHash("Action"),
-        Animator.StringToHash("No_interrupt")
+        Animator.StringToHash("GunFiring"),
+        Animator.StringToHash("NoInterrupt")
     };
 
     [HideInInspector]
@@ -22,7 +27,7 @@ public class ArmAnimObserver : ScriptableObject
             if(stateInfo.tagHash == tagHashes[x])
             {
                 animState[layerIndex] = x;
-                //Debug.Log("animState[" + layerIndex + "] is " + x);
+                updateDebugTextIfEnabled();
             }
         }
     }

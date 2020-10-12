@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbfe9fe87c02742459f93f0218222b65, type: 3}
   m_Name: Arm Animation Observer
   m_EditorClassIdentifier: 
+  debugObservations: 0
+  debugAnimStates: {fileID: 0}
   animState: 0000000000000000

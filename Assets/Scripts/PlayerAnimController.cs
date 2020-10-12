@@ -6,7 +6,7 @@ using UnityEngine;
 
 // Used to easily interact with the stored Hashes for indexing
 public enum AnimParams { LR_Casting, LR_Cast, L_Cast, R_Cast, L_Emote, R_Emote, CastingIndex, EmoteIndex, GunAnimIndex, MouseScroll, GunActionAnimIndex, GunTriggerAnim};
-public enum AnimState { isIdle, isAction, isNo_interrupt, isAny };
+public enum AnimState { isIdle, isAction, isGunFiring, isNoInterrupt, isAny };
 public enum AnimLayer { allLayers=-1, leftArm, rightArm };
 
 public class PlayerAnimController : MonoBehaviour
@@ -40,37 +40,49 @@ public class PlayerAnimController : MonoBehaviour
         Animator.StringToHash("GunTriggerAnim")
     };
 
-    bool CheckStateAtLayer(int layer, int state)
+    bool CheckStateAtLayer(int layer, params int[] states)
     {
-        if (state == (int)AnimState.isAny) return true;
+        if (states[0] == (int)AnimState.isAny) return true;
+
+        // check all layers if they are in any of the states stated in "states"
 
         if (layer == (int)AnimLayer.allLayers)
         {
+            int trueCases = 0;
+
             for (int x = 0; x < 2; x++)
             {
-                if (armAnimObserver.animState[x] != state)
+                foreach (int state in states)
                 {
-                    Debug.Log(armAnimObserver.animState[x] + " != " + state);
-                    return false;
+                    if (armAnimObserver.animState[x] == state)
+                    {
+                        trueCases++;
+                    }
                 }
             }
 
-            return true;
+            if (trueCases == 2)
+                return true;
+            else return false;
         }
 
-        if (armAnimObserver.animState[layer] == state)
+        // check specific layer if state are in any of the states stated in "states"
+
+        foreach (int state in states)
         {
-            return true;
+            if (armAnimObserver.animState[layer] == state)
+                return true;
         }
-        else return false;
+
+        return false;
     }
 
     /* change SetParameter to return bools if it has set the parameter */
 
     // animator.SetBool
-    public bool SetParameter (int parameter, bool value, int layer, int state)
+    public bool SetParameter (int parameter, bool value, int layer, params int[] states)
     {
-        if (!CheckStateAtLayer(layer, state)) // arms are unavailable to do a new animation
+        if (!CheckStateAtLayer(layer, states)) // arms are unavailable to do a new animation
         {
             return false;
         }
@@ -86,9 +98,9 @@ public class PlayerAnimController : MonoBehaviour
     }
 
     // animator.SetInteger
-    public bool SetParameter (int parameter, int value, int layer, int state)
+    public bool SetParameter (int parameter, int value, int layer, params int[] states)
     {
-        if (!CheckStateAtLayer(layer, state)) // arms are unavailable to do a new animation
+        if (!CheckStateAtLayer(layer, states)) // arms are unavailable to do a new animation
         {
             return false;
         }
@@ -116,9 +128,9 @@ public class PlayerAnimController : MonoBehaviour
     }
 
     // animator.SetTrigger
-    public bool Trigger (int parameter, int layer, int state)
+    public bool Trigger (int parameter, int layer, params int[] states)
     {
-        if (!CheckStateAtLayer(layer, state)) // arms are unavailable to do a new animation
+        if (!CheckStateAtLayer(layer, states)) // arms are unavailable to do a new animation
         {
             return false;
         }
