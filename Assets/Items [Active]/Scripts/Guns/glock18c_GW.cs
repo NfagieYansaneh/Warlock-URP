@@ -20,9 +20,9 @@ public class glock18c_GW : BaseGun
         Animator.StringToHash("GunTriggerAnim")
     };
 
-    public override void FireAnim()
+    public override void FireAnim(int animation)
     {
-        animator.SetInteger(paramHashes[(int)AnimParams.GunActionAnimIndex], (int)gunActionAnimations.glock18c_Fire);
+        animator.SetInteger(paramHashes[(int)AnimParams.GunActionAnimIndex], (int)animation);
         animator.SetTrigger(paramHashes[(int)AnimParams.GunTriggerAnim]);
         Debug.Log("Fired glock18c : " + this.name);
     }

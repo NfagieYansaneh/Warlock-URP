@@ -267,7 +267,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.28053033
+      - time: 0.24570446
         functionName: TransitionRightAnimStateTo
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: de951d86c94fd044c88eca21e9601901,
@@ -430,7 +430,30 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.048109964
+        functionName: FireGun
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: de951d86c94fd044c88eca21e9601901,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.24054983
+        functionName: FireGun
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: de951d86c94fd044c88eca21e9601901,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.49379396
+        functionName: TransitionRightAnimStateTo
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 2
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

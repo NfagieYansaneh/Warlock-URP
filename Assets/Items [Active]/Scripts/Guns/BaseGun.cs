@@ -40,7 +40,7 @@ public class BaseGun : ScriptableObject
     [HideInInspector]
     public int pooledBulletsIndex;
 
-    public virtual void FireAnim()
+    public virtual void FireAnim(int animation)
     {
 
     }

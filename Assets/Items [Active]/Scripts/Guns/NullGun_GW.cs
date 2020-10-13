@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Null Gun", menuName = "Item/Active/Gun/Null")]
 public class NullGun_GW : BaseGun
 {
-    public override void FireAnim()
+    public override void FireAnim(int animation)
     {
         Debug.Log("Fired NULL GUN");
     }

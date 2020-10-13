@@ -121,9 +121,8 @@ public class PlayerGunController : MonoBehaviour
             {
                 if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Fire, (int)AnimLayer.rightArm, (int)AnimState.isIdle, (int)AnimState.isInterrupt))
                 {
-                    AnimController.Trigger((int)AnimParams.L_GunTriggerAnim, (int)AnimLayer.leftArm, (int)AnimState.isAny);
                     AnimController.Trigger((int)AnimParams.R_GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isAny);
-                    inventory.guns[inventory.curGunIndex].FireAnim();
+                    inventory.guns[inventory.curGunIndex].FireAnim((int)glock18c_GW.gunActionAnimations.glock18c_Fire);
                 }
             }
         }
@@ -133,10 +132,29 @@ public class PlayerGunController : MonoBehaviour
         {
             if (inventory.guns[inventory.curGunIndex] != inventory.nullGun)
             {
-                if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_ThreeFire, (int)AnimLayer.rightArm, (int)AnimState.isIdle, (int)AnimState.isInterrupt))
+                if (inventory.guns[inventory.curGunIndex].ammoInMag > 3)
                 {
-                    AnimController.Trigger((int)AnimParams.R_GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isAny);
-                    inventory.guns[inventory.curGunIndex].ADS();
+                    if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_ThreeFire, (int)AnimLayer.rightArm, (int)AnimState.isIdle, (int)AnimState.isInterrupt))
+                    {
+                        AnimController.Trigger((int)AnimParams.R_GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isAny);
+                        inventory.guns[inventory.curGunIndex].ADS();
+                    }
+                }
+                else if (inventory.guns[inventory.curGunIndex].ammoInMag == 2)
+                {
+                    if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_TwoFire, (int)AnimLayer.rightArm, (int)AnimState.isIdle, (int)AnimState.isInterrupt))
+                    {
+                        AnimController.Trigger((int)AnimParams.R_GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isAny);
+                        inventory.guns[inventory.curGunIndex].FireAnim((int)glock18c_GW.gunActionAnimations.glock18c_TwoFire);
+                    }
+                }
+                else if (inventory.guns[inventory.curGunIndex].ammoInMag == 1)
+                {
+                    if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Fire, (int)AnimLayer.rightArm, (int)AnimState.isIdle, (int)AnimState.isInterrupt))
+                    {
+                        AnimController.Trigger((int)AnimParams.R_GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isAny);
+                        inventory.guns[inventory.curGunIndex].FireAnim((int)glock18c_GW.gunActionAnimations.glock18c_Fire);
+                    }
                 }
             }
         }
@@ -190,10 +208,10 @@ public class PlayerGunController : MonoBehaviour
         uiManager.UpdateGunDisplay();
     }
 
-    public void CastGun(int index)
+    /*public void CastGun(int index)
     {
         inventory.guns[index].FireAnim();
-    }
+    }*/
 
     public void CastADS(int index)
     {
