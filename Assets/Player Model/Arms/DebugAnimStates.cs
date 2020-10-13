@@ -10,7 +10,7 @@ public class DebugAnimStates : MonoBehaviour
     public ArmAnimObserver armAnimObserver;
     public bool debugObservations;
     
-    private string[] states = { "is idle", "is in action", "is firing gun", "is in an interruptable action" };
+    private string[] states = { "is idle", "is in action", "is in an interruptable action", "is in a non-interruptable action" };
 
     private void Start()
     {

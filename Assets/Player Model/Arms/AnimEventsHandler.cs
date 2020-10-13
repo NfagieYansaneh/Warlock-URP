@@ -11,6 +11,7 @@ public class AnimEventsHandler : MonoBehaviour
 
     //BaseGun curGun;
     public Transform L_wristBone;
+    public ArmAnimObserver armAnimObserver;
 
     public LineRenderer lineRenderer;
     [Tooltip("Obtains camera camera controller for screen shakes")]
@@ -65,6 +66,27 @@ public class AnimEventsHandler : MonoBehaviour
         curSpell = spell;
     }
 
+    public void TransitionLeftAnimStateTo(int newAnimState)
+    {
+        int a = armAnimObserver.animState[0];
+        armAnimObserver.animState[0] = newAnimState;
+        armAnimObserver.updateDebugTextIfEnabled();
+        Debug.Log("Transitioned '" + a + "' to '" + armAnimObserver.animState[0] + "'");
+    }
+
+    public void TransitionRightAnimStateTo(int newAnimState)
+    {
+        int a = armAnimObserver.animState[1];
+        armAnimObserver.animState[1] = newAnimState;
+        armAnimObserver.updateDebugTextIfEnabled();
+        Debug.Log("Transitioned '" + a + "' to '" + armAnimObserver.animState[1] + "'");
+    }
+
+    public void TransitionBothAnimStateTo(int newAnimState)
+    {
+
+    }
+
     //Debugging
     public void DefineDebugLine(BaseSpell spell)
     {
@@ -77,7 +99,6 @@ public class AnimEventsHandler : MonoBehaviour
         lineRenderer.endWidth = 0.2f;
     }
     WaitForSeconds x = new WaitForSeconds(0.1f);
-
     IEnumerator DrawDebugLine()
     {
         for (int i = 0; i < 1; i++)

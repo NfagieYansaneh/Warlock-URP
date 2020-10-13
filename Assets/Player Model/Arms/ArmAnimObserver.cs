@@ -13,8 +13,8 @@ public class ArmAnimObserver : ScriptableObject
     {
         Animator.StringToHash("Idle"),
         Animator.StringToHash("Action"),
-        Animator.StringToHash("GunFiring"),
-        Animator.StringToHash("NoInterrupt")
+        Animator.StringToHash("IsInterrupt"),
+        Animator.StringToHash("NoInterrupt") // These are for animations that should never be interrupted (regardless)
     };
 
     [HideInInspector]

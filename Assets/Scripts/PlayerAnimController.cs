@@ -5,8 +5,8 @@ using UnityEngine;
 // Handles and syncs animations
 
 // Used to easily interact with the stored Hashes for indexing
-public enum AnimParams { LR_Casting, LR_Cast, L_Cast, R_Cast, L_Emote, R_Emote, CastingIndex, EmoteIndex, GunAnimIndex, MouseScroll, GunActionAnimIndex, GunTriggerAnim};
-public enum AnimState { isIdle, isAction, isGunFiring, isNoInterrupt, isAny };
+public enum AnimParams { LR_Casting, LR_Cast, L_Cast, R_Cast, L_Emote, R_Emote, CastingIndex, EmoteIndex, GunAnimIndex, MouseScroll, GunActionAnimIndex, L_GunTriggerAnim, R_GunTriggerAnim };
+public enum AnimState { isIdle, isAction, isInterrupt, isNoInterrupt, isAny };
 public enum AnimLayer { allLayers=-1, leftArm, rightArm };
 
 public class PlayerAnimController : MonoBehaviour
@@ -37,7 +37,8 @@ public class PlayerAnimController : MonoBehaviour
         Animator.StringToHash("GunAnimIndex"),
         Animator.StringToHash("MouseScroll"),
         Animator.StringToHash("GunActionAnimIndex"),
-        Animator.StringToHash("GunTriggerAnim")
+        Animator.StringToHash("L_GunTriggerAnim"),
+        Animator.StringToHash("R_GunTriggerAnim")
     };
 
     bool CheckStateAtLayer(int layer, params int[] states)
@@ -57,6 +58,7 @@ public class PlayerAnimController : MonoBehaviour
                     if (armAnimObserver.animState[x] == state)
                     {
                         trueCases++;
+                        break;
                     }
                 }
             }
@@ -161,8 +163,12 @@ public class PlayerAnimController : MonoBehaviour
                 animator.SetTrigger(paramHashes[(int)AnimParams.MouseScroll]);
                 break;
 
-            case (int)AnimParams.GunTriggerAnim:
-                animator.SetTrigger(paramHashes[(int)AnimParams.GunTriggerAnim]);
+            case (int)AnimParams.L_GunTriggerAnim:
+                animator.SetTrigger(paramHashes[(int)AnimParams.L_GunTriggerAnim]);
+                break;
+
+            case (int)AnimParams.R_GunTriggerAnim:
+                animator.SetTrigger(paramHashes[(int)AnimParams.R_GunTriggerAnim]);
                 break;
         }
 

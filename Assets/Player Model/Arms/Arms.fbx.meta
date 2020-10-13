@@ -267,6 +267,14 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.28053033
+        functionName: TransitionRightAnimStateTo
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: de951d86c94fd044c88eca21e9601901,
+          type: 3}
+        floatParameter: 0
+        intParameter: 2
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -385,6 +393,14 @@ ModelImporter:
           type: 3}
         floatParameter: 0
         intParameter: 0
+        messageOptions: 0
+      - time: 0.58419245
+        functionName: TransitionRightAnimStateTo
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: de951d86c94fd044c88eca21e9601901,
+          type: 3}
+        floatParameter: 0
+        intParameter: 2
         messageOptions: 0
       transformMask: []
       maskType: 3

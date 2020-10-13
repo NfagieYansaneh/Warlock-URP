@@ -91,28 +91,39 @@ public class PlayerGunController : MonoBehaviour
             }
         }
 
+        if (keyboard.Keys.keyR)
+        {
+            // I should be checking if the arms are available first, and then queueing the animations. That would be way more reliable.
+            // I should be checking if the arms are available first, and then queueing the animations. That would be way more reliable.
+            // I should be checking if the arms are available first, and then queueing the animations. That would be way more reliable.
+            // I should be checking if the arms are available first, and then queueing the animations. That would be way more reliable.
+            // I should be checking if the arms are available first, and then queueing the animations. That would be way more reliable.
+            // I should be checking if the arms are available first, and then queueing the animations. That would be way more reliable.
+            // I should be checking if the arms are available first, and then queueing the animations. That would be way more reliable.
+
+            if (inventory.guns[inventory.curGunIndex] != inventory.nullGun && inventory.guns[inventory.curGunIndex].maxAmmoInMag != inventory.guns[inventory.curGunIndex].ammoInMag)
+            {
+                Debug.Log("R");
+                if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Reload, (int)AnimLayer.allLayers, (int)AnimState.isIdle))
+                {
+                    AnimController.Trigger((int)AnimParams.L_GunTriggerAnim, (int)AnimLayer.leftArm, (int)AnimState.isAny);
+                    AnimController.Trigger((int)AnimParams.R_GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isAny);
+                    // try using two different triggers
+                    inventory.guns[inventory.curGunIndex].Reload((int)glock18c_GW.gunActionAnimations.glock18c_Reload);
+                }
+            }
+        }
+
         // fires gun if we left click
         if (keyboard.Keys.mouse1)
         {
             if (inventory.guns[inventory.curGunIndex] != inventory.nullGun && inventory.guns[inventory.curGunIndex].ammoInMag > 0)
             {
-                if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Fire, (int)AnimLayer.rightArm, (int)AnimState.isIdle, (int)AnimState.isGunFiring))
+                if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Fire, (int)AnimLayer.rightArm, (int)AnimState.isIdle, (int)AnimState.isInterrupt))
                 {
-                    AnimController.Trigger((int)AnimParams.GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isIdle, (int)AnimState.isGunFiring);
+                    AnimController.Trigger((int)AnimParams.L_GunTriggerAnim, (int)AnimLayer.leftArm, (int)AnimState.isAny);
+                    AnimController.Trigger((int)AnimParams.R_GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isAny);
                     inventory.guns[inventory.curGunIndex].FireAnim();
-                }
-            }
-        }
-
-        if (keyboard.Keys.keyR)
-        {
-            if(inventory.guns[inventory.curGunIndex] != inventory.nullGun && inventory.guns[inventory.curGunIndex].maxAmmoInMag != inventory.guns[inventory.curGunIndex].ammoInMag)
-            {
-                Debug.Log("R");
-                if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Reload, (int)AnimLayer.allLayers, (int)AnimState.isIdle))
-                {
-                    AnimController.Trigger((int)AnimParams.GunTriggerAnim, (int)AnimLayer.allLayers, (int)AnimState.isIdle);
-                    inventory.guns[inventory.curGunIndex].Reload((int)glock18c_GW.gunActionAnimations.glock18c_Reload);
                 }
             }
         }
@@ -122,9 +133,9 @@ public class PlayerGunController : MonoBehaviour
         {
             if (inventory.guns[inventory.curGunIndex] != inventory.nullGun)
             {
-                if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_ThreeFire, (int)AnimLayer.rightArm, (int)AnimState.isIdle))
+                if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_ThreeFire, (int)AnimLayer.rightArm, (int)AnimState.isIdle, (int)AnimState.isInterrupt))
                 {
-                    AnimController.Trigger((int)AnimParams.GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+                    AnimController.Trigger((int)AnimParams.R_GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isAny);
                     inventory.guns[inventory.curGunIndex].ADS();
                 }
             }
