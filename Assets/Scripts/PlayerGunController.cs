@@ -105,6 +105,7 @@ public class PlayerGunController : MonoBehaviour
             if (inventory.guns[inventory.curGunIndex] != inventory.nullGun && inventory.guns[inventory.curGunIndex].maxAmmoInMag != inventory.guns[inventory.curGunIndex].ammoInMag)
             {
                 Debug.Log("R");
+                // Have another if statement so left arm can't get locked out of reloading.
                 if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Reload, (int)AnimLayer.allLayers, (int)AnimState.isIdle))
                 {
                     AnimController.Trigger((int)AnimParams.L_GunTriggerAnim, (int)AnimLayer.leftArm, (int)AnimState.isAny);

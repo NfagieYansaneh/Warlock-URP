@@ -4728,6 +4728,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: R_GunTriggerAnim
     m_EventTreshold: 0
+  - m_ConditionMode: 7
+    m_ConditionEvent: GunActionAnimIndex
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4746511582384357663}
   m_Solo: 0
