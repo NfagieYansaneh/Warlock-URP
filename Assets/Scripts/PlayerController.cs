@@ -42,60 +42,65 @@ public class PlayerController : MonoBehaviour
 
     // **** Private variables ****
     [HideInInspector]
-    public bool isGrounded         = true;
+    public bool isGrounded = true;
     // 'isGroundWalkable' is for stating whether the ground below is not too steep and wether we can walk on it
-    private bool isGroundWalkable   = true;
+    private bool isGroundWalkable = true;
     // 'groundSlopeCheckHit' is for purely retaining the RaycastHit data from checkGroundSlope() which is used ApplyVectorOnGround() (Used to save computation)
     private RaycastHit groundSlopeCheckHit;
-    private bool isCroutched        = false;
+    private bool isCroutched = false;
 
     // IMPORTANT NOTE, 'isJmping' is only set true in the frame the subject commences a jump or airborne jump. 'isJmping' is not true for the duration of the jump
-    private bool isJmping   = false;
+    private bool isJmping = false;
     // 'jmpSeries' contains the number of jumps we have done in an entire airborne sequence. Is ultilistied for multi jumping
-    private int jmpSeries   = 0;
+    private int jmpSeries = 0;
 
     // 'kinematicVelocity' is the 'snappy' movement the character experiences & 'ghostVelocity' 
     // is the lingering slide or vertical velocity that changes due to gravity experienced when jumping
     [HideInInspector]
-    public Vector3 kinematicVelocity   = Vector3.zero;
+    public Vector3 kinematicVelocity = Vector3.zero;
     [HideInInspector]
-    public Vector3 ghostVelocity       = Vector3.zero;
+    public Vector3 ghostVelocity = Vector3.zero;
     [HideInInspector]
-    public Vector3 velocity             = Vector3.zero;
+    public Vector3 velocity = Vector3.zero;
 
     // 'boosterTimestamp' and 'dodgeTimestamp' are utilised for cooldowns. For how long the cooldowns last are defined in 'PlayerSettings'
-    private float boosterTimestamp  = 0f;
-    private float dodgeTimestamp    = 0f;
+    private float boosterTimestamp = 0f;
+    private float dodgeTimestamp = 0f;
 
-    // for interacting with kiosks
-    private float kioskTimestamp    = 0f;
-    private bool tryingToInteract   = false; // this is for trying to activate an interactable
+    // for interacting with kiosks or buttons
+    private float interactTimestamp = 0f;
+    private float interactDelay = 0f;
+    private bool tryingToInteract = false; // this is for trying to activate an interactable
     private bool interacting = false; // this is for when interacting with an activated interactable
     private RaycastHit cachedInteractableHit;
+
+    enum interactableObjTypes { nothing = -1, kiosk, elevator, gun };
+    private interactableObjTypes interactingObjType = 0; // for classifying with type of object we are interacting with
+
     public Image circularProgressImage; // this is to visual indicate that we are interacting with something
 
     // A list of all contact points due to colliding collision boxes w/ our character. Every FixedUpdate(), 'contactPoints' is cleared
     private List<ContactPoint> contactPoints = new List<ContactPoint>();
     // Maximum slope/step angle that our character can walk up on
     private float slopeMaxAngle = 0f;
-    private float stepMaxAngle  = 0f;
+    private float stepMaxAngle = 0f;
 
     // **** Private interactions **** 
-    private PlayerGunController gunController       = null;
-    private Rigidbody rb                            = null;
-    private CapsuleCollider capsuleCollider         = null;
+    private PlayerGunController gunController = null;
+    private Rigidbody rb = null;
+    private CapsuleCollider capsuleCollider = null;
 
     // Initializes just a few components...
     void Awake()
     {
         circularProgressImage.fillAmount = 0f;
 
-        rb              = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
-        gunController   = GetComponent<PlayerGunController>();
+        gunController = GetComponent<PlayerGunController>();
 
-        slopeMaxAngle   = Mathf.Tan((settings.slopeMaxAngle * Mathf.PI) / 180);
-        stepMaxAngle    = Mathf.Tan((settings.stepMaxAngle * Mathf.PI) / 180);
+        slopeMaxAngle = Mathf.Tan((settings.slopeMaxAngle * Mathf.PI) / 180);
+        stepMaxAngle = Mathf.Tan((settings.stepMaxAngle * Mathf.PI) / 180);
     }
 
     // Get keys, checks keys, then respectively imposings changes unto 'kinematicVelocity' & 'ghostVelocity', and interacting with interactable enviroment
@@ -144,71 +149,7 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(1f, 1f, 1f);
         }
 
-        // Handles interactions with doors and kiosks
-        if (keyboard.Keys.keyDownF && !interacting)
-        {
-            Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 5f, interactLayer)) {
-                switch (hit.collider.gameObject.tag)
-                {
-                    case "Kiosk":
-                        kioskTimestamp = Time.time;
-                        tryingToInteract = true;
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-        }
-
-        // For activating interactables
-        if (keyboard.Keys.keyF && tryingToInteract)
-        {
-            circularProgressImage.fillAmount = Mathf.Clamp01(((Time.time - kioskTimestamp) / settings.kioskActivateDelay));
-
-            Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 5f, interactLayer))
-            {
-                if ((Time.time - kioskTimestamp) >= settings.kioskActivateDelay)
-                {
-                    switch (hit.collider.gameObject.tag)
-                    {
-                        case "Kiosk":
-                            Debug.Log("Interacted with a kiosk");
-                            hit.collider.gameObject.GetComponent<KioskWorldspace>().ActivateKiosk();
-                            tryingToInteract = false;
-                            interacting = true;
-                            cachedInteractableHit = hit;
-                            circularProgressImage.fillAmount = 0f;
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-            } else { tryingToInteract = false; circularProgressImage.fillAmount = 0f; }
-        } else { tryingToInteract = false; circularProgressImage.fillAmount = 0f; }
-
-        if (keyboard.Keys.mouse1 && interacting)
-        {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 5f, interactLayer))
-            {
-                if(hit.collider != cachedInteractableHit.collider)
-                {
-                    interacting = false;
-                    cachedInteractableHit.collider.gameObject.GetComponent<KioskWorldspace>().DeactivateKiosk();
-                }
-            } else
-            {
-                interacting = false;
-                cachedInteractableHit.collider.gameObject.GetComponent<KioskWorldspace>().DeactivateKiosk();
-            }
-        }
+        CheckActivateInteractWithInteractables(); // handles interactions with buttons, kiosks, and such
 
     }
 
@@ -234,7 +175,7 @@ public class PlayerController : MonoBehaviour
         appliedVelocity = ApplyVectorOnWall(appliedVelocity); // Applies our velocity on a wall in the case we are colliding with one
         appliedVelocity = ApplyVectorOnGround(appliedVelocity); // Applies our velocity on the ground in the case we are colliding with ne
 
-        if(kinematicVelocity.magnitude > 0.3f) appliedVelocity = FindStepAndStepUp(appliedVelocity); // Allows our subject to step up stairs only if we are moving (saves cpu)
+        if (kinematicVelocity.magnitude > 0.3f) appliedVelocity = FindStepAndStepUp(appliedVelocity); // Allows our subject to step up stairs only if we are moving (saves cpu)
         if (isJmping) appliedVelocity += Vector3.up * ghostVelocity.y; // In the case we are jumping, apply our jumping velocity that is currently stored in ghostVelocity.y
         isJmping = false; // Resets isJmping
 
@@ -368,6 +309,89 @@ public class PlayerController : MonoBehaviour
         }
         return vector; // returns vector unchanged if for no viable stairs
     }
+
+    void CheckActivateInteractWithInteractables()
+    {
+        // Handles interactions with buttons and kiosks
+        if (keyboard.Keys.keyDownF && !interacting) // Checks if we are holding down 'F' and that we are currently not interacting with an interactable
+        {
+            Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 5f, interactLayer))
+            {
+                switch (hit.collider.gameObject.tag) // checks for which type of interactable we are trying to activate and starts timing
+                {
+                    case "Kiosk":
+                        interactDelay = settings.kioskActivateDelay;
+                        interactTimestamp = Time.time;
+                        tryingToInteract = true;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+
+        // For activating interactables
+        if (keyboard.Keys.keyF && tryingToInteract) // as for now, this code works only for 
+        {
+            circularProgressImage.fillAmount = Mathf.Clamp01(((Time.time - interactTimestamp) / interactDelay)); // fills progression circle
+
+            Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 5f, interactLayer))
+            {
+                if ((Time.time - interactTimestamp) >= interactDelay)
+                {
+                    switch (hit.collider.gameObject.tag)
+                    {
+                        case "Kiosk": // activates the kiosk we are trying to interact with
+                            Debug.Log("Interacted with a kiosk");
+                            hit.collider.gameObject.GetComponent<KioskWorldspace>().ActivateKiosk();
+                            tryingToInteract = false;
+                            interacting = true;
+                            interactingObjType = interactableObjTypes.kiosk;
+                            cachedInteractableHit = hit;
+                            circularProgressImage.fillAmount = 0f;
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
+            else { tryingToInteract = false; circularProgressImage.fillAmount = 0f; }
+        }
+        else { tryingToInteract = false; circularProgressImage.fillAmount = 0f; }
+
+        // for current interacting with interactables
+        if (keyboard.Keys.mouse1 && interacting)
+        {
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            bool stoppedInteraction = false;
+            // disables interactable based on what type it was once we click outside of it
+
+            if (Physics.Raycast(ray, out hit, 5f, interactLayer))
+            {
+                if (hit.collider != cachedInteractableHit.collider)
+                    stoppedInteraction = true;
+            }
+            else stoppedInteraction = true;
+
+            if (stoppedInteraction)
+            {
+                interacting = false;
+                switch (interactingObjType)
+                {
+                    case interactableObjTypes.kiosk:
+                        cachedInteractableHit.collider.gameObject.GetComponent<KioskWorldspace>().DeactivateKiosk();
+                        break;
+                }
+            }
+        }
+    } // handles interactions with buttons, kiosks, and such
 
     // Accumulates a list of contact points
     private void OnCollisionEnter(Collision collision)

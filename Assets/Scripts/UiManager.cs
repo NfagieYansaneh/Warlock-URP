@@ -42,8 +42,8 @@ public class UiManager : MonoBehaviour
         invGunsImages[1].color = guns[1 - Inventory.curGunIndex].color;
 
         invGunsTexts[0].text = Convert.ToString(guns[Inventory.curGunIndex].ammoInMag);
-        invGunsTexts[1].text = Convert.ToString("/ " + guns[Inventory.curGunIndex].ammo);
-        invGunsTexts[2].text = Convert.ToString(guns[1 - Inventory.curGunIndex].ammo);
+        invGunsTexts[1].text = Convert.ToString("/ " + guns[Inventory.curGunIndex].maxAmmoInMag);
+        invGunsTexts[2].text = Convert.ToString(guns[1 - Inventory.curGunIndex].ammoInMag);
     }
 
     public void UpdateSpellDisplay(int x)

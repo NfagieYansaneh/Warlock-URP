@@ -41,7 +41,6 @@ public class AnimEventsHandler : MonoBehaviour
 
     public void ReloadGun ()
     {
-        inventory.guns[inventory.curGunIndex].ammo += inventory.guns[inventory.curGunIndex].ammoInMag - inventory.guns[inventory.curGunIndex].maxAmmoInMag;
         inventory.guns[inventory.curGunIndex].ammoInMag = inventory.guns[inventory.curGunIndex].maxAmmoInMag;
         uiManager.UpdateGunDisplay();
     }

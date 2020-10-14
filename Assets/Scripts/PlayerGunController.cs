@@ -51,7 +51,8 @@ public class PlayerGunController : MonoBehaviour
             int curIndex = 1 - inventory.curGunIndex;
             if (inventory.guns[curIndex] != inventory.nullGun)
             {
-                if(AnimController.SetParameter((int)AnimParams.GunAnimIndex, (int)inventory.guns[curIndex].animIndex, (int)AnimLayer.rightArm, (int)AnimState.isIdle))
+                // changed the weird 'animIndex' naming convention
+                if(AnimController.SetParameter((int)AnimParams.GunAnimIndex, (int)inventory.guns[curIndex].gunAnimGroup, (int)AnimLayer.rightArm, (int)AnimState.isIdle))
                 {
                     AnimController.Trigger((int)AnimParams.MouseScroll, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
                     inventory.curGunIndex = 1 - inventory.curGunIndex;
@@ -119,6 +120,7 @@ public class PlayerGunController : MonoBehaviour
         {
             if (inventory.guns[inventory.curGunIndex] != inventory.nullGun && inventory.guns[inventory.curGunIndex].ammoInMag > 0)
             {
+                // we can have the actual glock object store a value as to point to which animation the gun controller should be using.
                 if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Fire, (int)AnimLayer.rightArm, (int)AnimState.isIdle, (int)AnimState.isInterrupt))
                 {
                     AnimController.Trigger((int)AnimParams.R_GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isAny);
@@ -172,7 +174,7 @@ public class PlayerGunController : MonoBehaviour
         if (inventory.guns[index] != inventory.nullGun)
         {
             //Start playing equip animation
-            AnimController.SetParameter((int)AnimParams.GunAnimIndex, (int)inventory.guns[index].animIndex, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+            AnimController.SetParameter((int)AnimParams.GunAnimIndex, (int)inventory.guns[index].gunAnimGroup, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
             AnimController.Trigger((int)AnimParams.MouseScroll, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
 
             objectToPool = Instantiate(inventory.guns[index].gunModel, gunPlacemant.position,
