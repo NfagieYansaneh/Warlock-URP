@@ -17,8 +17,9 @@ public class BaseGun : ScriptableObject
     [Header("Basic gun model elements")]
     public GameObject gunModel;
     public Vector3 barrelTransformOffset;
-    public enum gunAnimations { null_animations = -1, glock18c_animations };
-    public gunAnimations gunAnimGroup; // animGroup allows me to know which animations this weapon should be using
+    public enum GunAnimations { null_animations = -1, glock18c_animations };
+    public GunAnimations gunAnimCatergory; // animGroup allows me to know which animations this weapon should be using
+
     [Space(10)]
 
     // Below contains the contents required for firing bullets and handling their bullet trails
@@ -32,15 +33,19 @@ public class BaseGun : ScriptableObject
     [HideInInspector]
     public TrailRenderer[] pooledTrailRenderers;
     [HideInInspector]
-    public Vector3[] pooledTrailEndPositions; // REMOVE THIS, WE ARE NOT RAYCASTING ANYMORE
+    public Vector3[] pooledTrailEndPositions;
+    [HideInInspector]
+    public Vector3[] pooledBulletsStartPositions;
     [HideInInspector]
     public int pooledBulletsIndex; // this value is merely a counter so we can loop through all the pooled bullets
 
     [Header("Ammo, Damage & Damage RNG elements")]
+    public float baseBulletSpeed;
+    public float maxBulletSpeed;
     public int ammoInMag;
     public int maxAmmoInMag;
     [Range(0f, 10f)]
-    public int Damage; // Develop randomness in damage (nah, implement critical shots tbh, but more satisfying)?
+    public int damage; // Develop randomness in damage (nah, implement critical shots tbh, but more satisfying)?
     [Space(10)]
 
     // Values that are definied at runtime
@@ -54,17 +59,32 @@ public class BaseGun : ScriptableObject
     [HideInInspector]
     public int reloadAnimIndex; // this value will let us index into which animation is our reload animation
 
-    public virtual void FireAnim(int animation)
+    public virtual void PlayAnim(int animation)
     {
 
     }
 
-    public virtual void FireRaycast()
+    public virtual void FireBulletFromPool()
     {
 
     }
 
-    public virtual void SecondaryFire()
+    public virtual void DisableBulletFromPool(int index)
+    {
+
+    }
+
+    public virtual void PrimaryFire(PlayerAnimController playerAnimController)
+    {
+
+    }
+
+    public virtual void SecondaryFire(PlayerAnimController playerAnimController)
+    {
+
+    }
+
+    public virtual void OnEnemyImpact()
     {
 
     }
@@ -74,7 +94,7 @@ public class BaseGun : ScriptableObject
 
     }
 
-    public virtual void Reload(int x)
+    public virtual void Reload()
     {
 
     }

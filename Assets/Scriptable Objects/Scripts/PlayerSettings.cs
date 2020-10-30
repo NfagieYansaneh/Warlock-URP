@@ -22,4 +22,6 @@ public class PlayerSettings : ScriptableObject
     public float dodgeBoostDelay;
     [Range(0f, 1f)]
     public float kioskActivateDelay;
+    [Range(0f, 1f)]
+    public float basicGunPickupDelay;
 }

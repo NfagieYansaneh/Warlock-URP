@@ -3136,6 +3136,7 @@ MonoBehaviour:
   keyboard: {fileID: 11400000, guid: ff4dfa856d3f8ac459ab275754f82438, type: 2}
   animEventsHandler: {fileID: 6675100732156213008}
   armComboParser: {fileID: 0}
+  playerGunController: {fileID: 471387830}
 --- !u!114 &471387832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3165,6 +3166,7 @@ MonoBehaviour:
   ghostVelocity: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   circularProgressImage: {fileID: 1849026944}
+  uiManager: {fileID: 1729760116}
 --- !u!136 &471387833
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3948,6 +3950,7 @@ GameObject:
   - component: {fileID: 587164357}
   - component: {fileID: 587164356}
   - component: {fileID: 587164355}
+  - component: {fileID: 587164359}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4022,7 +4025,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_RenderPostProcessing: 1
-  m_Antialiasing: 1
+  m_Antialiasing: 2
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -4073,6 +4076,23 @@ Transform:
   m_Father: {fileID: 471387837}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &587164359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587164353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 58235a39351df55429f5ecef8247505c, type: 2}
 --- !u!1 &591865314
 GameObject:
   m_ObjectHideFlags: 0
@@ -9441,7 +9461,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -11696,7 +11716,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1729760114}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -14555,7 +14575,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5957807768038920475}
   - component: {fileID: 8238865791196503995}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Barrel.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14710,7 +14730,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2642282715315503306}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Stock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15031,7 +15051,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7801375823334297717}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15045,6 +15065,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1617359241346424992, guid: 66c1a875934b783429f0be386147350a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132022269747355497, guid: 66c1a875934b783429f0be386147350a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3447592042714111570, guid: 66c1a875934b783429f0be386147350a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 6483566908511581476, guid: 66c1a875934b783429f0be386147350a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15100,10 +15135,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -22.87
       objectReference: {fileID: 0}
+    - target: {fileID: 6652910077414046249, guid: 66c1a875934b783429f0be386147350a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7589960229902896379, guid: 66c1a875934b783429f0be386147350a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 8043736903315982135, guid: 66c1a875934b783429f0be386147350a,
         type: 3}
       propertyPath: m_Name
       value: Glock18c
+      objectReference: {fileID: 0}
+    - target: {fileID: 8043736903315982135, guid: 66c1a875934b783429f0be386147350a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130130628738180977, guid: 66c1a875934b783429f0be386147350a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130130628738180989, guid: 66c1a875934b783429f0be386147350a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66c1a875934b783429f0be386147350a, type: 3}
@@ -15863,7 +15923,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4329020141698182402}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16139,7 +16199,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2146306599527183517}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16263,7 +16323,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6483566908381914051}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Glock18c (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16324,7 +16384,7 @@ SphereCollider:
   m_GameObject: {fileID: 8130130628876038554}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.02
   m_Center: {x: 0, y: 0, z: 0.01}
@@ -16354,7 +16414,7 @@ GameObject:
   - component: {fileID: 8130130628876038548}
   - component: {fileID: 8130130628876038551}
   - component: {fileID: 8130130628876038550}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GunArmature
   m_TagString: GunPickup
   m_Icon: {fileID: 0}

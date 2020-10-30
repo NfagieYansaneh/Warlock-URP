@@ -7,7 +7,6 @@ using System.Linq;
 [RequireComponent(typeof(PlayerAnimController), typeof(InventoryObject))]
 public class PlayerGunController : MonoBehaviour
 {
-    // *** Public variables ****
     [Header("External Interactions")]
     [Tooltip("Allows communication to an InventoryObject")]
     public InventoryObject inventory;
@@ -20,14 +19,13 @@ public class PlayerGunController : MonoBehaviour
     [Tooltip("For communicating with, or updating, Ui")]
     public UiManager uiManager;
 
-    // **** Private variables ****
-    private GameObject[] pooledObjects = new GameObject[2];
+    private GameObject[] pooledObjects = new GameObject[2]; // consists of the guns in out inventory
     private GameObject objectToPool = null;
-    private PlayerAnimController AnimController = null;
+    private PlayerAnimController animController = null; // animation controller 
 
     private void Start()
     {
-        AnimController = GetComponent<PlayerAnimController>();
+        animController = GetComponent<PlayerAnimController>();
         //StartCoroutine("DebugShooting");
     }
 
@@ -40,155 +38,64 @@ public class PlayerGunController : MonoBehaviour
         }
     }*/
 
-    // Handles mouse keys
     private void Update()
     {
+        // Everyframe, we move the player's active bullets into the direction they were initially travelling
+        CheckAndMoveBullets();
 
-        // switches gun based on scroll wheel
+        // switches gun based on scroll wheel and handles their equiping animation but only works for single handed weapons as of now
         if (keyboard.Keys.mouseScroll != 0f)
         {
-            int prevIndex = inventory.curGunIndex;
-            int curIndex = 1 - inventory.curGunIndex;
-            if (inventory.guns[curIndex] != inventory.nullGun)
-            {
-                // changed the weird 'animIndex' naming convention
-                if(AnimController.SetParameter((int)AnimParams.GunAnimIndex, (int)inventory.guns[curIndex].gunAnimGroup, (int)AnimLayer.rightArm, (int)AnimState.isIdle))
-                {
-                    AnimController.Trigger((int)AnimParams.MouseScroll, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
-                    inventory.curGunIndex = 1 - inventory.curGunIndex;
-                    UpdateDisplayedGuns(inventory.curGunIndex);
-                }
-                AnimController.Trigger((int)AnimParams.MouseScroll, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
-            } else {
-                if (inventory.guns[prevIndex] != inventory.nullGun)
-                {
-                    if(AnimController.SetParameter((int)AnimParams.GunAnimIndex, -1, (int)AnimLayer.rightArm, (int)AnimState.isIdle)) { 
-                        AnimController.Trigger((int)AnimParams.MouseScroll, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
-                        inventory.curGunIndex = 1 - inventory.curGunIndex;
-                        UpdateDisplayedGuns(inventory.curGunIndex);
-                    }
-                }
-                
-            }
-
-            // Optimize later
+            SwitchGuns();
         }
 
-        // This is for bullet travel for player's guns
-        for (int index = 0; index < inventory.guns[inventory.curGunIndex].pooledBullets.Length; index++)
-        {
-
-            if (inventory.guns[inventory.curGunIndex].pooledBullets[index].activeSelf)
-            {
-                if(Vector3.Distance(cameraTransform.position, inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.position) >=
-                    Vector3.Distance(cameraTransform.position, inventory.guns[inventory.curGunIndex].pooledTrailEndPositions[index]))
-                {
-                    inventory.guns[inventory.curGunIndex].pooledTrailRenderers[index].emitting = false;
-                    inventory.guns[inventory.curGunIndex].pooledBullets[index].SetActive(false);
-                    continue;
-                }
-
-                inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.position += inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.forward * 1.5f;
-            }
-        }
-
+        // Checks if we tried to reload our gun
         if (keyboard.Keys.keyR)
         {
-            // I should be checking if the arms are available first, and then queueing the animations. That would be way more reliable.
-            // I should be checking if the arms are available first, and then queueing the animations. That would be way more reliable.
-            // I should be checking if the arms are available first, and then queueing the animations. That would be way more reliable.
-            // I should be checking if the arms are available first, and then queueing the animations. That would be way more reliable.
-            // I should be checking if the arms are available first, and then queueing the animations. That would be way more reliable.
-            // I should be checking if the arms are available first, and then queueing the animations. That would be way more reliable.
-            // I should be checking if the arms are available first, and then queueing the animations. That would be way more reliable.
-
-            if (inventory.guns[inventory.curGunIndex] != inventory.nullGun && inventory.guns[inventory.curGunIndex].maxAmmoInMag != inventory.guns[inventory.curGunIndex].ammoInMag)
-            {
-                Debug.Log("R");
-                // Have another if statement so left arm can't get locked out of reloading.
-                if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Reload, (int)AnimLayer.allLayers, (int)AnimState.isIdle))
-                {
-                    AnimController.Trigger((int)AnimParams.L_GunTriggerAnim, (int)AnimLayer.leftArm, (int)AnimState.isAny);
-                    AnimController.Trigger((int)AnimParams.R_GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isAny);
-                    // try using two different triggers
-                    inventory.guns[inventory.curGunIndex].Reload((int)glock18c_GW.gunActionAnimations.glock18c_Reload);
-                }
-            }
+            // Make cursor move when i am reloading (Maybe?)
+            CurrentGunReload();
         }
 
-        // fires gun if we left click
+        // Checks if we tried to fire our gun
         if (keyboard.Keys.mouse1)
         {
-            if (inventory.guns[inventory.curGunIndex] != inventory.nullGun && inventory.guns[inventory.curGunIndex].ammoInMag > 0)
-            {
-                // we can have the actual glock object store a value as to point to which animation the gun controller should be using.
-                if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Fire, (int)AnimLayer.rightArm, (int)AnimState.isIdle, (int)AnimState.isInterrupt))
-                {
-                    AnimController.Trigger((int)AnimParams.R_GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isAny);
-                    inventory.guns[inventory.curGunIndex].FireAnim((int)glock18c_GW.gunActionAnimations.glock18c_Fire);
-                }
-            }
+            CurrentGunPrimaryFire();
         }
 
-        // ADS if we right click
+        // Aim down sights if we right click but for debugging sake, it also activates our secondary fire
         if (keyboard.Keys.mouse2)
         {
-            if (inventory.guns[inventory.curGunIndex] != inventory.nullGun)
-            {
-                if (inventory.guns[inventory.curGunIndex].ammoInMag > 3)
-                {
-                    if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_ThreeFire, (int)AnimLayer.rightArm, (int)AnimState.isIdle, (int)AnimState.isInterrupt))
-                    {
-                        AnimController.Trigger((int)AnimParams.R_GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isAny);
-                        inventory.guns[inventory.curGunIndex].ADS();
-                    }
-                }
-                else if (inventory.guns[inventory.curGunIndex].ammoInMag == 2)
-                {
-                    if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_TwoFire, (int)AnimLayer.rightArm, (int)AnimState.isIdle, (int)AnimState.isInterrupt))
-                    {
-                        AnimController.Trigger((int)AnimParams.R_GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isAny);
-                        inventory.guns[inventory.curGunIndex].FireAnim((int)glock18c_GW.gunActionAnimations.glock18c_TwoFire);
-                    }
-                }
-                else if (inventory.guns[inventory.curGunIndex].ammoInMag == 1)
-                {
-                    if (AnimController.SetParameter((int)AnimParams.GunActionAnimIndex, (int)glock18c_GW.gunActionAnimations.glock18c_Fire, (int)AnimLayer.rightArm, (int)AnimState.isIdle, (int)AnimState.isInterrupt))
-                    {
-                        AnimController.Trigger((int)AnimParams.R_GunTriggerAnim, (int)AnimLayer.rightArm, (int)AnimState.isAny);
-                        inventory.guns[inventory.curGunIndex].FireAnim((int)glock18c_GW.gunActionAnimations.glock18c_Fire);
-                    }
-                }
-            }
+            CurrentGunSecondaryFire();
+            //CurrentGunADS();
         }
 
-        // secondary fires gun if we middle mouse
+        // secondary fires gun if we middle mouse but does not work as of now
         if (keyboard.Keys.mouse3)
         {
-            CastAlternate(inventory.curGunIndex);
+            CurrentGunSecondaryFire();
         }
     }
     
-    // for adding guns
-    public void UpdateGuns(int index)
+    // for adding guns such as when we pick them up and 'index' refers to which inventory position we should be updated with that new picked up gun
+    public void UpdateGunInventoryAndInstantiateThem(int index)
     {
-        if (inventory.guns[index] != inventory.nullGun)
-        {
-            //Start playing equip animation
-            AnimController.SetParameter((int)AnimParams.GunAnimIndex, (int)inventory.guns[index].gunAnimGroup, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
-            AnimController.Trigger((int)AnimParams.MouseScroll, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+        // Start playing equip animation of the new gun or queues it if we are in a animation
+        animController.SetParameter((int)ArmAnimParams.GunAnimCatergory, (int)inventory.guns[index].gunAnimCatergory, (int)ArmAnimLayer.rightArm, (int)ArmAnimState.isAny);
+        animController.Trigger((int)ArmAnimParams.MouseScroll, (int)ArmAnimLayer.rightArm, (int)ArmAnimState.isAny);
 
-            objectToPool = Instantiate(inventory.guns[index].gunModel, gunPlacemant.position,
-                gunPlacemant.transform.rotation, gunPlacemant);
+        // instantiates the gun we just got
+        objectToPool = Instantiate(inventory.guns[index].gunModel, gunPlacemant.position,
+            gunPlacemant.transform.rotation, gunPlacemant);
 
-            pooledObjects[index] = objectToPool;
-            inventory.guns[index].Created(objectToPool, cameraTransform);
-            UpdateDisplayedGuns(index);
-        }
+        // adds it into our pooledObjects
+        pooledObjects[index] = objectToPool;
+        inventory.guns[index].Created(objectToPool, cameraTransform);
+        UpdateDisplayedGunsAndUI(index);
+        inventory.curGunIndex = index;
     } 
 
     // for switching guns
-    public void UpdateDisplayedGuns(int index)
+    public void UpdateDisplayedGunsAndUI(int index)
     {
         for(int i=0; i<pooledObjects.Length; i++)
         {
@@ -211,27 +118,139 @@ public class PlayerGunController : MonoBehaviour
         uiManager.UpdateGunDisplay();
     }
 
-    /*public void CastGun(int index)
+    public void CurrentGunPrimaryFire()
     {
-        inventory.guns[index].FireAnim();
-    }*/
-
-    public void CastADS(int index)
-    {
-        inventory.guns[index].ADS();
+        if (inventory.guns[inventory.curGunIndex] != inventory.nullGun)
+        {
+            inventory.guns[inventory.curGunIndex].PrimaryFire(animController);
+        }
     }
 
-    public void CastAlternate(int index)
+    public void CurrentGunSecondaryFire()
     {
-        var gun = inventory.guns[index];
-
-        // Emote test
-        if (gun == inventory.nullGun)
+        if (inventory.guns[inventory.curGunIndex] == inventory.nullGun)
         {
-            AnimController.Trigger((int)AnimParams.R_Emote, (int)AnimLayer.rightArm, (int)AnimState.isIdle);
+            animController.Trigger((int)ArmAnimParams.R_Emote, (int)ArmAnimLayer.rightArm, (int)ArmAnimState.isIdle);
             return;
         }
 
-        gun.SecondaryFire();
+        inventory.guns[inventory.curGunIndex].SecondaryFire(animController);
     }
+
+    public void CurrentGunReload()
+    {
+        if (inventory.guns[inventory.curGunIndex] != inventory.nullGun && inventory.guns[inventory.curGunIndex].ammoInMag != inventory.guns[inventory.curGunIndex].maxAmmoInMag)
+        {
+            // Does reload animation only if both arms are idle
+            if (animController.SetParameter((int)ArmAnimParams.GunActionAnimIndex, inventory.guns[inventory.curGunIndex].reloadAnimIndex, (int)ArmAnimLayer.allLayers, (int)ArmAnimState.isIdle))
+            {
+                animController.Trigger((int)ArmAnimParams.L_GunTriggerAnim, (int)ArmAnimLayer.leftArm, (int)ArmAnimState.isAny);
+                animController.Trigger((int)ArmAnimParams.R_GunTriggerAnim, (int)ArmAnimLayer.rightArm, (int)ArmAnimState.isAny);
+
+                inventory.guns[inventory.curGunIndex].Reload(); // Triggers the reload animation for the gun
+            }
+        }
+    }
+
+    public void CurrentGunADS()
+    {
+        inventory.guns[inventory.curGunIndex].ADS();
+    }
+
+    public void SwitchGuns()
+    {
+        int prevIndex = inventory.curGunIndex;
+        int nextIndex = 1 - inventory.curGunIndex;
+
+        // checks if the gun we are switching to is not an empty gun (a gun that doesn't exist)
+        if (inventory.guns[nextIndex] != inventory.nullGun)
+        {
+            // Plays the equip animation for a gun if that gun is of a different type we are holding
+            if (animController.SetParameter((int)ArmAnimParams.GunAnimCatergory, (int)inventory.guns[nextIndex].gunAnimCatergory, (int)ArmAnimLayer.rightArm, (int)ArmAnimState.isIdle))
+            {
+                animController.Trigger((int)ArmAnimParams.MouseScroll, (int)ArmAnimLayer.rightArm, (int)ArmAnimState.isAny);
+                inventory.curGunIndex = nextIndex;
+                UpdateDisplayedGunsAndUI(inventory.curGunIndex);
+            }
+
+            // Replays the equip animation for a gun if it is of the same type we are holding
+            animController.Trigger((int)ArmAnimParams.MouseScroll, (int)ArmAnimLayer.rightArm, (int)ArmAnimState.isIdle);
+
+        }
+        else
+        {
+            // if we are holding a gun and the next gun we are switching to does not exist, we transition the right arm into its T-pose idle state in which we are now not holding a gun
+            if (inventory.guns[inventory.curGunIndex] != inventory.nullGun)
+            {
+                if (animController.SetParameter((int)ArmAnimParams.GunAnimCatergory, -1, (int)ArmAnimLayer.rightArm, (int)ArmAnimState.isIdle))
+                {
+                    animController.Trigger((int)ArmAnimParams.MouseScroll, (int)ArmAnimLayer.rightArm, (int)ArmAnimState.isAny);
+                    inventory.curGunIndex = nextIndex;
+                    UpdateDisplayedGunsAndUI(inventory.curGunIndex);
+                }
+            }
+
+        }
+
+        // Optimize later
+    }
+
+    public void HideCurrentGun()
+    {
+        pooledObjects[inventory.curGunIndex].SetActive(false);
+    }
+
+    public void ShowCurrentGun()
+    {
+        pooledObjects[inventory.curGunIndex].SetActive(true);
+    }
+
+    public void CheckAndMoveBullets()
+    {
+        for (int index = 0; index < inventory.guns[inventory.curGunIndex].pooledBullets.Length; index++)
+        {
+
+            // Collision detection for bullets
+            bool bulletCollided = false;
+
+            if (inventory.guns[inventory.curGunIndex].pooledBullets[index].activeSelf)
+            {
+                Collider[] colliders = Physics.OverlapSphere(inventory.guns[inventory.curGunIndex].pooledBullets[index].transform.position, 0.2f,
+                    inventory.guns[inventory.curGunIndex].bulletLayerMask);
+
+                foreach (Collider c in colliders)
+                {
+                    if (c.CompareTag("Enemy"))
+                    {
+                        c.gameObject.GetComponent<GenericEnemyHandler>().Hit(inventory.guns[inventory.curGunIndex].damage);
+                        inventory.guns[inventory.curGunIndex].OnEnemyImpact();
+                    }
+
+                    // promptly disables projectile
+                    if (inventory.guns[inventory.curGunIndex].pooledBullets[index].activeSelf)
+                    {
+                        inventory.guns[inventory.curGunIndex].DisableBulletFromPool(index);
+                        bulletCollided = true;
+                    }
+                }
+
+                if (bulletCollided)
+                {
+                    continue;
+                }
+
+                BaseGun currentGun = inventory.guns[inventory.curGunIndex];
+                // Add this to the enemies as well
+                float bulletExponentialPercentage = Mathf.InverseLerp(0f, 15f,
+                    Vector3.Distance(currentGun.pooledBulletsStartPositions[index], currentGun.pooledBullets[index].transform.position));
+
+                bulletExponentialPercentage = Mathf.Clamp01(bulletExponentialPercentage);
+
+                float bulletSpeed = currentGun.baseBulletSpeed + (currentGun.maxBulletSpeed - currentGun.baseBulletSpeed) * bulletExponentialPercentage;
+
+                currentGun.pooledBullets[index].transform.position += currentGun.pooledBullets[index].transform.forward * bulletSpeed;
+            }
+
+            }
+        }
 }

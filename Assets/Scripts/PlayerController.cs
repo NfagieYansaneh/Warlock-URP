@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
     // Use Vector3.Angle instead of whatever functions I was using before
 
 
-    // **** Public variables ****
     [Header("Player settings")]
     [Tooltip("Contains variables that defines: movement speed, jump height, maximum slope angles, etc.")]
     public PlayerSettings settings;
@@ -40,7 +39,6 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Allows communication with main camera")]
     public Camera mainCamera;
 
-    // **** Private variables ****
     [HideInInspector]
     public bool isGrounded = true;
     // 'isGroundWalkable' is for stating whether the ground below is not too steep and wether we can walk on it
@@ -74,10 +72,11 @@ public class PlayerController : MonoBehaviour
     private bool interacting = false; // this is for when interacting with an activated interactable
     private RaycastHit cachedInteractableHit;
 
-    enum interactableObjTypes { nothing = -1, kiosk, elevator, gun };
-    private interactableObjTypes interactingObjType = 0; // for classifying with type of object we are interacting with
+    enum InteractableObjTypes { Nothing = -1, Kiosk, Elevator, GunPickup };
+    private InteractableObjTypes interactingObjType = 0; // for classifying with type of object we are interacting with
 
     public Image circularProgressImage; // this is to visual indicate that we are interacting with something
+    public UiManager uiManager; // for communicating with ui
 
     // A list of all contact points due to colliding collision boxes w/ our character. Every FixedUpdate(), 'contactPoints' is cleared
     private List<ContactPoint> contactPoints = new List<ContactPoint>();
@@ -85,7 +84,6 @@ public class PlayerController : MonoBehaviour
     private float slopeMaxAngle = 0f;
     private float stepMaxAngle = 0f;
 
-    // **** Private interactions **** 
     private PlayerGunController gunController = null;
     private Rigidbody rb = null;
     private CapsuleCollider capsuleCollider = null;
@@ -327,6 +325,12 @@ public class PlayerController : MonoBehaviour
                         tryingToInteract = true;
                         break;
 
+                    case "GunPickup":
+                        interactDelay = settings.basicGunPickupDelay;
+                        interactTimestamp = Time.time;
+                        tryingToInteract = true;
+                        break;
+
                     default:
                         break;
                 }
@@ -348,11 +352,28 @@ public class PlayerController : MonoBehaviour
                     {
                         case "Kiosk": // activates the kiosk we are trying to interact with
                             Debug.Log("Interacted with a kiosk");
-                            hit.collider.gameObject.GetComponent<KioskWorldspace>().ActivateKiosk();
+                            hit.collider.GetComponent<KioskWorldspace>().ActivateKiosk();
                             tryingToInteract = false;
                             interacting = true;
-                            interactingObjType = interactableObjTypes.kiosk;
+                            interactingObjType = InteractableObjTypes.Kiosk;
                             cachedInteractableHit = hit;
+                            circularProgressImage.fillAmount = 0f;
+                            break;
+
+                        case "GunPickup":
+                            // replaces an empty gun slot in the inventory with the gun we just picked up and gives us the index of which slot we just replaced
+                            int x = inventory.OverrideAtFirstFind(hit.collider.GetComponent<GunPickup>().gunSlot, inventory.nullGun); 
+
+                            if (x >= 0)
+                            {
+                                gunController.UpdateGunInventoryAndInstantiateThem(x); // instantiates that gun we picked up and queues its pick up animation
+                                uiManager.UpdateGunDisplay(); // updates gun Ui
+                                Destroy(hit.collider.transform.parent.gameObject);
+                            }
+                            else Debug.Log("All guns slots used up");
+
+                            tryingToInteract = false;
+                            interactingObjType = InteractableObjTypes.GunPickup;
                             circularProgressImage.fillAmount = 0f;
                             break;
 
@@ -385,7 +406,7 @@ public class PlayerController : MonoBehaviour
                 interacting = false;
                 switch (interactingObjType)
                 {
-                    case interactableObjTypes.kiosk:
+                    case InteractableObjTypes.Kiosk:
                         cachedInteractableHit.collider.gameObject.GetComponent<KioskWorldspace>().DeactivateKiosk();
                         break;
                 }
@@ -415,16 +436,6 @@ public class PlayerController : MonoBehaviour
                     Destroy(other.gameObject);
                 }
                 else Debug.Log("All spells slots used up");
-                break;
-
-            case "GunPickup":
-                x = inventory.OverrideAtFirstFind(other.GetComponent<GunPickup>().gunSlot, inventory.nullGun);
-                if (x >= 0)
-                {
-                    gunController.UpdateGuns(x);
-                    Destroy(other.transform.parent.gameObject);
-                }
-                else Debug.Log("All guns slots used up");
                 break;
 
             case "Booster":

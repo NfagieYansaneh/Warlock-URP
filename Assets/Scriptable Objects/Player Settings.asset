@@ -25,3 +25,4 @@ MonoBehaviour:
   boosterInputDelay: 0.5
   dodgeBoostDelay: 0.35
   kioskActivateDelay: 0.5
+  basicGunPickupDelay: 0.327

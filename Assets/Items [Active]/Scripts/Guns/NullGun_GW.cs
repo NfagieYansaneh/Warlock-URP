@@ -5,12 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Null Gun", menuName = "Item/Active/Gun/Null")]
 public class NullGun_GW : BaseGun
 {
-    public override void FireAnim(int animation)
+    public override void PrimaryFire(PlayerAnimController playerAnimController)
     {
         Debug.Log("Fired NULL GUN");
     }
 
-    public override void SecondaryFire()
+    public override void SecondaryFire(PlayerAnimController playerAnimController)
     {
         Debug.Log("Secondary fired NULL GUN");
     }

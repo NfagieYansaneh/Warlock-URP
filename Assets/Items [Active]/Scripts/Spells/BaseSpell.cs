@@ -13,10 +13,10 @@ public class BaseSpell : ScriptableObject
     public bool isOneHanded; // One handed spell cast
 
     public enum Anims { Null=-1, Igni }; // list of one handed animation casts
-    public Anims animationIndex; 
+    public Anims animIndex; 
 
     public enum AnimsDouble { Null, Ox, Horse, Monkey, Ram };
-    public AnimsDouble[] animationDoubleIndex;
+    public AnimsDouble[] animDoubleIndexes;
 
     public virtual void Use()
     {

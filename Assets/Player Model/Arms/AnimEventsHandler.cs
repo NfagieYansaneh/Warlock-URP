@@ -35,7 +35,7 @@ public class AnimEventsHandler : MonoBehaviour
     {
         //Debug.LogWarning("Called");
         inventory.guns[inventory.curGunIndex].ammoInMag -= 1;
-        inventory.guns[inventory.curGunIndex].FireRaycast();
+        inventory.guns[inventory.curGunIndex].FireBulletFromPool();
         uiManager.UpdateGunDisplay();
     }
 

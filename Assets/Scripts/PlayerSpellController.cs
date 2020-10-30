@@ -14,19 +14,20 @@ public class PlayerSpellController : MonoBehaviour
     public InventoryObject inventory;
     [Tooltip("Obtains keyboard input")]
     public KeyboardController keyboard;
-    [Tooltip("Allows communication to the Arm Animation Events Handler")]
+    [Tooltip("Allows communication to the Arm ArmAnimation Events Handler")]
     public AnimEventsHandler animEventsHandler;
     [Tooltip("Allows communication to the Arm Combo Parser used for chained spell casts")]
     public ArmComboParser armComboParser;
+    public PlayerGunController playerGunController;
     [Space(10)]
 
     // **** Private interactions ****
-    private PlayerAnimController AnimController = null;
+    private PlayerAnimController animController = null;
 
     // Initializes just a few components...
     void Start()
     {
-        AnimController = GetComponent<PlayerAnimController>();
+        animController = GetComponent<PlayerAnimController>();
     }
 
     // Checks key inputs specifically for spell casting
@@ -41,13 +42,13 @@ public class PlayerSpellController : MonoBehaviour
             if (keyboard.Keys.spellKeys[i])
             {
                 // Activates spell
-                CastSpell(i);
+                TriggerSpell(i);
             }
         }
     }
 
     // Casts spell at in index for 'inventory.spells' arrary and does not casts nullSpells
-    public void CastSpell(int index)
+    public void TriggerSpell(int index)
     {
         var spell = inventory.spells[index];
 
@@ -55,15 +56,18 @@ public class PlayerSpellController : MonoBehaviour
         {
             if (spell.isOneHanded)
             {
-                AnimController.SetParameter((int)AnimParams.CastingIndex, (int)spell.animationIndex, (int)AnimLayer.leftArm, (int)AnimState.isIdle);
-                AnimController.Trigger((int)AnimParams.L_Cast, (int)AnimLayer.leftArm, (int)AnimState.isIdle); // Trigger
-                animEventsHandler.SetSpell(spell);
+                if(animController.SetParameter((int)ArmAnimParams.SpellAnimIndex, (int)spell.animIndex, (int)ArmAnimLayer.leftArm, (int)ArmAnimState.isIdle)) { 
+                    animController.Trigger((int)ArmAnimParams.L_Cast, (int)ArmAnimLayer.leftArm, (int)ArmAnimState.isAny); // Trigger
+                    animEventsHandler.SetSpell(spell);
+                }
             } else
             {
-                int[] temp = Array.ConvertAll(spell.animationDoubleIndex, value => (int)value);
-                AnimController.AssignNew(temp, spell.animationDoubleIndex.Length);
-                AnimController.Trigger((int)AnimParams.LR_Cast, (int)AnimLayer.allLayers, (int)AnimState.isIdle);
-                animEventsHandler.SetSpell(spell);
+                if(animController.Trigger((int)ArmAnimParams.LR_Cast, (int)ArmAnimLayer.allLayers, (int)ArmAnimState.isIdle)) { 
+                    int[] temp = Array.ConvertAll(spell.animDoubleIndexes, value => (int)value);
+                    animController.AssignNew(temp, spell.animDoubleIndexes.Length);
+                    animEventsHandler.SetSpell(spell);
+                    //playerGunController.HideCurrentGun();
+                }
             }
         }
     }
