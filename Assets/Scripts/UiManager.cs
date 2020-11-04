@@ -4,6 +4,14 @@ using UnityEngine.UI;
 using UnityEngine;
 using System;
 
+/* Purpose of UiManager.cs
+ * 
+ * UiManager.cs handles the user interface for the player to intuitively display ammo count,
+ * spells, health, and score multiplier. UiManager is connected to the inventory object of 
+ * the player so when we wish to update the Ui display, UiManager.cs will acquire the player's
+ * current inventory data to update corressponding Ui elements such as ammo count
+ */
+
 public class UiManager : MonoBehaviour
 {
     public InventoryObject Inventory;
@@ -21,6 +29,8 @@ public class UiManager : MonoBehaviour
 
     void Start()
     {
+        // Initializes spell and gun Ui elements
+
         Inventory.uiManager = GetComponent<UiManager>();
 
         for (int i = 0; i < Inventory.spells.Length; i++)
@@ -34,6 +44,7 @@ public class UiManager : MonoBehaviour
         }
     }
 
+    // Updates gun display Ui elements
     public void UpdateGunDisplay()
     {
         BaseGun[] guns = Inventory.guns;
@@ -46,17 +57,20 @@ public class UiManager : MonoBehaviour
         invGunsTexts[2].text = Convert.ToString(guns[1 - Inventory.curGunIndex].ammoInMag);
     }
 
+    // Updates a specific spell slot Ui element
     public void UpdateSpellDisplay(int x)
     {
         invSpellImages[x].color = Inventory.spells[x].color;
     }
 
+    // Updates health display Ui elements
     public void UpdateHealthDisplay(float trueHealth, float greyHealth)
     {
         trueHealthImage.rectTransform.localScale = new Vector3(trueHealth / 100f, 1f, 1f);
         greyHealthImage.rectTransform.localScale = new Vector3(greyHealth / 100f, 1f, 1f);
     }
 
+    // Updates score multiplier Ui elements
     public void UpdateScoreDisplay(float scoreAtTier, int scoreTier)
     {
         switch(scoreTier)
@@ -80,23 +94,5 @@ public class UiManager : MonoBehaviour
 
         scoreBarImage.rectTransform.localScale = new Vector3(scoreAtTier / 100f, 1f, 1f);
     }
-
-    /* IEnumerator updateDisplay()
-     {
-         while (true)
-         {
-             for (int i = 0; i < Inventory.spells.Length; i++)
-             {
-                 invSpellImages[i].color = Inventory.spells[i].color;
-             }
-
-             for (int i = 0; i < Inventory.guns.Length; i++)
-             {
-                 invGunsImages[i].color = Inventory.guns[i].color;
-             }
-
-             yield return new WaitForSeconds(0.05f);
-         }
-     } */
 
 }

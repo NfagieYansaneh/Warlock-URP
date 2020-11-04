@@ -241,12 +241,12 @@ public class PlayerGunController : MonoBehaviour
 
                 BaseGun currentGun = inventory.guns[inventory.curGunIndex];
                 // Add this to the enemies as well
-                float bulletExponentialPercentage = Mathf.InverseLerp(0f, 15f,
-                    Vector3.Distance(currentGun.pooledBulletsStartPositions[index], currentGun.pooledBullets[index].transform.position));
+                //float bulletExponentialPercentage = Mathf.InverseLerp(0f, 15f,
+                //Vector3.Distance(currentGun.pooledBulletsStartPositions[index], currentGun.pooledBullets[index].transform.position));
 
-                bulletExponentialPercentage = Mathf.Clamp01(bulletExponentialPercentage);
+                //bulletExponentialPercentage = Mathf.Clamp01(bulletExponentialPercentage);
 
-                float bulletSpeed = currentGun.baseBulletSpeed + (currentGun.maxBulletSpeed - currentGun.baseBulletSpeed) * bulletExponentialPercentage;
+                float bulletSpeed = currentGun.baseBulletSpeed; //+ (currentGun.maxBulletSpeed - currentGun.baseBulletSpeed) * bulletExponentialPercentage;
 
                 currentGun.pooledBullets[index].transform.position += currentGun.pooledBullets[index].transform.forward * bulletSpeed;
             }

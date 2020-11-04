@@ -5,6 +5,17 @@ using UnityEngine;
 
 // As of now, PlayerSpellController contains some debug functionality for visualizing spellCasts
 
+/* Purpose of PlayerSpellController.cs
+ * 
+ * PlayerSpellController.cs handles spell activation and their corresponding animations and effects in which PlayerSpellController.cs...
+ * 
+ * communicates with InventoryObject to know which spells the player has and which corressponding keys activate them
+ * communicates with AnimEventsHandler to have spell effects activate at the right of the spell animations
+ * communicates with PlayerAnimController to commence spell animations.
+ * communicates with ArmComboParser to commence spells animations that occur in quick succession in order to trigger a powerful spell
+ * communicates with PlayerGunController to hide and gun when double hand signs are occurring and show them again once they end.
+ */
+
 [RequireComponent(typeof(LineRenderer), typeof(InventoryObject), typeof(PlayerAnimController))]
 public class PlayerSpellController : MonoBehaviour
 {

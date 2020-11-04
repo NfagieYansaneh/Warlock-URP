@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Purpose of Kindred_MW.cs
+ * 
+ * Kindred_MW.cs contains "MW" in its name which means Magic Weapon
+ * 
+ * Kindred_MW.cs is merely another spell the player can use. But as for now, its merely logs into the debug
+ * terminal that is has been casted.
+ */
+
 [CreateAssetMenu(fileName = "New Kindred Spell", menuName = "Item/Active/Spell/Kindred")]
 public class Kindred_MW : BaseSpell
 {
@@ -10,6 +18,7 @@ public class Kindred_MW : BaseSpell
         Debug.Log("Used KINDRED spell");
     }
 
+    // below is a very uneffective means of have a 3d cursor for Kindred_MW.cs in-game
 
     /*
     public float radius;

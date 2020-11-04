@@ -2,6 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Purpose of CameraController.cs
+ * 
+ * CameraController.cs handles the ability for the player to look around, via their mouse, whilst also tilting the camera in response to
+ * player movement.
+ * 
+ * CameraController.cs ...
+ * 
+ * communicates with CameraSettings to access the camera settings such as tilt speed, default field of view, etc.
+ * communicates with the Transform of the parent player object in order to turn the character as we look left to right
+ *
+ */
+
 public class CameraController : MonoBehaviour
 {
     // **** Public variables ****
@@ -12,7 +24,6 @@ public class CameraController : MonoBehaviour
     public Transform parentPlayer;
     [Tooltip("Obtains keyboard input")]
     public KeyboardController keyboard;
-    public Transform overlayArms;
 
     public bool allowCameraMovement;
     public bool kioskCameraMovement;

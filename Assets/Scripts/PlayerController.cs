@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Handles crouching & boost sliding (for now though, crouching merely half's the players localScale.y) [Must be in Update() for good response times]
-        if (keyboard.Keys.keyDownCtrl)
+        if (keyboard.Keys.keyDownC)
         {
             isCroutched = true;
             transform.localScale = new Vector3(1f, 0.5f, 1f);
@@ -141,7 +141,7 @@ public class PlayerController : MonoBehaviour
             else if (isGrounded) dodgeTimestamp = Time.time; // sets dodgeTimestamp to time if character crouches w/o a sufficient delay to the previous dodge boost
 
         }
-        else if (keyboard.Keys.keyUpCtrl)
+        else if (keyboard.Keys.keyUpC)
         {
             isCroutched = false;
             transform.localScale = new Vector3(1f, 1f, 1f);
